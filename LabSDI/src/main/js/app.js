@@ -19,7 +19,7 @@ class App extends React.Component {
     }
 
     render() {
-        this.componentDidMount()
+        //this.componentDidMount()
         const {guitars, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>;
