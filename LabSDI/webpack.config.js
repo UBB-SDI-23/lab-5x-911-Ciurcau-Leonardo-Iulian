@@ -1,4 +1,4 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
     entry: './src/main/js/app.js',
@@ -6,13 +6,13 @@ module.exports = {
     cache: true,
     mode: 'development',
     output: {
-        path: __dirname,
-        filename: './src/main/resources/static/built/bundle.js'
+        path: path.join(__dirname, "/src/main/resources/static/built"),
+        filename: 'bundle.js'
     },
     module: {
         rules: [
             {
-                test: path.join(__dirname, '.'),
+                test: /\.(js|jsx)$/,
                 exclude: /(node_modules)/,
                 use: [{
                     loader: 'babel-loader',

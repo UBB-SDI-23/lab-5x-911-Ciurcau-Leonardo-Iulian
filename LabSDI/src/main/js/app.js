@@ -1,5 +1,4 @@
 import { createRoot } from 'react-dom/client';
-import {render} from "react-dom";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -9,6 +8,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {guitars: []};
+        this.forceUpdate()
     }
 
 
@@ -19,7 +19,6 @@ class App extends React.Component {
     }
 
     render() {
-        //this.componentDidMount()
         const {guitars, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>;
@@ -36,20 +35,23 @@ class App extends React.Component {
         });
 
         return (
-            <table>
-                <thead>
-                <tr>
-                    <th>Price</th>
-                    <th>Creation year</th>
-                    <th>Model</th>
-                    <th>Type</th>
-                    <th>Color</th>
-                </tr>
-                </thead>
-                <tbody>
-                {guitarList}
-                </tbody>
-            </table>
+            <div id="guitars">
+                <h1>Guitars</h1>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Price1</th>
+                        <th>Creation year</th>
+                        <th>Model</th>
+                        <th>Type</th>
+                        <th>Color</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {guitarList}
+                    </tbody>
+                </table>
+            </div>
         );
     }
 }
