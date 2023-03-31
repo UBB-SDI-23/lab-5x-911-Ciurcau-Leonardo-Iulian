@@ -1,0 +1,12 @@
+2023-03-31 15:03:49 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCT" not found (this database is empty); SQL statement:
+select g1_0.id,g1_0.price,g1_0.shop_id,g1_0.color,g1_0.creation_year,g1_0.model,g1_0.type from product g1_0 where g1_0.price>? and g1_0.dtype='Guitar' [42104-214]
+2023-03-31 15:03:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCT" not found (this database is empty); SQL statement:
+select g1_0.id,g1_0.price,g1_0.shop_id,g1_0.color,g1_0.creation_year,g1_0.model,g1_0.type from product g1_0 where g1_0.dtype='Guitar' [42104-214]
+2023-03-31 15:08:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCT" not found (this database is empty); SQL statement:
+select g1_0.id,g1_0.price,g1_0.shop_id,g1_0.color,g1_0.creation_year,g1_0.model,g1_0.type from product g1_0 where g1_0.dtype='Guitar' [42104-214]
+2023-03-31 15:08:34 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCT" not found (this database is empty); SQL statement:
+select g1_0.id,g1_0.price,g1_0.shop_id,g1_0.color,g1_0.creation_year,g1_0.model,g1_0.type from product g1_0 where g1_0.price>? and g1_0.dtype='Guitar' [42104-214]
