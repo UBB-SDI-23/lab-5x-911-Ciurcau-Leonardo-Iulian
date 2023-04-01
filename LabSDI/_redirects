@@ -1,2 +1,2 @@
 / /src/main/resources/templates/index.html
-/built /src/main/resources/static/built
+/built/* /src/main/resources/static/built/*
