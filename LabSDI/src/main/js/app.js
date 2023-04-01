@@ -7,24 +7,39 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {guitars: [], filteredGuitars: []};
+        this.state = {guitars: [], filteredGuitars: [], filteredGuitarsPrice: 0};
     }
 
 
-    componentDidMount() {
+     componentDidMount() {
+        this.handleFilteredGuitarsChange = this.handleFilteredGuitarsChange.bind(this);
+        this.showAllGuitars = this.showAllGuitars.bind(this)
+        this.handleFilteredGuitarsSubmit = this.handleFilteredGuitarsSubmit.bind(this);
+        this.forceUpdate();
+    }
+
+    handleFilteredGuitarsChange(event) {
+        const target = event.target;
+        const value = target.value;
+        this.setState({filteredGuitarsPrice: value});
+    }
+
+    showAllGuitars(event) {
         fetch('/guitars')
             .then(response => response.json())
             .then(data => this.setState({guitars: data}));
+    }
 
-        fetch('/guitars/priceGreaterThan/3000')
+    handleFilteredGuitarsSubmit(event) {
+        event.preventDefault()
+        const filteredGuitarsPrice= this.state.filteredGuitarsPrice;
+        fetch('/guitars/priceGreaterThan/' + filteredGuitarsPrice)
             .then(response => response.json())
             .then(data => this.setState({filteredGuitars: data}));
-
-        this.forceUpdate()
     }
 
     render() {
-        const {guitars, filteredGuitars, isLoading} = this.state;
+        const {guitars, filteredGuitars, filteredGuitarsPrice, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>;
         }
@@ -50,41 +65,46 @@ class App extends React.Component {
         });
 
         return (
-            <div>
-            <div className="guitars">
-                <h1>Guitars</h1>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Price</th>
-                        <th>Creation year</th>
-                        <th>Model</th>
-                        <th>Type</th>
-                        <th>Color</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {guitarList}
-                    </tbody>
-                </table>
-            </div>
-             <div className="filteredGuitars">
-                <h1>Filtered guitars</h1>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Price</th>
-                        <th>Creation year</th>
-                        <th>Model</th>
-                        <th>Type</th>
-                        <th>Color</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {filteredGuitarList}
-                    </tbody>
-                </table>
-            </div>
+            <div className="mainContainer">
+                <div className="guitars tableContainer">
+                    <button className="showButton" onClick={this.showAllGuitars}>Show all guitars</button>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Price</th>
+                            <th>Creation year</th>
+                            <th>Model</th>
+                            <th>Type</th>
+                            <th>Color</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {guitarList}
+                        </tbody>
+                    </table>
+                </div>
+                 <div className="filteredGuitars tableContainer">
+                     <form onSubmit={this.handleFilteredGuitarsSubmit}>
+                         <label htmlFor="price">Show guitars with price greater than: </label>
+                         <input type="text" id="price" value={filteredGuitarsPrice}
+                                onChange={this.handleFilteredGuitarsChange}/>
+                         <button type="submit" className="submitButton">Submit</button>
+                     </form>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Price</th>
+                            <th>Creation year</th>
+                            <th>Model</th>
+                            <th>Type</th>
+                            <th>Color</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {filteredGuitarList}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         );
     }
@@ -92,4 +112,4 @@ class App extends React.Component {
 
 
 const root = createRoot(document.getElementById('react'));
-root.render(<App />)
+root.render(<App />);
