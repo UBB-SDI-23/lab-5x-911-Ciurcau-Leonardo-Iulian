@@ -1,4 +1,21 @@
 import { createRoot } from 'react-dom/client';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import Button from '@mui/material/Button';
+import {
+    Container,
+    FormControl,
+    FormLabel,
+    Input, InputLabel,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow
+} from "@mui/material";
+import {Label} from "@mui/icons-material";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -15,7 +32,7 @@ class App extends React.Component {
         this.handleFilteredGuitarsChange = this.handleFilteredGuitarsChange.bind(this);
         this.showAllGuitars = this.showAllGuitars.bind(this)
         this.handleFilteredGuitarsSubmit = this.handleFilteredGuitarsSubmit.bind(this);
-        this.forceUpdate();
+        this.forceUpdate()
     }
 
     handleFilteredGuitarsChange(event) {
@@ -45,67 +62,67 @@ class App extends React.Component {
         }
 
         const guitarList = guitars.map(guitar => {
-            return <tr key={guitar.id}>
-                        <td>{guitar.price}</td>
-                        <td>{guitar.creationYear}</td>
-                        <td>{guitar.model}</td>
-                        <td>{guitar.type}</td>
-                        <td>{guitar.color}</td>
-                    </tr>
+            return <TableRow key={guitar.id}>
+                        <TableCell>{guitar.price}</TableCell>
+                        <TableCell>{guitar.creationYear}</TableCell>
+                        <TableCell>{guitar.model}</TableCell>
+                        <TableCell>{guitar.type}</TableCell>
+                        <TableCell>{guitar.color}</TableCell>
+                    </TableRow>
         });
 
         const filteredGuitarList = filteredGuitars.map(guitar => {
-            return <tr key={guitar.id}>
-                <td>{guitar.price}</td>
-                <td>{guitar.creationYear}</td>
-                <td>{guitar.model}</td>
-                <td>{guitar.type}</td>
-                <td>{guitar.color}</td>
-            </tr>
+            return <TableRow key={guitar.id}>
+                <TableCell>{guitar.price}</TableCell>
+                <TableCell>{guitar.creationYear}</TableCell>
+                <TableCell>{guitar.model}</TableCell>
+                <TableCell>{guitar.type}</TableCell>
+                <TableCell>{guitar.color}</TableCell>
+            </TableRow>
         });
 
         return (
-            <div className="mainContainer">
-                <div className="guitars tableContainer">
-                    <button className="showButton" onClick={this.showAllGuitars}>Show all guitars</button>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Price</th>
-                            <th>Creation year</th>
-                            <th>Model</th>
-                            <th>Type</th>
-                            <th>Color</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+            <Container className="mainContainer">
+                <Container className="guitars tableContainer">
+                    <Button className="showButton" onClick={this.showAllGuitars}>Show all guitars</Button>
+                    <Table>
+                        <TableHead>
+                        <TableRow>
+                            <TableCell>Price</TableCell>
+                            <TableCell>Creation year</TableCell>
+                            <TableCell>Model</TableCell>
+                            <TableCell>Type</TableCell>
+                            <TableCell>Color</TableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
                         {guitarList}
-                        </tbody>
-                    </table>
-                </div>
-                 <div className="filteredGuitars tableContainer">
-                     <form onSubmit={this.handleFilteredGuitarsSubmit}>
-                         <label htmlFor="price">Show guitars with price greater than: </label>
-                         <input type="text" id="price" value={filteredGuitarsPrice}
+                        </TableBody>
+                    </Table>
+                </Container>
+                 <Container className="filteredGuitars tableContainer">
+                     <FormControl className="formControlFilteredGuitars">
+                         <InputLabel htmlFor="price">Show guitars with price greater than: </InputLabel>
+                         <Input type="text" id="price" value={filteredGuitarsPrice}
                                 onChange={this.handleFilteredGuitarsChange}/>
-                         <button type="submit" className="submitButton">Submit</button>
-                     </form>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Price</th>
-                            <th>Creation year</th>
-                            <th>Model</th>
-                            <th>Type</th>
-                            <th>Color</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                         <Button onClick={this.handleFilteredGuitarsSubmit} className="submitButton">Submit</Button>
+                     </FormControl>
+                    <Table>
+                        <TableHead>
+                        <TableRow>
+                            <TableCell>Price</TableCell>
+                            <TableCell>Creation year</TableCell>
+                            <TableCell>Model</TableCell>
+                            <TableCell>Type</TableCell>
+                            <TableCell>Color</TableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
                         {filteredGuitarList}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                        </TableBody>
+                    </Table>
+                </Container>
+            </Container>
         );
     }
 }

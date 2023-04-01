@@ -1,35 +1,11 @@
-.mainContainer {
-    height: auto;
-    position: relative;
-}
-
-.mainContainer > * {
-    position: absolute;
-}
-
-.tableContainer {
-    width: 400px;
-    text-align: center;
-}
-
-.tableContainer > table {
-    margin-top: 30px;
+.showButton {
+    left: 370px;
 }
 
 .filteredGuitars {
-    left: 450px;
+    margin-top: 30px;
 }
 
-.filteredGuitars > form {
-    position: absolute;
-}
-
-.showButton {
-    position: absolute;
-    left: 140px;
-}
-
-.submitButton {
-    position: absolute;
-    margin-left: 10px;
+.formControlFilteredGuitars {
+    left: 340px;
 }
