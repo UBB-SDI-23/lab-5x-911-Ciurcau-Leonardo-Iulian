@@ -1,2 +1,4 @@
 / /src/main/resources/templates/index.html
-/built/* /src/main/resources/static/built/*
+/built/bundle.js /src/main/resources/static/built/bundle.js
+/built/main.css /src/main/resources/static/built/main.css
+/built/guitarIcon.ico /src/main/resources/static/built/guitarIcon.ico
