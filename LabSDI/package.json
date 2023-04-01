@@ -20,7 +20,7 @@
     "serve": "webpack serve --mode development --config ./webpack.config.js",
     "analyze": "source-map-explorer './src/main/resources/static/built/*.js' --no-border-checks",
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "webpack",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
