@@ -82,7 +82,7 @@ class App extends React.Component {
         return (
             <Container className="mainContainer">
                 <Container className="guitars tableContainer">
-                    <Button className="showButton" onClick={this.showAllGuitars}>1Show all guitars</Button>
+                    <Button className="showButton" onClick={this.showAllGuitars}>Show all guitars</Button>
                     <Table>
                         <TableHead>
                         <TableRow>
