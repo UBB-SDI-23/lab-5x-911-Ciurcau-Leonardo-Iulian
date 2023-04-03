@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/LabSDI/LabSDI.iml" filepath="$PROJECT_DIR$/LabSDI/LabSDI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/lab-3-911-Ciurcau-Leonardo-Iulian.iml" filepath="$PROJECT_DIR$/.idea/lab-3-911-Ciurcau-Leonardo-Iulian.iml" />
-    </modules>
-  </component>
-</project>
