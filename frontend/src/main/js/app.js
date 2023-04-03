@@ -41,7 +41,7 @@ class App extends React.Component {
     }
 
     showAllGuitars(event) {
-        fetch('/guitars')
+        fetch('http://ec2-13-50-99-61.eu-north-1.compute.amazonaws.com/guitars')
             .then(response => response.json())
             .then(data => this.setState({guitars: data}));
     }
@@ -49,7 +49,7 @@ class App extends React.Component {
     handleFilteredGuitarsSubmit(event) {
         event.preventDefault()
         const filteredGuitarsPrice= this.state.filteredGuitarsPrice;
-        fetch('/guitars/priceGreaterThan/' + filteredGuitarsPrice)
+        fetch('http://ec2-13-50-99-61.eu-north-1.compute.amazonaws.com/guitars/priceGreaterThan/' + filteredGuitarsPrice)
             .then(response => response.json())
             .then(data => this.setState({filteredGuitars: data}));
     }
