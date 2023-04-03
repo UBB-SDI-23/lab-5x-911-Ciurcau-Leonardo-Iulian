@@ -17,6 +17,7 @@ import {
 
 const React = require('react');
 const ReactDOM = require('react-dom');
+const apiString = "http://ec2-13-50-100-230.eu-north-1.compute.amazonaws.com";
 
 class App extends React.Component {
 
@@ -41,7 +42,7 @@ class App extends React.Component {
     }
 
     showAllGuitars(event) {
-        fetch('http://ec2-13-50-99-61.eu-north-1.compute.amazonaws.com/guitars')
+        fetch(`${apiString}/api/guitars`)
             .then(response => response.json())
             .then(data => this.setState({guitars: data}));
     }
@@ -49,7 +50,7 @@ class App extends React.Component {
     handleFilteredGuitarsSubmit(event) {
         event.preventDefault()
         const filteredGuitarsPrice= this.state.filteredGuitarsPrice;
-        fetch('http://ec2-13-50-99-61.eu-north-1.compute.amazonaws.com/guitars/priceGreaterThan/' + filteredGuitarsPrice)
+        fetch(`${apiString}/api/guitars/priceGreaterThan/` + filteredGuitarsPrice)
             .then(response => response.json())
             .then(data => this.setState({filteredGuitars: data}));
     }
