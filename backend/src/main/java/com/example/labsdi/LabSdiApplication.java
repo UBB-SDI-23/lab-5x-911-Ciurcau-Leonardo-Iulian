@@ -18,7 +18,7 @@ public class LabSdiApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/*").allowedOrigins("http://0.0.0.0:80");
+                registry.addMapping("/*").allowedOrigins("*");
             }
         };
     }
