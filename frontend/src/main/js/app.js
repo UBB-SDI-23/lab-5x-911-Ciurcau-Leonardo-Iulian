@@ -30,6 +30,7 @@ class App extends React.Component {
         this.handleFilteredGuitarsChange = this.handleFilteredGuitarsChange.bind(this);
         this.showAllGuitars = this.showAllGuitars.bind(this)
         this.handleFilteredGuitarsSubmit = this.handleFilteredGuitarsSubmit.bind(this);
+        this.sortGuitarsByPrice = this.sortGuitarsByPrice.bind(this);
         this.forceUpdate()
     }
 
@@ -51,6 +52,12 @@ class App extends React.Component {
         fetch('/guitars/priceGreaterThan/' + filteredGuitarsPrice)
             .then(response => response.json())
             .then(data => this.setState({filteredGuitars: data}));
+    }
+
+    sortGuitarsByPrice(event) {
+        let {guitars} = this.state;
+        let sortedGuitars = [...guitars].sort((a, b) => a.price - b.price);
+        this.setState({guitars: sortedGuitars});
     }
 
     render() {
@@ -83,10 +90,10 @@ class App extends React.Component {
             <Container className="mainContainer">
                 <Container className="guitars tableContainer">
                     <Button className="showButton" onClick={this.showAllGuitars}>Show all guitars</Button>
-                    <Table>
+                    <Table id="guitarTable">
                         <TableHead>
                         <TableRow>
-                            <TableCell>Price</TableCell>
+                            <TableCell onClick={this.sortGuitarsByPrice}>Price</TableCell>
                             <TableCell>Creation year</TableCell>
                             <TableCell>Model</TableCell>
                             <TableCell>Type</TableCell>
