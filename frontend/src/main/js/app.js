@@ -5,14 +5,13 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./home";
-import GuitarList from "./guitarList";
 import FilteredGuitarList from "./filteredGuitarList";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
 
 class App extends React.Component {
-    static apiString = "";
+    static apiString = "ec2-16-16-70-250.eu-north-1.compute.amazonaws.com";
 
     constructor(props) {
         super(props);
