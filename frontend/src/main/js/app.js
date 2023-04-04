@@ -3,132 +3,35 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import {
-    Button,
-    Container,
-    FormControl,
-    Input, InputLabel,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow
-} from "@mui/material";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Home from "./home";
+import GuitarList from "./guitarList";
+import FilteredGuitarList from "./filteredGuitarList";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const apiString = "http://ec2-13-50-100-230.eu-north-1.compute.amazonaws.com";
 
 class App extends React.Component {
+    static apiString = "";
 
     constructor(props) {
         super(props);
-        this.state = {guitars: [], filteredGuitars: [], filteredGuitarsPrice: 0};
+        this.state = {};
     }
 
 
      componentDidMount() {
-        this.handleFilteredGuitarsChange = this.handleFilteredGuitarsChange.bind(this);
-        this.showAllGuitars = this.showAllGuitars.bind(this)
-        this.handleFilteredGuitarsSubmit = this.handleFilteredGuitarsSubmit.bind(this);
-        this.sortGuitarsByPrice = this.sortGuitarsByPrice.bind(this);
-        this.forceUpdate()
-    }
-
-    handleFilteredGuitarsChange(event) {
-        const target = event.target;
-        const value = target.value;
-        this.setState({filteredGuitarsPrice: value});
-    }
-
-    showAllGuitars(event) {
-        fetch(`${apiString}/api/guitars`)
-            .then(response => response.json())
-            .then(data => this.setState({guitars: data}));
-    }
-
-    handleFilteredGuitarsSubmit(event) {
-        event.preventDefault()
-        const filteredGuitarsPrice= this.state.filteredGuitarsPrice;
-        fetch(`${apiString}/api/guitars/priceGreaterThan/` + filteredGuitarsPrice)
-            .then(response => response.json())
-            .then(data => this.setState({filteredGuitars: data}));
-    }
-
-    sortGuitarsByPrice(event) {
-        let {guitars} = this.state;
-        let sortedGuitars = [...guitars].sort((a, b) => a.price - b.price);
-        this.setState({guitars: sortedGuitars});
+        this.forceUpdate();
     }
 
     render() {
-        const {guitars, filteredGuitars, filteredGuitarsPrice, isLoading} = this.state;
-        if (isLoading) {
-            return <p>Loading...</p>;
-        }
-
-        const guitarList = guitars.map(guitar => {
-            return <TableRow key={guitar.id}>
-                        <TableCell>{guitar.price}</TableCell>
-                        <TableCell>{guitar.creationYear}</TableCell>
-                        <TableCell>{guitar.model}</TableCell>
-                        <TableCell>{guitar.type}</TableCell>
-                        <TableCell>{guitar.color}</TableCell>
-                    </TableRow>
-        });
-
-        const filteredGuitarList = filteredGuitars.map(guitar => {
-            return <TableRow key={guitar.id}>
-                <TableCell>{guitar.price}</TableCell>
-                <TableCell>{guitar.creationYear}</TableCell>
-                <TableCell>{guitar.model}</TableCell>
-                <TableCell>{guitar.type}</TableCell>
-                <TableCell>{guitar.color}</TableCell>
-            </TableRow>
-        });
-
         return (
-            <Container className="mainContainer">
-                <Container className="guitars tableContainer">
-                    <Button className="showButton" onClick={this.showAllGuitars}>Show all guitars</Button>
-                    <Table id="guitarTable">
-                        <TableHead>
-                        <TableRow>
-                            <TableCell onClick={this.sortGuitarsByPrice}>Price</TableCell>
-                            <TableCell>Creation year</TableCell>
-                            <TableCell>Model</TableCell>
-                            <TableCell>Type</TableCell>
-                            <TableCell>Color</TableCell>
-                        </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {guitarList}
-                        </TableBody>
-                    </Table>
-                </Container>
-                 <Container className="filteredGuitars tableContainer">
-                     <FormControl className="formControlFilteredGuitars">
-                         <InputLabel htmlFor="price">Show guitars with price greater than: </InputLabel>
-                         <Input type="text" id="price" value={filteredGuitarsPrice}
-                                onChange={this.handleFilteredGuitarsChange}/>
-                         <Button onClick={this.handleFilteredGuitarsSubmit} className="submitButton">Submit</Button>
-                     </FormControl>
-                    <Table>
-                        <TableHead>
-                        <TableRow>
-                            <TableCell>Price</TableCell>
-                            <TableCell>Creation year</TableCell>
-                            <TableCell>Model</TableCell>
-                            <TableCell>Type</TableCell>
-                            <TableCell>Color</TableCell>
-                        </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {filteredGuitarList}
-                        </TableBody>
-                    </Table>
-                </Container>
-            </Container>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' exact={true} element={<Home/>}/>
+                    <Route path='/filteredGuitars' element={<FilteredGuitarList/>}/>
+                </Routes>
+            </BrowserRouter>
         );
     }
 }
@@ -136,3 +39,5 @@ class App extends React.Component {
 
 const root = createRoot(document.getElementById('react'));
 root.render(<App />);
+
+export default App;
