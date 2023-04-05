@@ -1,4 +1,4 @@
-import React, {Component, useState} from "react";
+import React, {Component} from "react";
 import App from "./app";
 import {Button, Container, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -12,7 +12,8 @@ class GuitarList extends Component {
     componentDidMount() {
         this.showAllGuitars = this.showAllGuitars.bind(this);
         this.sortGuitarsByPrice = this.sortGuitarsByPrice.bind(this);
-        this.showAllGuitars();
+        if (!this.props.parent)
+            this.showAllGuitars();
         this.forceUpdate();
     }
 
@@ -23,14 +24,22 @@ class GuitarList extends Component {
     }
 
     sortGuitarsByPrice(event) {
-        let {guitars} = this.state;
-        let sortedGuitars = [...guitars].sort((a, b) => a.price - b.price);
-        this.setState({guitars: sortedGuitars});
-        this.setState({showPriceSVG: true});
+        if (!this.props.parent) {
+            let {guitars} = this.state;
+            let sortedGuitars = [...guitars].sort((a, b) => a.price - b.price);
+            this.setState({guitars: sortedGuitars});
+            this.setState({showPriceSVG: true});
+        }
+        else {
+            let {guitars} = this.props.parent.state;
+            let sortedGuitars = [...guitars].sort((a, b) => a.price - b.price);
+            this.props.parent.setState({guitars: sortedGuitars});
+            this.props.parent.setState({showPriceSVG: true});
+        }
     }
 
     render() {
-        const {guitars, isLoading} = this.state;
+        const {guitars, showPriceSVG, isLoading} = this.props.parent ? this.props.parent.state : this.state;
         if (isLoading) {
             return <p>Loading...</p>;
         }
@@ -53,7 +62,7 @@ class GuitarList extends Component {
                             <TableCell>
                                 <Button onClick={this.sortGuitarsByPrice}>
                                     Price
-                                    {this.state.showPriceSVG && <SvgIcon component={KeyboardArrowDownIcon}></SvgIcon>}
+                                    {showPriceSVG && <SvgIcon component={KeyboardArrowDownIcon}></SvgIcon>}
                                 </Button>
                             </TableCell>
                             <TableCell>Creation year</TableCell>
