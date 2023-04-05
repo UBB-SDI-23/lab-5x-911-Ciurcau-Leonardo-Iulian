@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.*;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Data

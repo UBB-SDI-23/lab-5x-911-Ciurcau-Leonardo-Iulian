@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Data
 @NoArgsConstructor

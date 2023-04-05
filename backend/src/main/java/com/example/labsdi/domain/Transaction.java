@@ -15,6 +15,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Data
 @NoArgsConstructor
