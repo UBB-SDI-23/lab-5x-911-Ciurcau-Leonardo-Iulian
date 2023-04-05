@@ -2,6 +2,7 @@ package com.example.labsdi.domain;
 
 import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.domain.dto.GuitarDTO;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.*;
 
@@ -12,9 +13,13 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Guitar extends Product {
+    @Column(name="creationYear")
     private Integer creationYear;
+    @Column(name="model")
     private String model;
+    @Column(name="type")
     private String type;
+    @Column(name="color")
     private String color;
 
     @Builder(builderMethodName = "guitarBuilder")

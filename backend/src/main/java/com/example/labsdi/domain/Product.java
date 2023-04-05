@@ -21,7 +21,8 @@ public abstract class Product implements IDTOConvertable {
     @Getter(AccessLevel.PUBLIC)
     @Setter(AccessLevel.PUBLIC)
     protected Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name="shopId",  nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Getter(AccessLevel.PUBLIC)
     @Setter(AccessLevel.PUBLIC)
@@ -29,5 +30,6 @@ public abstract class Product implements IDTOConvertable {
     @Getter(AccessLevel.PUBLIC)
     @Setter(AccessLevel.PUBLIC)
     @PositiveOrZero(message = "Price cannot be a negative value")
+    @Column(name="price")
     protected Integer price;
 }

@@ -16,15 +16,21 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name="client")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name="name")
     private String name;
+    @Column(name="address")
     private String address;
+    @Column(name="email")
     @NotBlank(message = "Email is mandatory")
     private String email;
+    @Column(name="telephoneNumber")
     private String telephoneNumber;
+    @Column(name="birthDate")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;
 }

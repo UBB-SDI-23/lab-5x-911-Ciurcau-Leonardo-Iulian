@@ -18,18 +18,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name="shop")
 public class Shop implements IDTOConvertable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Product> products;
+    @Column(name="name")
     private String name;
+    @Column(name="address")
     private String address;
+    @Column(name="email")
     @NotEmpty(message = "Email is mandatory")
     private String email;
+    @Column(name="telephoneNumber")
     private String telephoneNumber;
+    @Column(name="shippingAvailable")
     private Boolean shippingAvailable;
 
     @Builder(builderMethodName = "shopBuilder")
