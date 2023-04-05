@@ -23,7 +23,8 @@ class FilteredGuitarList extends Component {
     }
 
     handleFilteredGuitarsSubmit(event) {
-        event.preventDefault();
+        if (event)
+            event.preventDefault();
         const filteredGuitarsPrice= this.state.filteredGuitarsPrice;
         fetch(`${App.apiString}/api/guitars/priceGreaterThan/` + filteredGuitarsPrice)
             .then(response => response.json())
@@ -31,7 +32,7 @@ class FilteredGuitarList extends Component {
     }
 
     render() {
-        const {guitars, showPriceSVG, filteredGuitarsPrice} = this.state;
+        const {filteredGuitarsPrice} = this.state;
         return (<Container maxWidth={false}>
                     <AppNavbar></AppNavbar>
                     <Container className="filteredGuitars tableContainer">

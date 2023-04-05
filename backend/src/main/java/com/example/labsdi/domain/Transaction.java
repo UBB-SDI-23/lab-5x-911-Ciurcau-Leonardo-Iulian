@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 
@@ -23,8 +25,10 @@ public class Transaction implements IDTOConvertable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Client client;
     @JsonFormat(pattern = "dd-MM-yyyy")
     @PastOrPresent(message = "Transaction date must be up until the current date")

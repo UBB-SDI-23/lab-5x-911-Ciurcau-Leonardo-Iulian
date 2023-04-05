@@ -1,17 +1,31 @@
 import React, {Component} from "react";
 import App from "./app";
-import {Button, Container, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
+import {
+    Button,
+    Container, Dialog, DialogActions,
+    DialogContent, DialogContentText,
+    DialogTitle,
+    SvgIcon,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow
+} from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import {red} from "@mui/material/colors";
 
 class GuitarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {guitars: [], showPriceSVG: false};
+        this.state = {guitars: [], showPriceSVG: false, operationItemId: -1, dialogOpen: false};
     }
 
     componentDidMount() {
         this.showAllGuitars = this.showAllGuitars.bind(this);
         this.sortGuitarsByPrice = this.sortGuitarsByPrice.bind(this);
+        this.handleDeleteItem = this.handleDeleteItem.bind(this);
         if (!this.props.parent)
             this.showAllGuitars();
         this.forceUpdate();
@@ -38,37 +52,85 @@ class GuitarList extends Component {
         }
     }
 
+    handleDeleteItem(event) {
+        const target = event.currentTarget;
+        const value = target.getAttribute("currentid");
+        this.setState({operationItemId: value, dialogOpen: true});
+    }
+
+    deleteItem(event) {
+        fetch(`${App.apiString}/api/guitars/` + this.state.operationItemId, { method: 'DELETE' })
+            .then(() => {
+                if (!this.props.parent)
+                    this.showAllGuitars();
+                else
+                    this.props.parent.handleFilteredGuitarsSubmit();
+                this.setState({operationItemId: -1});
+            });
+    }
+
     render() {
-        const {guitars, showPriceSVG, isLoading} = this.props.parent ? this.props.parent.state : this.state;
+        const {guitars, showPriceSVG} =
+            this.props.parent ? this.props.parent.state : this.state;
+        const {dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>;
         }
 
-        const guitarList = guitars.map(guitar => {
+        const guitarList = guitars.map((guitar, index) => {
             return <TableRow key={guitar.id}>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{guitar.price}</TableCell>
-                <TableCell>{guitar.creationYear}</TableCell>
                 <TableCell>{guitar.model}</TableCell>
                 <TableCell>{guitar.type}</TableCell>
                 <TableCell>{guitar.color}</TableCell>
+                <TableCell>{guitar.creationYear}</TableCell>
+                <TableCell>
+                    <Button currentid={guitar.id} onClick={this.handleDeleteItem}>
+                        <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
+                    </Button>
+                </TableCell>
             </TableRow>
         });
 
         return (
             <Container className="guitars tableContainer">
+                <Dialog
+                    open={dialogOpen}
+                    onClose={() => {this.setState({dialogOpen: false});}}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Delete item"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to delete the item?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {this.setState({dialogOpen: false});}}>Cancel</Button>
+                        <Button onClick={() => {this.deleteItem(); this.setState({dialogOpen: false});}} autoFocus>
+                            Yes
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <Table id="guitarTable">
                     <TableHead>
                         <TableRow>
+                            <TableCell>#</TableCell>
                             <TableCell>
                                 <Button onClick={this.sortGuitarsByPrice}>
                                     Price
                                     {showPriceSVG && <SvgIcon component={KeyboardArrowDownIcon}></SvgIcon>}
                                 </Button>
                             </TableCell>
-                            <TableCell>Creation year</TableCell>
                             <TableCell>Model</TableCell>
                             <TableCell>Type</TableCell>
                             <TableCell>Color</TableCell>
+                            <TableCell>Creation year</TableCell>
+                            <TableCell>Operations</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
