@@ -11,7 +11,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 class App extends React.Component {
-    static apiString = "http://ec2-16-16-70-250.eu-north-1.compute.amazonaws.com";
+    static apiString = "";
 
     constructor(props) {
         super(props);

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import App from "./app";
 import {Button, Container, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -6,7 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 class GuitarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {guitars: []};
+        this.state = {guitars: [], showPriceSVG: false};
     }
 
     componentDidMount() {
@@ -26,6 +26,7 @@ class GuitarList extends Component {
         let {guitars} = this.state;
         let sortedGuitars = [...guitars].sort((a, b) => a.price - b.price);
         this.setState({guitars: sortedGuitars});
+        this.setState({showPriceSVG: true});
     }
 
     render() {
@@ -52,7 +53,7 @@ class GuitarList extends Component {
                             <TableCell>
                                 <Button onClick={this.sortGuitarsByPrice}>
                                     Price
-                                    <SvgIcon component={KeyboardArrowDownIcon}></SvgIcon>
+                                    {this.state.showPriceSVG && <SvgIcon component={KeyboardArrowDownIcon}></SvgIcon>}
                                 </Button>
                             </TableCell>
                             <TableCell>Creation year</TableCell>
