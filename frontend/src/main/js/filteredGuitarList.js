@@ -5,7 +5,7 @@ import {
     Container,
     FormControl,
     Input,
-    InputLabel,
+    InputLabel, SvgIcon,
     Table,
     TableBody,
     TableCell,
@@ -13,16 +13,18 @@ import {
     TableRow
 } from "@mui/material";
 import AppNavbar from "./appNavBar";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 class FilteredGuitarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {filteredGuitars: [], filteredGuitarsPrice: 0};
+        this.state = {filteredGuitars: [], filteredGuitarsPrice: 0, showPriceSVG: false};
     }
 
     componentDidMount() {
         this.handleFilteredGuitarsChange = this.handleFilteredGuitarsChange.bind(this);
         this.handleFilteredGuitarsSubmit = this.handleFilteredGuitarsSubmit.bind(this);
+        this.sortGuitarsByPrice = this.sortGuitarsByPrice.bind(this);
         this.forceUpdate();
     }
 
@@ -37,7 +39,14 @@ class FilteredGuitarList extends Component {
         const filteredGuitarsPrice= this.state.filteredGuitarsPrice;
         fetch(`${App.apiString}/api/guitars/priceGreaterThan/` + filteredGuitarsPrice)
             .then(response => response.json())
-            .then(data => this.setState({filteredGuitars: data}));
+            .then(data => this.setState({filteredGuitars: data, showPriceSVG: false}));
+    }
+
+    sortGuitarsByPrice(event) {
+        let {filteredGuitars} = this.state;
+        let sortedGuitars = [...filteredGuitars].sort((a, b) => a.price - b.price);
+        this.setState({filteredGuitars: sortedGuitars});
+        this.setState({showPriceSVG: true});
     }
 
     render() {
@@ -69,7 +78,12 @@ class FilteredGuitarList extends Component {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Price</TableCell>
+                            <TableCell>
+                                <Button onClick={this.sortGuitarsByPrice}>
+                                    Price
+                                    {this.state.showPriceSVG && <SvgIcon component={KeyboardArrowDownIcon}></SvgIcon>}
+                                </Button>
+                            </TableCell>
                             <TableCell>Creation year</TableCell>
                             <TableCell>Model</TableCell>
                             <TableCell>Type</TableCell>
