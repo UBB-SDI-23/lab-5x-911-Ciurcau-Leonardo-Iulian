@@ -59,7 +59,7 @@ class GuitarList extends Component {
     }
 
     deleteItem(event) {
-        fetch(`${App.apiString}/api/guitars/` + this.state.operationItemId, { method: 'DELETE' })
+        fetch(`/api/guitars/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
                 if (!this.props.parent)
                     this.showAllGuitars();
