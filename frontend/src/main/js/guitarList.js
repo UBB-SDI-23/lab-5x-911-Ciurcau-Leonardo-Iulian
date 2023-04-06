@@ -32,7 +32,7 @@ class GuitarList extends Component {
     }
 
     showAllGuitars(event) {
-        fetch(`${App.apiString}/api/guitars`)
+        fetch(`/api/guitars`)
             .then(response => response.json())
             .then(data => this.setState({guitars: data}));
     }
