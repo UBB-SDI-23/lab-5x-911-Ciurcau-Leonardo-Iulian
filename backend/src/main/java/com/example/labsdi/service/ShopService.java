@@ -39,6 +39,11 @@ public class ShopService implements IShopService {
     }
 
     @Override
+    public List<Shop> getFirst100Shops() {
+        return repository.findFirst100By();
+    }
+
+    @Override
     public void removeShop(Long id) throws ShopServiceException {
         if (!containsShop(id)) {
             throw new ShopServiceException("Shop with id " + id + " does not exist!");

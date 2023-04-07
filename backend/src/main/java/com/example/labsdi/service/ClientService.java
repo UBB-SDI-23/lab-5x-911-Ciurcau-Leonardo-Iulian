@@ -38,6 +38,11 @@ public class ClientService implements IClientService {
     }
 
     @Override
+    public List<Client> getFirst100Clients() {
+        return repository.findFirst100By();
+    }
+
+    @Override
     public void removeClient(Long id) throws ClientServiceException {
         if (!containsClient(id))
             throw new ClientServiceException("Client with id " + id + " does not exist!");

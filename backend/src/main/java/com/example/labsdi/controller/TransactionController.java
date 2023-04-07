@@ -23,9 +23,16 @@ public class TransactionController {
         return transactionService.addTransaction(transaction);
     }
 
-    @GetMapping("/transactions")
+    @GetMapping("/transactions/all")
     public List<DTO> getAllTransactions() {
         return transactionService.getAllTransactions().stream()
+                .map(IDTOConvertable::toDTO)
+                .toList();
+    }
+
+    @GetMapping("/transactions")
+    public List<DTO> getFirst100Transactions() {
+        return transactionService.getFirst100Transactions().stream()
                 .map(IDTOConvertable::toDTO)
                 .toList();
     }

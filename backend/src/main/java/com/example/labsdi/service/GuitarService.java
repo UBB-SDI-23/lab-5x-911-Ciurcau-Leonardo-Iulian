@@ -72,6 +72,11 @@ public class GuitarService implements IGuitarService {
     }
 
     @Override
+    public List<Guitar> getFirst100Guitars() {
+        return new ArrayList<>(repository.findFirst100By());
+    }
+
+    @Override
     public List<Guitar> findByPriceGreaterThan(Integer price) {
         return repository.findByPriceGreaterThan(price);
     }

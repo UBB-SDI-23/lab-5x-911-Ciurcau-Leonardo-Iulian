@@ -42,6 +42,11 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
+    public List<Transaction> getFirst100Transactions() {
+        return repository.findFirst100By();
+    }
+
+    @Override
     public void removeTransaction(Long id) throws TransactionServiceException {
         if (!containsTransaction(id))
             throw new TransactionServiceException("Transaction with id " + id + " does not exist!");

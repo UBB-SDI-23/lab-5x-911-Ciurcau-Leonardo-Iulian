@@ -24,6 +24,13 @@ public class GuitarController {
     }
 
     @GetMapping("/guitars")
+    public List<ProductDTO> getFirst100Guitars() {
+        return guitarService.getFirst100Guitars().stream()
+                .map(g -> (ProductDTO)g.toDTO())
+                .toList();
+    }
+
+    @GetMapping("/guitars/all")
     public List<ProductDTO> getAllGuitars() {
         return guitarService.getAllGuitars().stream()
                 .map(g -> (ProductDTO)g.toDTO())

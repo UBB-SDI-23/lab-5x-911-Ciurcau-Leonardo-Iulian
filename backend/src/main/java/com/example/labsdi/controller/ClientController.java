@@ -22,9 +22,14 @@ public class ClientController {
         return clientService.addClient(client);
     }
 
-    @GetMapping("/clients")
+    @GetMapping("/clients/all")
     public List<Client> getAllClients() {
         return clientService.getAllClients();
+    }
+
+    @GetMapping("/clients")
+    public List<Client> getFirst100Clients() {
+        return clientService.getFirst100Clients();
     }
 
     @PutMapping("/clients/{id}")

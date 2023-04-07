@@ -23,9 +23,14 @@ public class ShopController {
         return shopService.addShop(shop);
     }
 
-    @GetMapping("/shops")
+    @GetMapping("/shops/all")
     public List<Shop> getAllShops() {
         return shopService.getAllShops();
+    }
+
+    @GetMapping("/shops")
+    public List<Shop> getFirst100Shops() {
+        return shopService.getFirst100Shops();
     }
 
     @PutMapping("/shops/{id}")

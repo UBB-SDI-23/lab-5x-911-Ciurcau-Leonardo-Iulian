@@ -1,9 +1,6 @@
 package com.example.labsdi.service;
 
-import com.example.labsdi.domain.Client;
-import com.example.labsdi.domain.Product;
-import com.example.labsdi.domain.Shop;
-import com.example.labsdi.domain.Transaction;
+import com.example.labsdi.domain.*;
 import com.example.labsdi.domain.dto.SortedShopDTO;
 import com.example.labsdi.service.exception.TransactionServiceException;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -15,6 +12,7 @@ public interface ITransactionService {
     boolean containsTransaction(Long id);
     Transaction addTransaction(Transaction transaction) throws TransactionServiceException;
     Transaction getTransaction(Long id) throws TransactionServiceException;
+    List<Transaction> getFirst100Transactions();
     void removeTransaction(Long id) throws TransactionServiceException;
     Transaction updateTransaction(Transaction transaction, Long id) throws TransactionServiceException;
     List<Transaction> getAllTransactions();

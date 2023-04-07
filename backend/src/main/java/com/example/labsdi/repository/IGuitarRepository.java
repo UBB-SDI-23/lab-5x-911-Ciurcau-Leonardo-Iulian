@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface IGuitarRepository extends JpaRepository<Guitar, Long> {
     List<Guitar> findByPriceGreaterThan(int price);
+    List<Guitar> findFirst100By();
 }

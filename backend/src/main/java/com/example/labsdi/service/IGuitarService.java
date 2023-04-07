@@ -12,6 +12,7 @@ public interface IGuitarService {
     void removeGuitar(Long id) throws GuitarServiceException;
     Guitar updateGuitar(Guitar guitar, Long id) throws GuitarServiceException;
     List<Guitar> getAllGuitars();
+    List<Guitar> getFirst100Guitars();
     List<Guitar> findByPriceGreaterThan(Integer price);
     void addGuitarsToShop(List<Guitar> guitars, Long id) throws GuitarServiceException;
 }
