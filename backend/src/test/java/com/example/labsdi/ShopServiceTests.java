@@ -53,11 +53,11 @@ public class ShopServiceTests {
                 new Guitar(3L, null, 100, 2003,
                         "model3", "type3", "color3")
         );
-        List<Shop> shops = List.of(new Shop(1L, products.subList(0, 1), "shop1", "address1",
+        List<Shop> shops = List.of(new Shop(1L, products.subList(0, 1), null, "shop1", "address1",
                         "1@1.com", "1111", true),
-                new Shop(2L, products.subList(1, 3), "shop2", "address2",
+                new Shop(2L, products.subList(1, 3), null, "shop2", "address2",
                         "2@2.com", "2222", true),
-                new Shop(3L, List.of(), "shop3", "address3",
+                new Shop(3L, List.of(), null, "shop3", "address3",
                         "3@3.com", "3333", true)
         );
 

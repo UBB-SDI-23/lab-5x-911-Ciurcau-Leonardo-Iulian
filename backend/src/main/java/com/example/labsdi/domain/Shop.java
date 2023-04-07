@@ -1,5 +1,6 @@
 package com.example.labsdi.domain;
 
+import com.example.labsdi.domain.dto.CourierDTO;
 import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.domain.dto.ProductDTO;
 import com.example.labsdi.domain.dto.ShopDTO;
@@ -27,6 +28,13 @@ public class Shop implements IDTOConvertable {
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Product> products;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "shopCourier",
+            joinColumns = @JoinColumn(name = "shop_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "courier_id", referencedColumnName = "id"))
+    //@JsonBackReference
+    private List<Courier> couriers;
     @Column(name="name")
     private String name;
     @Column(name="address")
@@ -53,6 +61,8 @@ public class Shop implements IDTOConvertable {
         shopdto.setEmail(email);
         shopdto.setTelephoneNumber(telephoneNumber);
         shopdto.setShippingAvailable(shippingAvailable);
+
+        shopdto.setCouriers(couriers.stream().map(c -> (CourierDTO)c.toDTO()).toList());
         shopdto.setProducts(products.stream().map(p -> (ProductDTO)p.toDTO()).toList());
         return shopdto;
     }

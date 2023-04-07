@@ -68,6 +68,8 @@ public class ShopService implements IShopService {
             retrievedShop.setAddress(shop.getAddress());
         if (Objects.nonNull(shop.getShippingAvailable()))
             retrievedShop.setShippingAvailable(shop.getShippingAvailable());
+        if (Objects.nonNull(shop.getCouriers()))
+            retrievedShop.setCouriers(shop.getCouriers());
         return repository.save(retrievedShop);
     }
 
