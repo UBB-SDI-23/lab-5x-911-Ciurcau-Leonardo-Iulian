@@ -98,6 +98,13 @@
                 <version>1.9.1</version>
             </plugin>
         </plugins>
+        <sourceDirectory>backend/src/main/java</sourceDirectory>
+        <testSourceDirectory>backend/src/test</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>backend/src/resources</directory>
+            </resource>
+        </resources>
     </build>
 
 </project>
