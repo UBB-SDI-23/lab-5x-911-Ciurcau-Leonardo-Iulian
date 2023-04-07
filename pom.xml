@@ -102,7 +102,7 @@
         <testSourceDirectory>backend/src/test</testSourceDirectory>
         <resources>
             <resource>
-                <directory>backend/src/resources</directory>
+                <directory>backend/src/main/resources</directory>
             </resource>
         </resources>
     </build>
