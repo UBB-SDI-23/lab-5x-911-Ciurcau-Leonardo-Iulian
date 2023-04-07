@@ -14,7 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Guitar extends Product {
-    @Column(name="creationYear")
+    @Column(name="creation_year")
     private Integer creationYear;
     @Column(name="model")
     private String model;

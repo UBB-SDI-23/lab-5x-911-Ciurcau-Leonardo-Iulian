@@ -49,8 +49,14 @@ public class ShopController {
     public DTO getShop(@PathVariable("id") Long id) throws ShopServiceException {
         return shopService.getShop(id).toDTO();
     }
-    @GetMapping("/shops/orderByAveragePrice")
+
+    @GetMapping("/shops/orderByAveragePrice/all")
     public List<ShopAveragePriceDTO> getAllShopsOrderByAverageProductsPrice() {
         return shopService.getAllShopsOrderByAverageProductsPrice();
+    }
+
+    @GetMapping("/shops/orderByAveragePrice")
+    public List<ShopAveragePriceDTO> getFirst100ShopsOrderByAverageProductsPrice() {
+        return shopService.getFirst100ShopsOrderByAverageProductsPrice();
     }
 }

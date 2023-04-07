@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -30,9 +32,13 @@ public class Shop implements IDTOConvertable {
     private List<Product> products;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "shopCourier",
+            name = "shop_courier",
             joinColumns = @JoinColumn(name = "shop_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "courier_id", referencedColumnName = "id"))
+            foreignKey = @ForeignKey(name="fk_courier_id",
+                    foreignKeyDefinition = "FOREIGN KEY (courier_id) REFERENCES courier(id) ON DELETE CASCADE"),
+            inverseJoinColumns = @JoinColumn(name = "courier_id", referencedColumnName = "id"),
+            inverseForeignKey = @ForeignKey(name="fk_shop_id",
+                    foreignKeyDefinition = "FOREIGN KEY (shop_id) REFERENCES shop(id) ON DELETE CASCADE"))
     //@JsonBackReference
     private List<Courier> couriers;
     @Column(name="name")
@@ -42,9 +48,9 @@ public class Shop implements IDTOConvertable {
     @Column(name="email")
     @NotEmpty(message = "Email is mandatory")
     private String email;
-    @Column(name="telephoneNumber")
+    @Column(name="telephone_number")
     private String telephoneNumber;
-    @Column(name="shippingAvailable")
+    @Column(name="shipping_available")
     private Boolean shippingAvailable;
 
     @Builder(builderMethodName = "shopBuilder")

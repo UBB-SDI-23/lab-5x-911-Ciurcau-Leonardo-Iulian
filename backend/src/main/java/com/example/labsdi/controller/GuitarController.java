@@ -49,9 +49,14 @@ public class GuitarController {
         return "Deleted Successfully";
     }
 
-    @GetMapping("/guitars/priceGreaterThan/{price}")
+    @GetMapping("/guitars/priceGreaterThan/{price}/all")
     public List<Guitar> findByPriceGreaterThan(@PathVariable("price") Integer price) {
         return guitarService.findByPriceGreaterThan(price);
+    }
+
+    @GetMapping("/guitars/priceGreaterThan/{price}")
+    public List<Guitar> findFirst100ByPriceGreaterThan(@PathVariable("price") Integer price) {
+        return guitarService.findFirst100ByPriceGreaterThan(price);
     }
 
     @GetMapping("/guitars/{id}")

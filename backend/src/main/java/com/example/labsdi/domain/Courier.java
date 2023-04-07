@@ -35,9 +35,9 @@ public class Courier implements IDTOConvertable {
     private String address;
     @Column(name="email")
     private String email;
-    @Column(name="telephoneNumber")
+    @Column(name="telephone_number")
     private String telephoneNumber;
-    @Column(name="deliveryPrice")
+    @Column(name="delivery_price")
     private Integer deliveryPrice;
 
     @Override

@@ -89,4 +89,16 @@ public class ShopService implements IShopService {
         listShop.sort(Comparator.comparing(ShopAveragePriceDTO::getAverageProductPrice));
         return listShop;
     }
+
+    @Override
+    public List<ShopAveragePriceDTO> getFirst100ShopsOrderByAverageProductsPrice() {
+        List<ShopAveragePriceDTO> listShop = new ArrayList<>(repository.findFirst100By().stream()
+                .map(s -> new ShopAveragePriceDTO((ShopDTO)s.toDTO(),
+                        s.getProducts().stream()
+                                .collect(Collectors.averagingInt(Product::getPrice))
+                ))
+                .toList());
+        listShop.sort(Comparator.comparing(ShopAveragePriceDTO::getAverageProductPrice));
+        return listShop;
+    }
 }

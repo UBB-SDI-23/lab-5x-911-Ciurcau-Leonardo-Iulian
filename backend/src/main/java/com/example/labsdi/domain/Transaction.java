@@ -26,11 +26,11 @@ public class Transaction implements IDTOConvertable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
-    @JoinColumn(name="productId", nullable = false)
+    @JoinColumn(name="product_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
     @ManyToOne
-    @JoinColumn(name="clientId", nullable = false)
+    @JoinColumn(name="client_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Client client;
     @JsonFormat(pattern = "dd-MM-yyyy")

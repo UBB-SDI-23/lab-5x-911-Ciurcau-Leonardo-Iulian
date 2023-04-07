@@ -9,7 +9,7 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "productType")
 @JsonSubTypes({
@@ -22,7 +22,7 @@ public abstract class Product implements IDTOConvertable {
     @Setter(AccessLevel.PUBLIC)
     protected Long id;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name="shopId",  nullable = false)
+    @JoinColumn(name="shop_id",  nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Getter(AccessLevel.PUBLIC)
     @Setter(AccessLevel.PUBLIC)

@@ -82,6 +82,11 @@ public class GuitarService implements IGuitarService {
     }
 
     @Override
+    public List<Guitar> findFirst100ByPriceGreaterThan(Integer price) {
+        return repository.findFirst100ByPriceGreaterThan(price);
+    }
+
+    @Override
     public void addGuitarsToShop(List<Guitar> guitars, Long id) throws GuitarServiceException {
         for (Guitar g : guitars) {
             Optional<Guitar> guitarOpt = repository.findById(g.getId());
