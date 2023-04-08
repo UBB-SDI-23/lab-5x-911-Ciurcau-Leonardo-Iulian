@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 			int no = 0;
 			for (char* x = *argv; *x; x++)
 			{
-				if (*x < '0' || *x > '0')
+				if (*x < '0' || *x > '9')
 					goto cleanup;
 				no = no * 10 + (*x - '0');
 			}
