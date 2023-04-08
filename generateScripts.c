@@ -23,6 +23,7 @@ int main(int argc, char** argv)
 	char generateClients = 0;
 	char generateCouriers = 0;
 	char generateProducts = 0;
+	char generateShops = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -61,6 +62,10 @@ int main(int argc, char** argv)
 		else if (strcmp(*argv, "--products") == 0)
 		{
 			generateProducts = 1;
+		}
+		else if (strcmp(*argv, "--shops") == 0)
+		{
+			generateShops = 1;
 		}
 		else
 		{
@@ -156,11 +161,14 @@ int main(int argc, char** argv)
 	FILE* clients_file = NULL;
 	FILE* couriers_file = NULL;
 	FILE* products_file = NULL;
+	FILE* shops_file = NULL;
 
 	if (generateClients)
 		clients_file = fopen("generate_clients.sql", "w");
 	if (generateCouriers)
 		couriers_file = fopen("generate_couriers.sql", "w");
+	if (generateShops)
+		shops_file = fopen("generate_shops.sql", "w");
 	if (generateProducts)
 		products_file = fopen("generate_products.sql", "w");
 
@@ -210,6 +218,28 @@ int main(int argc, char** argv)
 			}
 		}
 
+		if (generateShops)
+		{
+			fprintf(shops_file,
+				"INSERT INTO shop(id,address,email,name,shipping_available,telephone_number) VALUES ");
+			for (int j = 0; j < batches_no; j++)
+			{
+				generateId(id, i, j, batches_no);
+				generateAddress(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
+				generateName(name, sizeofMatrix(companyFirstNames),
+					companyFirstNames, sizeofMatrix(companyLastNames), companyLastNames);
+				generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
+				generateTelephoneNumber(telephoneNumber);
+
+				fprintf(
+					shops_file,
+					"(%d,'%s','%s','%s','%s','%s')",
+					id, address, email, name, rand() % 4 == 0 ? "f" : "t", telephoneNumber
+				);
+				fprintf(shops_file, j < batches_no - 1 ? "," : ";\n");
+			}
+		}
+
 		if (generateProducts)
 		{
 			fprintf(products_file,
@@ -241,6 +271,8 @@ int main(int argc, char** argv)
 		fclose(clients_file);
 	if (generateCouriers)
 		fclose(couriers_file);
+	if (generateShops)
+		fclose(shops_file);
 	if (generateProducts)
 		fclose(products_file);
 	return 0;
