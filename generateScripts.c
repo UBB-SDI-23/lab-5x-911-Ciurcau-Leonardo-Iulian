@@ -22,6 +22,7 @@ int main(int argc, char** argv)
 
 	char generateClients = 0;
 	char generateCouriers = 0;
+	char generateProducts = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -57,10 +58,14 @@ int main(int argc, char** argv)
 		{
 			generateCouriers = 1;
 		}
+		else if (strcmp(*argv, "--products") == 0)
+		{
+			generateProducts = 1;
+		}
 		else
 		{
 		cleanup:
-			printf("Usage: -i numberOfInserts -b numberOfBatches --clients --couriers\n");
+			printf("Usage: -i numberOfInserts -b numberOfBatches --clients --couriers --products\n");
 			return -1;
 		}
 	}
@@ -117,10 +122,29 @@ int main(int argc, char** argv)
 		"Enterprize", "Agency", "Association", "Federation", "Foundation", "Fund", "Institute", "Trust", "Union", "United"
 	};
 
+	char* guitarTypes[] = {
+		"acoustic", "electric", "electro-acoustic", "classical"
+	};
+
 
 	char* emailProviders[] = {
 		"gmail.com", "yahoo.com", "outlook.com", "hotmail.com"
 	};
+
+	char* colors[] = {
+		"red", "green", "blue", "yellow", "purple", "pink", "orange", "black", "white", "gray"
+	};
+
+	char* guitarFirstNames[] = {
+		"Stratocaster", "Telecaster", "Les Paul", "SG", "Explorer", "Flying V", "Firebird", "Jaguar", "Jazzmaster", "Duo-Sonic",
+		"Mustang", "Rickenbacker", "Gibson", "Fender", "Epiphone"
+	};
+
+	char* guitarLastNames[] = {
+		"Standard", "Deluxe", "Custom", "Signature", "Artist", "Classic", "Vintage", "Modern", "Elite", "Plus",
+		"Ultra", "Special", "Pro", "Original", "Limited"
+	};
+
 
 	int id = 0;
 	char address[256] = { 0 };
@@ -131,11 +155,14 @@ int main(int argc, char** argv)
 
 	FILE* clients_file = NULL;
 	FILE* couriers_file = NULL;
+	FILE* products_file = NULL;
 
 	if (generateClients)
 		clients_file = fopen("generate_clients.sql", "w");
 	if (generateCouriers)
 		couriers_file = fopen("generate_couriers.sql", "w");
+	if (generateProducts)
+		products_file = fopen("generate_products.sql", "w");
 
 	for (int i = 0; i < inserts_no; i++)
 	{	
@@ -182,12 +209,40 @@ int main(int argc, char** argv)
 				fprintf(couriers_file, j < batches_no - 1 ? "," : ";\n");
 			}
 		}
+
+		if (generateProducts)
+		{
+			fprintf(products_file,
+				"INSERT INTO product(dtype,id,price,color,creation_year,model,type,shop_id) VALUES ");
+			for (int j = 0; j < batches_no; j++)
+			{
+				generateId(id, i, j, batches_no);
+				generateName(name, sizeofMatrix(guitarFirstNames),
+					guitarFirstNames, sizeofMatrix(guitarLastNames), guitarLastNames);
+
+				fprintf(
+					products_file,
+					"('%s',%d,%d,'%s',%d,'%s','%s',%d)",
+					"Guitar", 
+					id, 
+					rand() % 3000 + 1000, 
+					colors[rand() % sizeofMatrix(colors)],
+					rand() % 20 + 2000, 
+					name,
+					guitarTypes[rand() % sizeofMatrix(guitarTypes)],
+					rand() % (int)1e6 + 1
+				);
+				fprintf(products_file, j < batches_no - 1 ? "," : ";\n");
+			}
+		}
 	}
 
 	if (generateClients)
 		fclose(clients_file);
 	if (generateCouriers)
 		fclose(couriers_file);
+	if (generateProducts)
+		fclose(products_file);
 	return 0;
 }
 
