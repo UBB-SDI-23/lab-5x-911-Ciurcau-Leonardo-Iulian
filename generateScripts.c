@@ -80,8 +80,7 @@ int main(int argc, char** argv)
 		else
 		{
 		cleanup:
-			printf("Usage: -i numberOfInserts -b numberOfBatches --clients --couriers --products\
-			 --shops_couriers --transactions\n");
+			printf("Usage: -i numberOfInserts -b numberOfBatches --clients --couriers --products --shops_couriers --transactions\n");
 			return -1;
 		}
 	}
