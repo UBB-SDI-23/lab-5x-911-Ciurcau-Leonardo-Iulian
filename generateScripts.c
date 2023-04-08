@@ -1,6 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define generateId(id, i, j, maxJ) (id) = (i) * (maxJ) + (j) + (1)
 #define sizeofMatrix(m) (sizeof((m)) / sizeof((m[0])))
+#ifdef _WIN32
+#pragma warning( disable : 4996)
+#define itoa _itoa
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -105,13 +109,13 @@ int main()
 
 void generateBirthDate(char* birthDate, char* day, char* month, char* year)
 {
-	_itoa(rand() % 28 + 1, day, 10);
+	itoa(rand() % 28 + 1, day, 10);
 	if (!day[1])
 		day[1] = day[0], day[0] = '0', day[2] = '\0';
-	_itoa(rand() % 12 + 1, month, 10);
+	itoa(rand() % 12 + 1, month, 10);
 	if (!month[1])
 		month[1] = month[0], month[0] = '0', month[2] = '\0';
-	_itoa(rand() % 45 + 1960, year, 10);
+	itoa(rand() % 45 + 1960, year, 10);
 	strcpy(birthDate, day);
 	strcat(birthDate, "-");
 	strcat(birthDate, month);
@@ -132,7 +136,7 @@ void generateAddress(char* address, int citiesSize, char* cities[], int streetsS
 	strcat(address, ", ");
 	strcat(address, streets[rand() % streetsSize]);
 	strcat(address, " ");
-	_itoa(rand() % 200 + 1, address + strlen(address), 10);
+	itoa(rand() % 200 + 1, address + strlen(address), 10);
 }
 
 void generateName(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[])
