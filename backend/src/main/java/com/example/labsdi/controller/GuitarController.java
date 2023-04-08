@@ -50,13 +50,17 @@ public class GuitarController {
     }
 
     @GetMapping("/guitars/priceGreaterThan/{price}/all")
-    public List<Guitar> findByPriceGreaterThan(@PathVariable("price") Integer price) {
-        return guitarService.findByPriceGreaterThan(price);
+    public List<ProductDTO> findByPriceGreaterThan(@PathVariable("price") Integer price) {
+        return guitarService.findByPriceGreaterThan(price).stream()
+                .map(g -> (ProductDTO)g.toDTO())
+                .toList();
     }
 
     @GetMapping("/guitars/priceGreaterThan/{price}")
-    public List<Guitar> findFirst100ByPriceGreaterThan(@PathVariable("price") Integer price) {
-        return guitarService.findFirst100ByPriceGreaterThan(price);
+    public List<ProductDTO> findFirst100ByPriceGreaterThan(@PathVariable("price") Integer price) {
+        return guitarService.findFirst100ByPriceGreaterThan(price).stream()
+                .map(g -> (ProductDTO)g.toDTO())
+                .toList();
     }
 
     @GetMapping("/guitars/{id}")
