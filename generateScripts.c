@@ -76,7 +76,7 @@ int main()
 
 	for (int i = 0; i < inserts_no; i++)
 	{	
-		fprintf(f, "INSERT INTO client(id,address,birth_date,email,name,telephone_Size) VALUES ");
+		fprintf(f, "INSERT INTO client(id,address,birth_date,email,name,telephone_number) VALUES ");
 		for (int j = 0; j < batches_no; j++)
 		{
 			generateId(id, i, j, batches_no);
