@@ -41,7 +41,7 @@ int main(int argc, char** argv)
 				printf("Number needs to be greater than zero!\n");
 				return -1;
 			}
-			if (strcmp(*argv, "-i") == 0)
+			if (strcmp(*(argv - 1), "-i") == 0)
 				inserts_no = no;
 			else
 				batches_no = no;
