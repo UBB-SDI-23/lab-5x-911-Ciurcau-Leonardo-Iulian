@@ -3,7 +3,9 @@ package com.example.labsdi.controller;
 import com.example.labsdi.domain.Product;
 import com.example.labsdi.domain.Shop;
 import com.example.labsdi.domain.dto.DTO;
+import com.example.labsdi.domain.dto.ProductDTO;
 import com.example.labsdi.domain.dto.ShopAveragePriceDTO;
+import com.example.labsdi.domain.dto.ShopDTO;
 import com.example.labsdi.service.IShopService;
 import com.example.labsdi.service.exception.ShopServiceException;
 import jakarta.validation.Valid;
@@ -24,13 +26,17 @@ public class ShopController {
     }
 
     @GetMapping("/shops/all")
-    public List<Shop> getAllShops() {
-        return shopService.getAllShops();
+    public List<ShopDTO> getAllShops() {
+        return shopService.getAllShops().stream()
+                .map(s -> (ShopDTO)s.toDTO())
+                .toList();
     }
 
     @GetMapping("/shops")
-    public List<Shop> getFirst100Shops() {
-        return shopService.getFirst100Shops();
+    public List<ShopDTO> getFirst100Shops() {
+        return shopService.getFirst100Shops().stream()
+                .map(s -> (ShopDTO)s.toDTO())
+                .toList();
     }
 
     @PutMapping("/shops/{id}")
