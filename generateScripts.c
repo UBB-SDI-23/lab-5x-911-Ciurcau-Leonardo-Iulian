@@ -1,17 +1,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define generateId(id, i, j, maxJ) (id) = (i) * (maxJ) + (j) + (1)
 #define sizeofMatrix(m) (sizeof((m)) / sizeof((m[0])))
-#ifdef _WIN32
-#pragma warning( disable : 4996)
-#define itoa _itoa
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
 
-void generateBirthDate(char* birthDate, char* day, char* month, char* year);
+void generateBirthDate(char* birthDate);
 void generatetelephoneNumber(char* telephoneNumber);
 void generateAddress(char* address, int citiesSize, char* cities[], int streetsSize, char* streets[]);
 void generateName(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[]);
@@ -69,9 +65,6 @@ int main()
 
 	int id = 0;
 	char address[256] = { 0 };
-	char day[3] = { 0 };
-	char month[3] = { 0 };
-	char year[5] = { 0 };
 	char birthDate[11] = { 0 };
 	char email[65] = { 0 };
 	char name[65] = { 0 };
@@ -88,7 +81,7 @@ int main()
 		{
 			generateId(id, i, j, batches_no);
 			generateAddress(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
-			generateBirthDate(birthDate, day, month, year);
+			generateBirthDate(birthDate);
 			generateName(name, sizeofMatrix(firstName), firstName, sizeofMatrix(lastName), lastName);
 			generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
 			generatetelephoneNumber(telephoneNumber);
@@ -107,20 +100,9 @@ int main()
 }
 
 
-void generateBirthDate(char* birthDate, char* day, char* month, char* year)
+void generateBirthDate(char* birthDate)
 {
-	itoa(rand() % 28 + 1, day, 10);
-	if (!day[1])
-		day[1] = day[0], day[0] = '0', day[2] = '\0';
-	itoa(rand() % 12 + 1, month, 10);
-	if (!month[1])
-		month[1] = month[0], month[0] = '0', month[2] = '\0';
-	itoa(rand() % 45 + 1960, year, 10);
-	strcpy(birthDate, day);
-	strcat(birthDate, "-");
-	strcat(birthDate, month);
-	strcat(birthDate, "-");
-	strcat(birthDate, year);
+	sprintf(birthDate, "%02d-%02d-%d", rand() % 28 + 1, rand() % 12 + 1, rand() % 45 + 1960);
 }
 
 void generatetelephoneNumber(char* telephoneNumber)
@@ -132,18 +114,18 @@ void generatetelephoneNumber(char* telephoneNumber)
 
 void generateAddress(char* address, int citiesSize, char* cities[], int streetsSize, char* streets[])
 {
-	strcpy(address, cities[rand() % citiesSize]);
-	strcat(address, ", ");
-	strcat(address, streets[rand() % streetsSize]);
-	strcat(address, " ");
-	itoa(rand() % 200 + 1, address + strlen(address), 10);
+	sprintf(
+		address, 
+		"%s, %s %d",
+		cities[rand() % citiesSize],
+		streets[rand() % streetsSize],
+		rand() % 200 + 1
+	);
 }
 
 void generateName(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[])
 {
-	strcpy(name, firstName[rand() % firstNameSize]);
-	strcat(name, " ");
-	strcat(name, lastName[rand() % lastNameSize]);
+	sprintf(name, "%s %s", firstName[rand() % firstNameSize], lastName[rand() % lastNameSize]);
 }
 
 void generateEmail(char* email, char* name, int emailProvidersSize, char* emailProviders[])
