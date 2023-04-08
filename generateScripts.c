@@ -24,6 +24,7 @@ int main(int argc, char** argv)
 	char generateCouriers = 0;
 	char generateProducts = 0;
 	char generateShops = 0;
+	char generateShopsCouriers = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -67,13 +68,20 @@ int main(int argc, char** argv)
 		{
 			generateShops = 1;
 		}
+		else if (strcmp(*argv, "--shops_couriers") == 0)
+		{
+			generateShopsCouriers = 1;
+		}
 		else
 		{
 		cleanup:
-			printf("Usage: -i numberOfInserts -b numberOfBatches --clients --couriers --products\n");
+			printf("Usage: -i numberOfInserts -b numberOfBatches --clients --couriers --products\
+			 --shops_couriers\n");
 			return -1;
 		}
 	}
+
+	int total_no = inserts_no * batches_no;
 	
 	char* cities[] = {
 		"New York", "Los Angeles", "Washington", "Boston", "Detroit", "Miami",
@@ -162,6 +170,7 @@ int main(int argc, char** argv)
 	FILE* couriers_file = NULL;
 	FILE* products_file = NULL;
 	FILE* shops_file = NULL;
+	FILE* shops_couriers_file = NULL;
 
 	if (generateClients)
 		clients_file = fopen("generate_clients.sql", "w");
@@ -171,6 +180,8 @@ int main(int argc, char** argv)
 		shops_file = fopen("generate_shops.sql", "w");
 	if (generateProducts)
 		products_file = fopen("generate_products.sql", "w");
+	if (generateShopsCouriers)
+		shops_couriers_file = fopen("generate_shops_couriers.sql", "w");
 
 	for (int i = 0; i < inserts_no; i++)
 	{	
@@ -260,9 +271,29 @@ int main(int argc, char** argv)
 					rand() % 20 + 2000, 
 					name,
 					guitarTypes[rand() % sizeofMatrix(guitarTypes)],
-					rand() % (int)1e6 + 1
+					rand() % total_no + 1
 				);
 				fprintf(products_file, j < batches_no - 1 ? "," : ";\n");
+			}
+		}
+
+		if (generateShopsCouriers)
+		{
+			int total = total_no < 10 ? total_no : 10;
+			fprintf(shops_couriers_file, "INSERT INTO shop_courier(shop_id,courier_id) VALUES ");
+			for (int j = 0; j < batches_no; j++)
+			{
+				generateId(id, i, j, batches_no); // shop_id
+				for (int index = 1; index <= total; index++)
+				{
+					fprintf(
+						shops_couriers_file, 
+						"(%d,%d)",
+						id,
+						rand() % total_no + 1
+					);
+					fprintf(shops_couriers_file, (j < batches_no - 1) || (index < total) ? "," : ";\n");
+				}
 			}
 		}
 	}
@@ -275,6 +306,8 @@ int main(int argc, char** argv)
 		fclose(shops_file);
 	if (generateProducts)
 		fclose(products_file);
+	if (generateShopsCouriers)
+		fclose(shops_couriers_file);
 	return 0;
 }
 
