@@ -53,6 +53,15 @@ int main(int argc, char** argv)
 			else
 				batches_no = no;
 		}
+		else if (strcmp(*argv, "--all") == 0)
+		{
+			generateClients = 1;
+			generateCouriers = 1;
+			generateProducts = 1;
+			generateShops = 1;
+			generateShopsCouriers = 1;
+			generateTransactions = 1;
+		}
 		else if (strcmp(*argv, "--clients") == 0)
 		{
 			generateClients = 1;
@@ -80,7 +89,7 @@ int main(int argc, char** argv)
 		else
 		{
 		cleanup:
-			printf("usage: -i numberOfInserts -b numberOfBatches --clients --couriers --shops --products --shops_couriers --transactions\n");
+			printf("usage: -i numberOfInserts -b numberOfBatches --all --clients --couriers --shops --products --shops_couriers --transactions\n");
 			return -1;
 		}
 	}
