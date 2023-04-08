@@ -13,10 +13,42 @@ void generateAddress(char* address, int citiesSize, char* cities[], int streetsS
 void generateName(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[]);
 void generateEmail(char* email, char* name, int emailProvidersSize, char* emailProviders[]);
 
-int main()
+int main(int argc, char** argv)
 {
 	srand(time(NULL));
 
+	int inserts_no = 10;
+	int batches_no = 10;
+
+	for (int i = 2; i <= argc; i++)
+	{
+		argv++;
+		if (strcmp(*argv, "-i") == 0 || strcmp(*argv, "-b") == 0)
+		{
+			i++;
+			if (i > argc)
+				goto cleanup;
+			argv++;
+			int no = 0;
+			for (char* x = *argv; *x; x++)
+			{
+				if (*x < '0' || *x > '0')
+					goto cleanup;
+				no = no * 10 + (*x - '0');
+			}
+			if (strcmp(*argv, "-i") == 0)
+				inserts_no = no;
+			else
+				batches_no = no;
+		}
+		else
+		{
+		cleanup:
+			printf("Usage: -i numberOfInserts -b numberOfBatches\n");
+			return -1;
+		}
+	}
+	
 	char* cities[] = {
 		"New York", "Los Angeles", "Washington", "Boston", "Detroit", "Miami",
 		"Chicago", "San Francisco", "Seattle", "Houston", "Dallas", "Atlanta",
@@ -58,10 +90,6 @@ int main()
 	char* emailProviders[] = {
 		"gmail.com", "yahoo.com", "outlook.com", "hotmail.com"
 	};
-
-
-	int inserts_no = 10;
-	int batches_no = 10;
 
 	int id = 0;
 	char address[256] = { 0 };
