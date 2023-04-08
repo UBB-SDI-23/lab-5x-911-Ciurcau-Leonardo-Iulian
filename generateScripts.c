@@ -36,6 +36,11 @@ int main(int argc, char** argv)
 					goto cleanup;
 				no = no * 10 + (*x - '0');
 			}
+			if (no == 0)
+			{
+				printf("Number needs to be greater than zero!\n");
+				return -1;
+			}
 			if (strcmp(*argv, "-i") == 0)
 				inserts_no = no;
 			else
