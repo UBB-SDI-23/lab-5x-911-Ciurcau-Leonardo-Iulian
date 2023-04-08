@@ -25,6 +25,7 @@ int main(int argc, char** argv)
 	char generateProducts = 0;
 	char generateShops = 0;
 	char generateShopsCouriers = 0;
+	char generateTransactions = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -72,11 +73,15 @@ int main(int argc, char** argv)
 		{
 			generateShopsCouriers = 1;
 		}
+		else if (strcmp(*argv, "--transactions") == 0)
+		{
+			generateTransactions = 1;
+		}
 		else
 		{
 		cleanup:
 			printf("Usage: -i numberOfInserts -b numberOfBatches --clients --couriers --products\
-			 --shops_couriers\n");
+			 --shops_couriers --transactions\n");
 			return -1;
 		}
 	}
@@ -171,6 +176,7 @@ int main(int argc, char** argv)
 	FILE* products_file = NULL;
 	FILE* shops_file = NULL;
 	FILE* shops_couriers_file = NULL;
+	FILE* transactions_file = NULL;
 
 	if (generateClients)
 		clients_file = fopen("generate_clients.sql", "w");
@@ -182,6 +188,8 @@ int main(int argc, char** argv)
 		products_file = fopen("generate_products.sql", "w");
 	if (generateShopsCouriers)
 		shops_couriers_file = fopen("generate_shops_couriers.sql", "w");
+	if (generateTransactions)
+		transactions_file = fopen("generate_transactions.sql", "w");
 
 	for (int i = 0; i < inserts_no; i++)
 	{	
@@ -296,6 +304,27 @@ int main(int argc, char** argv)
 				}
 			}
 		}
+
+		if (generateTransactions)
+		{
+			fprintf(transactions_file, 
+				"INSERT INTO transaction(id,date,is_cash_payment,client_id,product_id) VALUES ");
+			for (int j = 0; j < batches_no; j++)
+			{
+				generateId(id, i, j, batches_no); // product_id and id
+				generateBirthDate(birthDate);
+				fprintf(
+					transactions_file,
+					"(%d,'%s','%s',%d,%d)",
+					id,
+					birthDate,
+					rand() % 3 == 0 ? "t" : "f",
+					rand() % total_no + 1,
+					id
+				);
+				fprintf(transactions_file, j < batches_no - 1 ? "," : ";\n");
+			}
+		}
 	}
 
 	if (generateClients)
@@ -308,6 +337,8 @@ int main(int argc, char** argv)
 		fclose(products_file);
 	if (generateShopsCouriers)
 		fclose(shops_couriers_file);
+	if (generateTransactions)
+		fclose(transactions_file);
 	return 0;
 }
 
