@@ -20,6 +20,8 @@ int main(int argc, char** argv)
 	int inserts_no = 10;
 	int batches_no = 10;
 
+	char generateClients = 0;
+
 	for (int i = 2; i <= argc; i++)
 	{
 		argv++;
@@ -46,10 +48,14 @@ int main(int argc, char** argv)
 			else
 				batches_no = no;
 		}
+		else if (strcmp(*argv, "--clients") == 0)
+		{
+			generateClients = 1;
+		}
 		else
 		{
 		cleanup:
-			printf("Usage: -i numberOfInserts -b numberOfBatches\n");
+			printf("Usage: -i numberOfInserts -b numberOfBatches --clients\n");
 			return -1;
 		}
 	}
@@ -103,32 +109,38 @@ int main(int argc, char** argv)
 	char name[65] = { 0 };
 	char telephoneNumber[11] = { 0 };
 
-	FILE* f;
+	FILE* clients_file;
 
-	f = fopen("generate_clients.sql", "w");
+	if (generateClients)
+		clients_file = fopen("generate_clients.sql", "w");
 
 	for (int i = 0; i < inserts_no; i++)
 	{	
-		fprintf(f, "INSERT INTO client(id,address,birth_date,email,name,telephone_number) VALUES ");
-		for (int j = 0; j < batches_no; j++)
+		if (generateClients)
 		{
-			generateId(id, i, j, batches_no);
-			generateAddress(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
-			generateBirthDate(birthDate);
-			generateName(name, sizeofMatrix(firstName), firstName, sizeofMatrix(lastName), lastName);
-			generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
-			generatetelephoneNumber(telephoneNumber);
+			fprintf(clients_file,
+				"INSERT INTO client(id,address,birth_date,email,name,telephone_number) VALUES ");
+			for (int j = 0; j < batches_no; j++)
+			{
+				generateId(id, i, j, batches_no);
+				generateAddress(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
+				generateBirthDate(birthDate);
+				generateName(name, sizeofMatrix(firstName), firstName, sizeofMatrix(lastName), lastName);
+				generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
+				generatetelephoneNumber(telephoneNumber);
 
-			fprintf(
-				f, 
-				"(%d,'%s','%s','%s','%s','%s')",
-				id, address, birthDate, email, name, telephoneNumber
-			);
-			fprintf(f, j < batches_no - 1 ? "," : ";\n");
+				fprintf(
+					clients_file,
+					"(%d,'%s','%s','%s','%s','%s')",
+					id, address, birthDate, email, name, telephoneNumber
+				);
+				fprintf(clients_file, j < batches_no - 1 ? "," : ";\n");
+			}
 		}
 	}
 
-	fclose(f);
+	if (generateClients)
+		fclose(clients_file);
 	return 0;
 }
 
