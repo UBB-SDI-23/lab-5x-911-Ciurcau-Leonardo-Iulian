@@ -25,9 +25,9 @@ int main(int argc, char** argv)
 		argv++;
 		if (strcmp(*argv, "-i") == 0 || strcmp(*argv, "-b") == 0)
 		{
-			i++;
-			if (i > argc)
+			if (i == argc)
 				goto cleanup;
+			i++;
 			argv++;
 			int no = 0;
 			for (char* x = *argv; *x; x++)
