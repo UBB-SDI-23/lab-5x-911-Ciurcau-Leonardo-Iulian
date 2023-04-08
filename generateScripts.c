@@ -8,7 +8,7 @@
 #include <string.h>
 
 void generateBirthDate(char* birthDate);
-void generatetelephoneNumber(char* telephoneNumber);
+void generateTelephoneNumber(char* telephoneNumber);
 void generateAddress(char* address, int citiesSize, char* cities[], int streetsSize, char* streets[]);
 void generateName(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[]);
 void generateEmail(char* email, char* name, int emailProvidersSize, char* emailProviders[]);
@@ -21,6 +21,7 @@ int main(int argc, char** argv)
 	int batches_no = 10;
 
 	char generateClients = 0;
+	char generateCouriers = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -52,10 +53,14 @@ int main(int argc, char** argv)
 		{
 			generateClients = 1;
 		}
+		else if (strcmp(*argv, "--couriers") == 0)
+		{
+			generateCouriers = 1;
+		}
 		else
 		{
 		cleanup:
-			printf("Usage: -i numberOfInserts -b numberOfBatches --clients\n");
+			printf("Usage: -i numberOfInserts -b numberOfBatches --clients --couriers\n");
 			return -1;
 		}
 	}
@@ -98,6 +103,21 @@ int main(int argc, char** argv)
 		"Gordon", "Ramos", "Washington", "Butler", "Simmons", "Frazier", "Murray", "Sanders", "Webb", "Hunter"
 	};
 
+	char* companyFirstNames[] = {
+		"Avalon", "Bluebird", "Catalyst", "Dreamscape", "Everest", "Frontier", "Galaxy", "Horizon", "Innovative", "Journey",
+		"Kaleidoscope", "Legacy", "Momentum", "Nebula", "Odyssey", "Pinnacle", "Quest", "Radiance", "Summit", "Tranquility",
+		"Uplift", "Velocity", "Wavelength", "Xenith", "Yellowstone", "Zenith", "Ascent", "Bridge", "Crescent", "Daybreak",
+		"Elevate", "Foothills", "Gateway", "Harbor", "Island", "Junction", "Keystone", "Lighthouse", "Mirage", "Nexus"
+	};
+
+	char* companyLastNames[] = {
+		"Enterprises", "Industries", "Corporation", "Group", "Holdings", "Limited", "Solutions", "International", "Services", "Inc",
+		"Ventures", "Partners", "Consulting", "Logistics", "Commerce", "Development", "Technologies", "Management", "Associates", "Innovations",
+		"Investments", "Capital", "Marketing", "Trading", "Global", "Network", "Alliance", "Resources", "Systems", "Strategy",
+		"Enterprize", "Agency", "Association", "Federation", "Foundation", "Fund", "Institute", "Trust", "Union", "United"
+	};
+
+
 	char* emailProviders[] = {
 		"gmail.com", "yahoo.com", "outlook.com", "hotmail.com"
 	};
@@ -109,10 +129,13 @@ int main(int argc, char** argv)
 	char name[65] = { 0 };
 	char telephoneNumber[11] = { 0 };
 
-	FILE* clients_file;
+	FILE* clients_file = NULL;
+	FILE* couriers_file = NULL;
 
 	if (generateClients)
 		clients_file = fopen("generate_clients.sql", "w");
+	if (generateCouriers)
+		couriers_file = fopen("generate_couriers.sql", "w");
 
 	for (int i = 0; i < inserts_no; i++)
 	{	
@@ -127,7 +150,7 @@ int main(int argc, char** argv)
 				generateBirthDate(birthDate);
 				generateName(name, sizeofMatrix(firstName), firstName, sizeofMatrix(lastName), lastName);
 				generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
-				generatetelephoneNumber(telephoneNumber);
+				generateTelephoneNumber(telephoneNumber);
 
 				fprintf(
 					clients_file,
@@ -137,10 +160,34 @@ int main(int argc, char** argv)
 				fprintf(clients_file, j < batches_no - 1 ? "," : ";\n");
 			}
 		}
+
+		if (generateCouriers)
+		{
+			fprintf(couriers_file,
+				"INSERT INTO courier(id,address,delivery_price,email,name,telephone_number) VALUES ");
+			for (int j = 0; j < batches_no; j++)
+			{
+				generateId(id, i, j, batches_no);
+				generateAddress(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
+				generateName(name, sizeofMatrix(companyFirstNames), 
+					companyFirstNames, sizeofMatrix(companyLastNames), companyLastNames);
+				generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
+				generateTelephoneNumber(telephoneNumber);
+
+				fprintf(
+					couriers_file,
+					"(%d,'%s',%d,'%s','%s','%s')",
+					id, address, rand() % 200 + 30, email, name, telephoneNumber
+				);
+				fprintf(couriers_file, j < batches_no - 1 ? "," : ";\n");
+			}
+		}
 	}
 
 	if (generateClients)
 		fclose(clients_file);
+	if (generateCouriers)
+		fclose(couriers_file);
 	return 0;
 }
 
@@ -150,7 +197,7 @@ void generateBirthDate(char* birthDate)
 	sprintf(birthDate, "%02d-%02d-%d", rand() % 28 + 1, rand() % 12 + 1, rand() % 45 + 1960);
 }
 
-void generatetelephoneNumber(char* telephoneNumber)
+void generateTelephoneNumber(char* telephoneNumber)
 {
 	strcpy(telephoneNumber, "07");
 	for (int index = 2; index < 10; index++)
