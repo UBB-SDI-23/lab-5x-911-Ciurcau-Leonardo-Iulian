@@ -20,4 +20,5 @@ public class CourierDTO extends DTO{
     private String email;
     private String telephoneNumber;
     private Integer deliveryPrice;
+    private String description;
 }

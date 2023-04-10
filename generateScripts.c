@@ -12,6 +12,7 @@ void generateTelephoneNumber(char* telephoneNumber);
 void generateAddress(char* address, int citiesSize, char* cities[], int streetsSize, char* streets[]);
 void generateName(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[]);
 void generateEmail(char* email, char* name, int emailProvidersSize, char* emailProviders[]);
+void generateDescription(char* description, int matrixSize, char* matrix[]);
 
 int main(int argc, char** argv)
 {
@@ -95,7 +96,7 @@ int main(int argc, char** argv)
 	}
 
 	int total_no = inserts_no * batches_no;
-	
+
 	char* cities[] = {
 		"New York", "Los Angeles", "Washington", "Boston", "Detroit", "Miami",
 		"Chicago", "San Francisco", "Seattle", "Houston", "Dallas", "Atlanta",
@@ -178,6 +179,7 @@ int main(int argc, char** argv)
 	char email[65] = { 0 };
 	char name[65] = { 0 };
 	char telephoneNumber[11] = { 0 };
+	char description[256] = { 0 };
 
 	FILE* clients_file = NULL;
 	FILE* couriers_file = NULL;
@@ -200,7 +202,7 @@ int main(int argc, char** argv)
 		transactions_file = fopen("generate_transactions.sql", "w");
 
 	for (int i = 0; i < inserts_no; i++)
-	{	
+	{
 		if (generateClients)
 		{
 			fprintf(clients_file,
@@ -226,20 +228,21 @@ int main(int argc, char** argv)
 		if (generateCouriers)
 		{
 			fprintf(couriers_file,
-				"INSERT INTO courier(id,address,delivery_price,email,name,telephone_number) VALUES ");
+				"INSERT INTO courier(id,address,delivery_price,email,name,telephone_number,description) VALUES ");
 			for (int j = 0; j < batches_no; j++)
 			{
 				generateId(id, i, j, batches_no);
 				generateAddress(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
-				generateName(name, sizeofMatrix(companyFirstNames), 
+				generateName(name, sizeofMatrix(companyFirstNames),
 					companyFirstNames, sizeofMatrix(companyLastNames), companyLastNames);
 				generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
 				generateTelephoneNumber(telephoneNumber);
+				generateDescription(description, sizeofMatrix(cities), cities);
 
 				fprintf(
 					couriers_file,
-					"(%d,'%s',%d,'%s','%s','%s')",
-					id, address, rand() % 200 + 30, email, name, telephoneNumber
+					"(%d,'%s',%d,'%s','%s','%s','%s')",
+					id, address, rand() % 200 + 30, email, name, telephoneNumber, description
 				);
 				fprintf(couriers_file, j < batches_no - 1 ? "," : ";\n");
 			}
@@ -280,11 +283,11 @@ int main(int argc, char** argv)
 				fprintf(
 					products_file,
 					"('%s',%d,%d,'%s',%d,'%s','%s',%d)",
-					"Guitar", 
-					id, 
-					rand() % 3000 + 1000, 
+					"Guitar",
+					id,
+					rand() % 3000 + 1000,
 					colors[rand() % sizeofMatrix(colors)],
-					rand() % 20 + 2000, 
+					rand() % 20 + 2000,
 					name,
 					guitarTypes[rand() % sizeofMatrix(guitarTypes)],
 					rand() % total_no + 1
@@ -303,7 +306,7 @@ int main(int argc, char** argv)
 				for (int index = 1; index <= total; index++)
 				{
 					fprintf(
-						shops_couriers_file, 
+						shops_couriers_file,
 						"(%d,%d)",
 						id,
 						rand() % total_no + 1
@@ -315,7 +318,7 @@ int main(int argc, char** argv)
 
 		if (generateTransactions)
 		{
-			fprintf(transactions_file, 
+			fprintf(transactions_file,
 				"INSERT INTO transaction(id,date,is_cash_payment,client_id,product_id) VALUES ");
 			for (int j = 0; j < batches_no; j++)
 			{
@@ -366,7 +369,7 @@ void generateTelephoneNumber(char* telephoneNumber)
 void generateAddress(char* address, int citiesSize, char* cities[], int streetsSize, char* streets[])
 {
 	sprintf(
-		address, 
+		address,
 		"%s, %s %d",
 		cities[rand() % citiesSize],
 		streets[rand() % streetsSize],
@@ -393,4 +396,18 @@ void generateEmail(char* email, char* name, int emailProvidersSize, char* emailP
 	email++;
 	*email = '\0';
 	strcat(email, emailProviders[rand() % emailProvidersSize]);
+}
+
+void generateDescription(char* description, int matrixSize, char* matrix[])
+{
+	strcpy(description, "");
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			strcat(description, matrix[rand() % matrixSize]);
+			strcat(description, " ");
+		}
+		strcat(description, "\n");
+	}
 }

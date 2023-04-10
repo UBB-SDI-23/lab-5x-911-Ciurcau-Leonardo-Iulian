@@ -39,6 +39,8 @@ public class Courier implements IDTOConvertable {
     private String telephoneNumber;
     @Column(name="delivery_price")
     private Integer deliveryPrice;
+    @Column(name="description")
+    private String description;
 
     @Override
     public DTO toDTO() {
@@ -49,6 +51,7 @@ public class Courier implements IDTOConvertable {
         courierdto.setEmail(email);
         courierdto.setTelephoneNumber(telephoneNumber);
         courierdto.setDeliveryPrice(deliveryPrice);
+        courierdto.setDescription(description);
 
         return courierdto;
     }
