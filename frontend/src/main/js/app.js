@@ -6,6 +6,8 @@ import '@fontsource/roboto/700.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./home";
 import FilteredGuitarList from "./filteredGuitarList";
+import AddGuitar from "./addGuitar";
+import UpdateGuitar from "./updateGuitar";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -27,6 +29,8 @@ class App extends React.Component {
                 <Routes>
                     <Route path='/' exact={true} element={<Home/>}/>
                     <Route path='/filteredGuitars' element={<FilteredGuitarList/>}/>
+                    <Route path='/addGuitar' element={<AddGuitar/>}/>
+                    <Route path='/updateGuitar' element={<UpdateGuitar/>}/>
                 </Routes>
             </BrowserRouter>
         );
