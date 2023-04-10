@@ -89,7 +89,7 @@ class GuitarList extends Component {
                 <TableCell>{guitar.color}</TableCell>
                 <TableCell>{guitar.creationYear}</TableCell>
                 <TableCell>
-                    <Button currentid={guitar.id}>
+                    <Button component={Link} to={"/seeGuitar/"+guitar.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
                     <Button component={Link} to={"/updateGuitar/"+guitar.id}>

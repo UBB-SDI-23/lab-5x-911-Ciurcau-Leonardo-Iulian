@@ -8,6 +8,7 @@ import Home from "./home";
 import FilteredGuitarList from "./filteredGuitarList";
 import AddGuitar from "./addGuitar";
 import UpdateGuitar from "./updateGuitar";
+import SeeGuitar from "./seeGuitar";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -31,6 +32,7 @@ class App extends React.Component {
                     <Route path='/filteredGuitars' element={<FilteredGuitarList/>}/>
                     <Route path='/addGuitar' element={<AddGuitar/>}/>
                     <Route path='/updateGuitar/:id' element={<UpdateGuitar/>}/>
+                    <Route path='/seeGuitar/:id' element={<SeeGuitar/>}/>
                 </Routes>
             </BrowserRouter>
         );
