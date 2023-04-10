@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import AppNavbar from './appNavBar';
-import {Button, Container, TextField} from "@mui/material";
+import {
+    Button,
+    Container,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    TextField
+} from "@mui/material";
 import GuitarList from "./guitarList";
 
 class AddGuitar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {creationYear: null, model: "", type: "", color: "", price: null};
+        this.state = {creationYear: null, model: "", type: "", color: "", price: null, dialogOpen: false};
     }
 
     componentDidMount() {
@@ -31,10 +40,11 @@ class AddGuitar extends Component {
         };
         fetch('api/guitars', requestOptions)
             .then(response => response.json())
-            .then(data => console.log(data));
+            .then(() => this.setState({dialogOpen: true}));
     }
 
     render() {
+        const {dialogOpen} = this.state;
         return (
             <Container maxWidth={false}>
                 <AppNavbar></AppNavbar>
@@ -54,8 +64,26 @@ class AddGuitar extends Component {
                 <br/><br/>
                 <TextField id="outlined-basic" label="Color" variant="outlined"
                            onChange={(event)=>this.setState({color: event.target.value})}/>
-                <Button onClick={this.handleGuitarAdd} className="submitButton">Add Guitar</Button>
+                    <Button onClick={this.handleGuitarAdd} className="addGuitarButton">Add Guitar</Button>
                 </Container>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={() => {this.setState({dialogOpen: false});}}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Item added"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Item was added successfully!
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {this.setState({dialogOpen: false});}}>OK</Button>
+                    </DialogActions>
+                </Dialog>
             </Container>
         );
     }

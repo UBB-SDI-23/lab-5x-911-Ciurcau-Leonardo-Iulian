@@ -14,7 +14,10 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import {red} from "@mui/material/colors";
+import FindInPageIcon from '@mui/icons-material/FindInPage';
+import EditIcon from '@mui/icons-material/Edit';
+import {blue, red, grey} from "@mui/material/colors";
+import {Link} from "react-router-dom";
 
 class GuitarList extends Component {
     constructor(props) {
@@ -86,6 +89,12 @@ class GuitarList extends Component {
                 <TableCell>{guitar.color}</TableCell>
                 <TableCell>{guitar.creationYear}</TableCell>
                 <TableCell>
+                    <Button currentid={guitar.id}>
+                        <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
+                    </Button>
+                    <Button component={Link} to={"/updateGuitar/"+guitar.id}>
+                        <SvgIcon component={EditIcon} sx={{ color: grey[500] }}></SvgIcon>
+                    </Button>
                     <Button currentid={guitar.id} onClick={this.handleDeleteItem}>
                         <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
                     </Button>

@@ -30,7 +30,7 @@ class App extends React.Component {
                     <Route path='/' exact={true} element={<Home/>}/>
                     <Route path='/filteredGuitars' element={<FilteredGuitarList/>}/>
                     <Route path='/addGuitar' element={<AddGuitar/>}/>
-                    <Route path='/updateGuitar' element={<UpdateGuitar/>}/>
+                    <Route path='/updateGuitar/:id' element={<UpdateGuitar/>}/>
                 </Routes>
             </BrowserRouter>
         );
