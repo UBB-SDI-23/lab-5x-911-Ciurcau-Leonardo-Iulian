@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class ShopDTO extends DTO {
     protected List<Long> products;
-    protected List<Long> couriers;
+    //protected List<Long> couriers;
     protected Long id;
     protected String name;
     protected String address;
