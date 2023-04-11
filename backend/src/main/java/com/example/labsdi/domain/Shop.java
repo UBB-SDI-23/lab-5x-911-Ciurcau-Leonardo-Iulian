@@ -68,7 +68,7 @@ public class Shop implements IDTOConvertable {
         shopdto.setTelephoneNumber(telephoneNumber);
         shopdto.setShippingAvailable(shippingAvailable);
 
-        shopdto.setCouriers(couriers.stream().map(c -> (CourierDTO)c.toDTO()).toList());
+        shopdto.setCouriers(couriers.stream().map(Courier::getId).toList());
         shopdto.setProducts(products.stream().map(p -> (ProductDTO)p.toDTO()).toList());
         return shopdto;
     }
