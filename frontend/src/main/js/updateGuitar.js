@@ -8,9 +8,9 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    InputLabel, MenuItem, Select,
     TextField
 } from "@mui/material";
-import GuitarList from "./guitarList";
 import {useParams} from "react-router-dom";
 
 function withParams(Component) {
@@ -22,7 +22,7 @@ class UpdateGuitar extends Component {
     constructor(props) {
         super(props);
         this.state = {creationYear: null, model: "", type: "", color: "",
-            price: null, dialogOpen: false, isLoading: true};
+            price: null, allShops: [], shop: null, dialogOpen: false, isLoading: true};
         this.id = this.props.params.id
         this.fillTextFields()
     }
@@ -37,23 +37,29 @@ class UpdateGuitar extends Component {
             .then(response => response.json())
             .then(guitar =>
                 this.setState({price: guitar.price,
-                    creationYear: guitar.creationYear, model: guitar.model, type: guitar.type, color: guitar.color})
+                    creationYear: guitar.creationYear, model: guitar.model, 
+                    type: guitar.type, color: guitar.color, shop: guitar.shop})
             )
-            .then(() => this.setState({isLoading: false}))
+            .then(fetch(`/api/shops`)
+                .then(response => response.json())
+                .then(data => this.setState({allShops: data}))
+                .then(() => this.setState({isLoading: false}))
+            );
     }
 
     handleGuitarUpdate(event) {
+        const {price, creationYear, model, type, color, shop} = this.state;
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 productType:"guitar",
-                shop:{"id":1},
-                price: this.state.price,
-                creationYear: this.state.creationYear,
-                model: this.state.model,
-                type: this.state.type,
-                color: this.state.color
+                shop:{"id": shop.id},
+                price: price,
+                creationYear: creationYear,
+                model: model,
+                type: type,
+                color: color
             })
         };
         fetch('/api/guitars/' + this.id, requestOptions)
@@ -62,10 +68,16 @@ class UpdateGuitar extends Component {
     }
 
     render() {
-        const {creationYear, price, model, type, color, dialogOpen, isLoading} = this.state
+        const {creationYear, price, model, type, color, allShops, dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
+        let {shop} = this.state;
+        const shopList = allShops.map((currentShop) => {
+            if (currentShop.id == shop.id)
+                shop = currentShop;
+            return <MenuItem key={currentShop.id} value={currentShop}>{currentShop.name}</MenuItem>
+        });
         return (
             <Container maxWidth={false}>
                 <AppNavbar></AppNavbar>
@@ -90,7 +102,19 @@ class UpdateGuitar extends Component {
                     <TextField id="outlined-basic" label="Color" variant="outlined"
                                defaultValue={color}
                                onChange={(event)=>this.setState({color: event.target.value})}/>
-                    <Button onClick={this.handleGuitarUpdate} className="addGuitarButton">Update Guitar</Button>
+                    <br/><br/>
+                    <InputLabel id="demo-simple-select-label">Shop</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={shop}
+                        label="Shop"
+                        onChange={(event) => this.setState({shop: event.target.value})}
+                    >
+                    {shopList}
+                    </Select>
+                    <br/><br/>
+                    <Button onClick={this.handleGuitarUpdate}>Update Guitar</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}
