@@ -5,6 +5,7 @@ import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.domain.dto.ProductDTO;
 import com.example.labsdi.domain.dto.ShopDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -39,7 +40,7 @@ public class Shop implements IDTOConvertable {
             inverseJoinColumns = @JoinColumn(name = "courier_id", referencedColumnName = "id"),
             inverseForeignKey = @ForeignKey(name="fk_shop_id",
                     foreignKeyDefinition = "FOREIGN KEY (shop_id) REFERENCES shop(id) ON DELETE CASCADE"))
-    //@JsonBackReference
+    //@JsonIgnore
     private List<Courier> couriers;
     @Column(name="name")
     private String name;
@@ -69,7 +70,7 @@ public class Shop implements IDTOConvertable {
         shopdto.setShippingAvailable(shippingAvailable);
 
         shopdto.setCouriers(couriers.stream().map(Courier::getId).toList());
-        shopdto.setProducts(products.stream().map(p -> (ProductDTO)p.toDTO()).toList());
+        shopdto.setProducts(products.stream().map(Product::getId).toList());
         return shopdto;
     }
 }
