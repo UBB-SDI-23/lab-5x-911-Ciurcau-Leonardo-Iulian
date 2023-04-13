@@ -32,6 +32,13 @@ public class ShopController {
                 .toList();
     }
 
+    @GetMapping("/shops/page/{page}")
+    public List<ShopDTO> getShopPage(@PathVariable("page") Integer page) {
+        return shopService.getShopsPage(page).stream()
+                .map(s -> (ShopDTO)s.toDTO())
+                .toList();
+    }
+
     @GetMapping("/shops")
     public List<ShopDTO> getFirst100Shops() {
         return shopService.getFirst100Shops().stream()

@@ -5,6 +5,8 @@ import com.example.labsdi.domain.Shop;
 import com.example.labsdi.repository.IGuitarRepository;
 import com.example.labsdi.service.exception.GuitarServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -73,7 +75,14 @@ public class GuitarService implements IGuitarService {
 
     @Override
     public List<Guitar> getFirst100Guitars() {
-        return new ArrayList<>(repository.findFirst100By());
+        return repository.findFirst100By();
+    }
+
+    @Override
+    public Slice<Guitar> getGuitarsPage(Integer page) {
+        Slice<Guitar> slice;
+
+        return repository.findAllBy(PageRequest.of(page, 10));
     }
 
     @Override
@@ -85,7 +94,7 @@ public class GuitarService implements IGuitarService {
     public List<Guitar> findFirst100ByPriceGreaterThan(Integer price) {
         List<Guitar> guitars = getFirst100Guitars();
         return guitars.stream()
-                .filter(g -> g.getPrice() > price)
+                .filter(g -> (Objects.isNull(g.getPrice()) ? 0 :g.getPrice()) > price)
                 .toList();
     }
 

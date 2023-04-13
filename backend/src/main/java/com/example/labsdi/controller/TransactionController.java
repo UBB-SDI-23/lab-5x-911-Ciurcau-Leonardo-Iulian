@@ -4,12 +4,14 @@ import com.example.labsdi.domain.IDTOConvertable;
 import com.example.labsdi.domain.Transaction;
 import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.domain.dto.SortedShopDTO;
+import com.example.labsdi.domain.dto.TransactionDTO;
 import com.example.labsdi.service.ITransactionService;
 import com.example.labsdi.service.exception.TransactionServiceException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -27,6 +29,13 @@ public class TransactionController {
     public List<DTO> getAllTransactions() {
         return transactionService.getAllTransactions().stream()
                 .map(IDTOConvertable::toDTO)
+                .toList();
+    }
+
+    @GetMapping("/transactions/page/{page}")
+    public List<TransactionDTO> getTransactionsPage(@PathVariable("page") Integer page) {
+        return transactionService.getTransactionsPage(page).stream()
+                .map(t -> (TransactionDTO)t.toDTO())
                 .toList();
     }
 

@@ -7,6 +7,7 @@ import com.example.labsdi.domain.dto.ShopDTO;
 import com.example.labsdi.repository.IShopRepository;
 import com.example.labsdi.service.exception.ShopServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -43,6 +44,8 @@ public class ShopService implements IShopService {
         return repository.findFirst100By();
     }
 
+
+
     @Override
     public void removeShop(Long id) throws ShopServiceException {
         if (!containsShop(id)) {
@@ -76,6 +79,11 @@ public class ShopService implements IShopService {
     @Override
     public List<Shop> getAllShops() {
         return new ArrayList<>(repository.findAll());
+    }
+
+    @Override
+    public List<Shop> getShopsPage(Integer page) {
+        return repository.findAllBy(PageRequest.of(page, 10));
     }
 
     @Override

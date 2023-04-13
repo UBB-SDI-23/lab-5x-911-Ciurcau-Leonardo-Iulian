@@ -10,6 +10,7 @@ public interface ICourierService {
     Courier addCourier(Courier courier) throws CourierServiceException;
     Courier getCourier(Long id) throws CourierServiceException;
     List<Courier> getFirst100Couriers();
+    List<Courier> getCourierPage(Integer page);
     void removeCourier(Long id) throws CourierServiceException;
     Courier updateCourier(Courier courier, Long id) throws CourierServiceException;
     List<Courier> getAllCouriers();

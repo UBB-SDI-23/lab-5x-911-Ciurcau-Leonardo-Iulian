@@ -17,6 +17,7 @@ public interface IShopService {
     void removeShop(Long id) throws ShopServiceException;
     Shop updateShop(Shop shop, Long id) throws ShopServiceException;
     List<Shop> getAllShops();
+    List<Shop> getShopsPage(Integer page);
     List<ShopAveragePriceDTO> getAllShopsOrderByAverageProductsPrice();
     List<ShopAveragePriceDTO> getFirst100ShopsOrderByAverageProductsPrice();
 }

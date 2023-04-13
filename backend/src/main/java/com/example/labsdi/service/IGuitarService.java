@@ -2,6 +2,7 @@ package com.example.labsdi.service;
 
 import com.example.labsdi.domain.Guitar;
 import com.example.labsdi.service.exception.GuitarServiceException;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public interface IGuitarService {
     Guitar updateGuitar(Guitar guitar, Long id) throws GuitarServiceException;
     List<Guitar> getAllGuitars();
     List<Guitar> getFirst100Guitars();
+    Slice<Guitar> getGuitarsPage(Integer page);
     List<Guitar> findByPriceGreaterThan(Integer price);
     List<Guitar> findFirst100ByPriceGreaterThan(Integer price);
     void addGuitarsToShop(List<Guitar> guitars, Long id) throws GuitarServiceException;

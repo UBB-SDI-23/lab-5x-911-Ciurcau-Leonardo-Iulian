@@ -32,6 +32,11 @@ public class ClientController {
         return clientService.getFirst100Clients();
     }
 
+    @GetMapping("/clients/page/{page}")
+    public List<Client> getClientsPage(@PathVariable("page") Integer page) {
+        return clientService.getClientsPage(page);
+    }
+
     @PutMapping("/clients/{id}")
     public Client
     updateClient(@RequestBody Client client, @PathVariable("id") Long id) throws ClientServiceException {

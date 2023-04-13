@@ -1,6 +1,7 @@
 package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Courier;
+import com.example.labsdi.domain.dto.CourierDTO;
 import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.service.ICourierService;
 import com.example.labsdi.service.ICourierService;
@@ -30,6 +31,13 @@ public class CourierController {
     @GetMapping("/couriers")
     public List<Courier> getFirst100Couriers() {
         return courierService.getFirst100Couriers();
+    }
+
+    @GetMapping("/couriers/page/{page}")
+    public List<CourierDTO> getCouriersPage(@PathVariable("page") Integer page) {
+        return courierService.getCourierPage(page).stream()
+                .map(c -> (CourierDTO)c.toDTO())
+                .toList();
     }
 
     @PutMapping("/couriers/{id}")

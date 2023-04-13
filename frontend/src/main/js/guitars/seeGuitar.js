@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AppNavbar from './appNavBar';
+import GuitarsNavBar from './guitarsNavBar';
 import {
     Container,
     TextField
@@ -43,7 +43,7 @@ class SeeGuitar extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <AppNavbar></AppNavbar>
+                <GuitarsNavBar></GuitarsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-number" label="Creation year" variant="filled"

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import App from "./app";
+import App from "../app";
 import {
     Button,
     Container, Dialog, DialogActions,
@@ -22,22 +22,24 @@ import {Link} from "react-router-dom";
 class GuitarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {guitars: [], showPriceSVG: false, operationItemId: -1, dialogOpen: false};
+        this.state = {guitars: [], showPriceSVG: false, operationItemId: -1, page: 0, lastPage: false, dialogOpen: false};
     }
 
     componentDidMount() {
-        this.showAllGuitars = this.showAllGuitars.bind(this);
+        this.getGuitars = this.getGuitars.bind(this);
         this.sortGuitarsByPrice = this.sortGuitarsByPrice.bind(this);
         this.handleDeleteItem = this.handleDeleteItem.bind(this);
+        this.handlePageChange = this.handlePageChange.bind(this);
         if (!this.props.parent)
-            this.showAllGuitars();
+            this.getGuitars();
         this.forceUpdate();
     }
 
-    showAllGuitars(event) {
-        fetch(`/api/guitars`)
+    getGuitars(event) {
+        const {page} = this.state;
+        fetch('/api/guitars/page/' + page)
             .then(response => response.json())
-            .then(data => this.setState({guitars: data}));
+            .then(data => this.setState({guitars: data.content, lastPage: data.last}));
     }
 
     sortGuitarsByPrice(event) {
@@ -61,6 +63,13 @@ class GuitarList extends Component {
         this.setState({operationItemId: value, dialogOpen: true});
     }
 
+    handlePageChange(event) {
+        if (!this.props.parent)
+            this.getGuitars();
+        else
+            this.props.parent.handleFilteredGuitarsSubmit();
+    }
+
     deleteItem(event) {
         fetch(`/api/guitars/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
@@ -75,7 +84,7 @@ class GuitarList extends Component {
     render() {
         const {guitars, showPriceSVG} =
             this.props.parent ? this.props.parent.state : this.state;
-        const {dialogOpen, isLoading} = this.state;
+        const {dialogOpen, page, lastPage, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>;
         }
@@ -146,6 +155,10 @@ class GuitarList extends Component {
                         {guitarList}
                     </TableBody>
                 </Table>
+                {   page > 0 &&
+                    <Button onClick={() => this.setState({page: page - 1}, this.handlePageChange)}>Previous page</Button>}
+                {   !lastPage &&
+                    <Button onClick={() => this.setState({page: page + 1}, this.handlePageChange)}>Next page</Button>}
             </Container>
         );
     }

@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import App from "./app";
+import App from "../app";
 import GuitarList from "./guitarList";
 import {Button, Container, FormControl, Input, InputLabel} from "@mui/material";
-import AppNavbar from "./appNavBar";
+import GuitarsNavBar from './guitarsNavBar';
 
 class FilteredGuitarList extends Component {
     constructor(props) {
@@ -34,7 +34,7 @@ class FilteredGuitarList extends Component {
     render() {
         const {filteredGuitarsPrice} = this.state;
         return (<Container maxWidth={false}>
-                    <AppNavbar></AppNavbar>
+                    <GuitarsNavBar></GuitarsNavBar>
                     <Container className="filteredGuitars tableContainer">
                         <FormControl className="formControlFilteredGuitars">
                             <InputLabel htmlFor="price">Show guitars with price greater than: </InputLabel>

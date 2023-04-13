@@ -7,6 +7,7 @@ import com.example.labsdi.service.exception.GuitarServiceException;
 import com.example.labsdi.service.exception.TransactionServiceException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +79,11 @@ public class TransactionService implements ITransactionService {
     @Override
     public List<Transaction> getAllTransactions() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Transaction> getTransactionsPage(Integer page) {
+        return repository.findAllBy(PageRequest.of(page, 10));
     }
 
     @Override

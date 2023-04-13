@@ -11,6 +11,7 @@ public interface IClientService {
     Client addClient(Client client) throws ClientServiceException;
     Client getClient(Long id) throws ClientServiceException;
     List<Client> getFirst100Clients();
+    List<Client> getClientsPage(Integer page);
     void removeClient(Long id) throws ClientServiceException;
     Client updateClient(Client client, Long id) throws ClientServiceException;
     List<Client> getAllClients();

@@ -7,6 +7,7 @@ import com.example.labsdi.service.IGuitarService;
 import com.example.labsdi.service.exception.GuitarServiceException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,12 @@ public class GuitarController {
         return guitarService.getAllGuitars().stream()
                 .map(g -> (ProductDTO)g.toDTO())
                 .toList();
+    }
+
+    @GetMapping("/guitars/page/{page}")
+    public Slice<ProductDTO> getGuitarsPage(@PathVariable("page") Integer page) {
+        return guitarService.getGuitarsPage(page)
+                .map(g -> (ProductDTO)g.toDTO());
     }
 
     @PutMapping("/guitars/{id}")

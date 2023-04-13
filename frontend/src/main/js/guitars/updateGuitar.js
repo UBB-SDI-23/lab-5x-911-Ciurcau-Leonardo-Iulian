@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AppNavbar from './appNavBar';
+import GuitarsNavBar from './guitarsNavBar';
 import {
     Button,
     Container,
@@ -22,9 +22,9 @@ class UpdateGuitar extends Component {
     constructor(props) {
         super(props);
         this.state = {creationYear: null, model: "", type: "", color: "",
-            price: null, allShops: [], shop: null, dialogOpen: false, isLoading: true};
-        this.id = this.props.params.id
-        this.fillTextFields()
+            price: null, allShops: [], currentShopId: -1, shop: null, dialogOpen: false, isLoading: true};
+        this.id = this.props.params.id;
+        this.fillTextFields();
     }
 
     componentDidMount() {
@@ -38,7 +38,7 @@ class UpdateGuitar extends Component {
             .then(guitar =>
                 this.setState({price: guitar.price,
                     creationYear: guitar.creationYear, model: guitar.model, 
-                    type: guitar.type, color: guitar.color, shop: guitar.shop})
+                    type: guitar.type, color: guitar.color, currentShopId: guitar.shop.id})
             )
             .then(fetch(`/api/shops`)
                 .then(response => response.json())
@@ -48,13 +48,13 @@ class UpdateGuitar extends Component {
     }
 
     handleGuitarUpdate(event) {
-        const {price, creationYear, model, type, color, shop} = this.state;
+        const {price, creationYear, model, type, color, currentShopId} = this.state;
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 productType:"guitar",
-                shop:{"id": shop.id},
+                shop:{"id": currentShopId},
                 price: price,
                 creationYear: creationYear,
                 model: model,
@@ -72,15 +72,15 @@ class UpdateGuitar extends Component {
         if (isLoading) {
             return <p>Loading...</p>
         }
-        let {shop} = this.state;
+        let {currentShopId, shop} = this.state;
         const shopList = allShops.map((currentShop) => {
-            if (currentShop.id == shop.id)
+            if (currentShopId == currentShop.id)
                 shop = currentShop;
             return <MenuItem key={currentShop.id} value={currentShop}>{currentShop.name}</MenuItem>
         });
         return (
             <Container maxWidth={false}>
-                <AppNavbar></AppNavbar>
+                <GuitarsNavBar></GuitarsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-number" label="Creation year" variant="outlined" type="number"

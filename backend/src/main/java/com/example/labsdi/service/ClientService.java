@@ -6,6 +6,7 @@ import com.example.labsdi.repository.IClientRepository;
 import com.example.labsdi.service.exception.ClientServiceException;
 import com.example.labsdi.service.exception.GuitarServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +41,11 @@ public class ClientService implements IClientService {
     @Override
     public List<Client> getFirst100Clients() {
         return repository.findFirst100By();
+    }
+
+    @Override
+    public List<Client> getClientsPage(Integer page) {
+        return repository.findAllBy(PageRequest.of(page, 10));
     }
 
     @Override

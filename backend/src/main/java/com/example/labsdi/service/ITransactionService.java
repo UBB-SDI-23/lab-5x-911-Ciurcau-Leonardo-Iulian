@@ -16,6 +16,7 @@ public interface ITransactionService {
     void removeTransaction(Long id) throws TransactionServiceException;
     Transaction updateTransaction(Transaction transaction, Long id) throws TransactionServiceException;
     List<Transaction> getAllTransactions();
+    List<Transaction> getTransactionsPage(Integer page);
     boolean containsProduct(Product product);
     List<SortedShopDTO> getAllShopsSorted(); // sorted by the number of other shops their clients bought from
 }

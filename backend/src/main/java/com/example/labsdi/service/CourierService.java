@@ -1,11 +1,10 @@
 package com.example.labsdi.service;
 
 import com.example.labsdi.domain.Courier;
-import com.example.labsdi.domain.Courier;
 import com.example.labsdi.repository.ICourierRepository;
 import com.example.labsdi.service.exception.CourierServiceException;
-import com.example.labsdi.service.exception.CourierServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,6 +42,11 @@ public class CourierService implements ICourierService {
     @Override
     public List<Courier> getFirst100Couriers() {
         return repository.findFirst100By();
+    }
+
+    @Override
+    public List<Courier> getCourierPage(Integer page) {
+        return repository.findAllBy(PageRequest.of(page, 10));
     }
 
     @Override
