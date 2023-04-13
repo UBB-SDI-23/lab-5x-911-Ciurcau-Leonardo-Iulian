@@ -1,53 +1,43 @@
-import React, { Component } from 'react';
-import ClientsNavBar from './clientsNavBar';
-import {
-    Button,
-    Container,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    InputLabel, MenuItem, Select,
-    TextField
-} from "@mui/material";
+import React, { Component } from "react";
+import {Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import CouriersNavBar from "./couriersNavBar";
 
-class AddClient extends Component {
-
+class AddCourier extends Component {
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", phone: "", birthDate: "", address: "", dialogOpen: false, isLoading: true};
+        this.state = {name: "", email: "", telephoneNumber: "", 
+        deliveryPrice: null, address: "", description: "", dialogOpen: false, isLoading: true};
     }
 
     componentDidMount() {
-        this.handleClientAdd= this.handleClientAdd.bind(this);
+        this.handleCourierAdd = this.handleCourierAdd.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
-    handleClientAdd(event) {
-        const {name, email, phone, birthDate, address} = this.state;
+    handleCourierAdd(event) {
+        const {name, email, telephoneNumber, deliveryPrice, address, description} = this.state;
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                name: name, email: email, 
-                telephoneNumber: phone, birthDate: birthDate, address: address
+                name: name, email: email, telephoneNumber: telephoneNumber,
+                deliveryPrice: deliveryPrice, address: address, description: description
             })
         };
-        fetch('/api/clients', requestOptions)
+        fetch('/api/couriers', requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }
 
     render() {
-        const {dialogOpen, isLoading} = this.state
+        const {dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
         return (
             <Container maxWidth={false}>
-                <ClientsNavBar></ClientsNavBar>
+                <CouriersNavBar></CouriersNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-number" label="Name" variant="outlined"
@@ -57,15 +47,18 @@ class AddClient extends Component {
                                onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
-                               onChange={(event)=>this.setState({phone: event.target.value})}/>
+                               onChange={(event)=>this.setState({telephoneNumber: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Birth Date" variant="outlined"
-                               onChange={(event)=>this.setState({birthDate: event.target.value})}/>
+                    <TextField id="outlined-basic" label="Delivery price" variant="outlined" type="number"
+                               onChange={(event)=>this.setState({deliveryPrice: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Address" variant="outlined"
                                onChange={(event)=>this.setState({address: event.target.value})}/>
                     <br/><br/>
-                    <Button onClick={this.handleClientAdd}>Add client</Button>
+                    <TextField id="outlined-basic" label="Description" variant="outlined"
+                               onChange={(event)=>this.setState({description: event.target.value})}/>
+                    <br/><br/>
+                    <Button onClick={this.handleCourierAdd}>Add courier</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}
@@ -74,7 +67,7 @@ class AddClient extends Component {
                     aria-describedby="alert-dialog-description"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {"Item updated"}
+                        {"Item added"}
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
@@ -86,7 +79,8 @@ class AddClient extends Component {
                     </DialogActions>
                 </Dialog>
             </Container>
-        );
+        );        
     }
 }
-export default AddClient;
+
+export default AddCourier;

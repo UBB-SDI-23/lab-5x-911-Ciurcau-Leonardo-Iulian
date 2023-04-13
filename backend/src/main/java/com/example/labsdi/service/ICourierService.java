@@ -2,6 +2,7 @@ package com.example.labsdi.service;
 
 import com.example.labsdi.domain.Courier;
 import com.example.labsdi.service.exception.CourierServiceException;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface ICourierService {
     Courier addCourier(Courier courier) throws CourierServiceException;
     Courier getCourier(Long id) throws CourierServiceException;
     List<Courier> getFirst100Couriers();
-    List<Courier> getCourierPage(Integer page);
+    Slice<Courier> getCourierPage(Integer page);
     void removeCourier(Long id) throws CourierServiceException;
     Courier updateCourier(Courier courier, Long id) throws CourierServiceException;
     List<Courier> getAllCouriers();

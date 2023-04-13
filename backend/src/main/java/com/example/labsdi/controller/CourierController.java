@@ -8,6 +8,7 @@ import com.example.labsdi.service.ICourierService;
 import com.example.labsdi.service.exception.CourierServiceException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,10 +35,9 @@ public class CourierController {
     }
 
     @GetMapping("/couriers/page/{page}")
-    public List<CourierDTO> getCouriersPage(@PathVariable("page") Integer page) {
-        return courierService.getCourierPage(page).stream()
-                .map(c -> (CourierDTO)c.toDTO())
-                .toList();
+    public Slice<CourierDTO> getCouriersPage(@PathVariable("page") Integer page) {
+        return courierService.getCourierPage(page)
+                .map(c -> (CourierDTO)c.toDTO());
     }
 
     @PutMapping("/couriers/{id}")

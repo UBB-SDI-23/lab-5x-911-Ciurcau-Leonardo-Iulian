@@ -5,6 +5,7 @@ import com.example.labsdi.repository.ICourierRepository;
 import com.example.labsdi.service.exception.CourierServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class CourierService implements ICourierService {
     }
 
     @Override
-    public List<Courier> getCourierPage(Integer page) {
+    public Slice<Courier> getCourierPage(Integer page) {
         return repository.findAllBy(PageRequest.of(page, 10));
     }
 
@@ -66,6 +67,8 @@ public class CourierService implements ICourierService {
         Courier retrievedCourier = courierOpt.get();
         if (Objects.nonNull(courier.getTelephoneNumber()) && !"".equals(courier.getTelephoneNumber()))
             retrievedCourier.setTelephoneNumber(courier.getTelephoneNumber());
+        if (Objects.nonNull(courier.getDescription()) && !"".equals(courier.getDescription()))
+            retrievedCourier.setDescription(courier.getDescription());
         if (Objects.nonNull(courier.getName()) && !"".equals(courier.getName()))
             retrievedCourier.setName(courier.getName());
         if (Objects.nonNull(courier.getEmail()) && !"".equals(courier.getEmail()))

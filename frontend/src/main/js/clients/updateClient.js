@@ -58,7 +58,7 @@ class UpdateClient extends Component {
     }
 
     render() {
-        const {name, email, phone, birthDate, address, dialogOpen, isLoading} = this.state
+        const {name, email, phone, birthDate, address, dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
@@ -67,11 +67,11 @@ class UpdateClient extends Component {
                 <ClientsNavBar></ClientsNavBar>
                 <br/><br/>
                 <Container>
-                    <TextField id="outlined-number" label="Name" variant="outlined"
+                    <TextField id="outlined-basic" label="Name" variant="outlined"
                                 defaultValue={name}
                                onChange={(event)=>this.setState({name: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-number" label="Email" variant="outlined"
+                    <TextField id="outlined-basic" label="Email" variant="outlined"
                                defaultValue={email}
                                onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>

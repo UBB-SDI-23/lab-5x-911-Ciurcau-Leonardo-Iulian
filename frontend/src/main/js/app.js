@@ -14,6 +14,10 @@ import ClientsHome from './clients/clientsHome';
 import SeeClient from './clients/seeClient';
 import UpdateClient from './clients/updateClient';
 import AddClient from './clients/addClient';
+import CourierHome from './couriers/couriersHome';
+import AddCourier from './couriers/addCourier';
+import SeeCourier from './couriers/seeCourier';
+import UpdateCourier from './couriers/updateCourier';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -43,6 +47,10 @@ class App extends React.Component {
                     <Route path='/seeClient/:id' element={<SeeClient/>} />
                     <Route path='/updateClient/:id' element={<UpdateClient/>}/>
                     <Route path='/addClient' element={<AddClient/>}/>
+                    <Route path='/couriers' element={<CourierHome/>}/>
+                    <Route path='/addCourier' element={<AddCourier/>}/>
+                    <Route path='/seeCourier/:id' element={<SeeCourier/>}/>
+                    <Route path='/updateCourier/:id' element={<UpdateCourier/>}/>
                 </Routes>
             </BrowserRouter>
         );
