@@ -74,7 +74,7 @@ class GuitarList extends Component {
         fetch(`/api/guitars/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
                 if (!this.props.parent)
-                    this.showAllGuitars();
+                    this.getGuitars();
                 else
                     this.props.parent.handleFilteredGuitarsSubmit();
                 this.setState({operationItemId: -1});
