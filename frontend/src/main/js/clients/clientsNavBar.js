@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {AppBar, Box, Button, Container, Toolbar} from "@mui/material";
+import {AppBar, Box, Button, Toolbar} from "@mui/material";
 
-class AppNavbar extends Component {
+class ClientsNavBar extends Component {
     constructor(props) {
         super(props);
         this.state = {isOpen: false};
@@ -20,12 +20,12 @@ class AppNavbar extends Component {
         <AppBar position="sticky">
             <Toolbar>
                 <Button color="inherit" component={Link} to="/">Home</Button>
-                <Button color="inherit" component={Link} to="/guitars">Guitars</Button>
                 <Button color="inherit" component={Link} to="/clients">Clients</Button>
+                <Button color="inherit" component={Link} to="/addClient">Add client</Button>
             </Toolbar>
         </AppBar>
         </Box>;
     }
 }
 
-export default AppNavbar;
+export default ClientsNavBar;

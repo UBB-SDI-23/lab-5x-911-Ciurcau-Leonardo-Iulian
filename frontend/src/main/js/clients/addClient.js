@@ -1,0 +1,98 @@
+import React, { Component } from 'react';
+import ClientsNavBar from './clientsNavBar';
+import {
+    Button,
+    Container,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    InputLabel, MenuItem, Select,
+    TextField
+} from "@mui/material";
+import {useParams} from "react-router-dom";
+
+function withParams(Component) {
+    return props => <Component {...props} params={useParams()} />;
+}
+
+class AddClient extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {name: "", email: "", phone: "", birthDate: "", address: "", dialogOpen: false, isLoading: true};
+        this.id = this.props.params.id;
+    }
+
+    componentDidMount() {
+        this.handleClientAdd= this.handleClientAdd.bind(this);
+        this.setState({isLoading: false});
+        this.forceUpdate();
+    }
+
+    handleClientAdd(event) {
+        const {name, email, phone, birthDate, address} = this.state;
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: name, email: email, 
+                telephoneNumber: phone, birthDate: birthDate, address: address
+            })
+        };
+        fetch('/api/clients', requestOptions)
+            .then(response => response.json())
+            .then(() => this.setState({dialogOpen: true}));
+    }
+
+    render() {
+        const {dialogOpen, isLoading} = this.state
+        if (isLoading) {
+            return <p>Loading...</p>
+        }
+        return (
+            <Container maxWidth={false}>
+                <ClientsNavBar></ClientsNavBar>
+                <br/><br/>
+                <Container>
+                    <TextField id="outlined-number" label="Name" variant="outlined"
+                               onChange={(event)=>this.setState({name: event.target.value})}/>
+                    <br/><br/>
+                    <TextField id="outlined-number" label="Email" variant="outlined"
+                               onChange={(event)=>this.setState({email: event.target.value})}/>
+                    <br/><br/>
+                    <TextField id="outlined-basic" label="Phone" variant="outlined"
+                               onChange={(event)=>this.setState({phone: event.target.value})}/>
+                    <br/><br/>
+                    <TextField id="outlined-basic" label="Birth Date" variant="outlined"
+                               onChange={(event)=>this.setState({birthDate: event.target.value})}/>
+                    <br/><br/>
+                    <TextField id="outlined-basic" label="Address" variant="outlined"
+                               onChange={(event)=>this.setState({address: event.target.value})}/>
+                    <br/><br/>
+                    <Button onClick={this.handleClientAdd}>Add client</Button>
+                </Container>
+                <Dialog
+                    open={dialogOpen}
+                    onClose={() => {this.setState({dialogOpen: false});}}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Item updated"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Item was added successfully!
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {this.setState({dialogOpen: false});}}>OK</Button>
+                    </DialogActions>
+                </Dialog>
+            </Container>
+        );
+    }
+}
+export default withParams(AddClient);

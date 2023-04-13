@@ -15,7 +15,7 @@ class SeeGuitar extends Component {
     constructor(props) {
         super(props);
         this.state = {creationYear: null, model: "", type: "", color: "",
-            price: null, dialogOpen: false, isLoading: true};
+            price: null, isLoading: true};
         this.id = this.props.params.id
         this.fillTextFields()
     }
