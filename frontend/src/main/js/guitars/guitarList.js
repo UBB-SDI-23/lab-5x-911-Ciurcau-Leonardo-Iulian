@@ -91,7 +91,7 @@ class GuitarList extends Component {
 
         const guitarList = guitars.map((guitar, index) => {
             return <TableRow key={guitar.id}>
-                <TableCell>{index + 1}</TableCell>
+                <TableCell>{index * page + 1}</TableCell>
                 <TableCell>{guitar.price}</TableCell>
                 <TableCell>{guitar.model}</TableCell>
                 <TableCell>{guitar.type}</TableCell>
