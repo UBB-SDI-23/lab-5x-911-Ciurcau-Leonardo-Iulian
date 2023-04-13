@@ -12,6 +12,8 @@ import {
     TextField
 } from "@mui/material";
 import {useParams} from "react-router-dom";
+import ShopsSelect from '../shops/shopsSelect';
+import SimpleShop from '../shops/simpleShop';
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -22,13 +24,15 @@ class UpdateGuitar extends Component {
     constructor(props) {
         super(props);
         this.state = {creationYear: null, model: "", type: "", color: "",
-            price: null, allShops: [], currentShopId: -1, shop: null, dialogOpen: false, isLoading: true};
+            price: null, shop: null, dialogOpen: false, isLoading: true};
         this.id = this.props.params.id;
-        this.fillTextFields();
     }
 
     componentDidMount() {
         this.handleGuitarUpdate = this.handleGuitarUpdate.bind(this);
+        this.onShopChange = this.onShopChange.bind(this);
+        this.fillTextFields = this.fillTextFields.bind(this);
+        this.fillTextFields();
         this.forceUpdate();
     }
 
@@ -38,23 +42,19 @@ class UpdateGuitar extends Component {
             .then(guitar =>
                 this.setState({price: guitar.price,
                     creationYear: guitar.creationYear, model: guitar.model, 
-                    type: guitar.type, color: guitar.color, currentShopId: guitar.shop.id})
-            )
-            .then(fetch(`/api/shops`)
-                .then(response => response.json())
-                .then(data => this.setState({allShops: data}))
-                .then(() => this.setState({isLoading: false}))
+                    type: guitar.type, color: guitar.color, shop: new SimpleShop(guitar.shop.id, guitar.shop.name)
+                }, this.setState({isLoading: false}))
             );
     }
 
     handleGuitarUpdate(event) {
-        const {price, creationYear, model, type, color, currentShopId} = this.state;
+        const {price, creationYear, model, type, color, shop} = this.state;
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 productType:"guitar",
-                shop:{"id": currentShopId},
+                shop:{"id": shop.id},
                 price: price,
                 creationYear: creationYear,
                 model: model,
@@ -67,17 +67,15 @@ class UpdateGuitar extends Component {
             .then(() => this.setState({dialogOpen: true}));
     }
 
+    onShopChange(event) {
+        this.setState({shop: event.target.value});
+    }
+
     render() {
-        const {creationYear, price, model, type, color, allShops, dialogOpen, isLoading} = this.state;
+        const {creationYear, price, model, type, color, shop, dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
-        let {currentShopId, shop} = this.state;
-        const shopList = allShops.map((currentShop) => {
-            if (currentShopId == currentShop.id)
-                shop = currentShop;
-            return <MenuItem key={currentShop.id} value={currentShop}>{currentShop.name}</MenuItem>
-        });
         return (
             <Container maxWidth={false}>
                 <GuitarsNavBar></GuitarsNavBar>
@@ -103,16 +101,7 @@ class UpdateGuitar extends Component {
                                defaultValue={color}
                                onChange={(event)=>this.setState({color: event.target.value})}/>
                     <br/><br/>
-                    <InputLabel id="demo-simple-select-label">Shop</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={shop}
-                        label="Shop"
-                        onChange={(event) => this.setState({shop: event.target.value})}
-                    >
-                    {shopList}
-                    </Select>
+                    <ShopsSelect parent={this} defaultShop={shop}></ShopsSelect>
                     <br/><br/>
                     <Button onClick={this.handleGuitarUpdate}>Update Guitar</Button>
                 </Container>

@@ -8,6 +8,7 @@ import com.example.labsdi.repository.IShopRepository;
 import com.example.labsdi.service.exception.ShopServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -82,7 +83,7 @@ public class ShopService implements IShopService {
     }
 
     @Override
-    public List<Shop> getShopsPage(Integer page) {
+    public Slice<Shop> getShopsPage(Integer page) {
         return repository.findAllBy(PageRequest.of(page, 10));
     }
 

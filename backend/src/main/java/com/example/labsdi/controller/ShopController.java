@@ -10,6 +10,7 @@ import com.example.labsdi.service.IShopService;
 import com.example.labsdi.service.exception.ShopServiceException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,10 +34,9 @@ public class ShopController {
     }
 
     @GetMapping("/shops/page/{page}")
-    public List<ShopDTO> getShopPage(@PathVariable("page") Integer page) {
-        return shopService.getShopsPage(page).stream()
-                .map(s -> (ShopDTO)s.toDTO())
-                .toList();
+    public Slice<ShopDTO> getShopPage(@PathVariable("page") Integer page) {
+        return shopService.getShopsPage(page)
+                .map(s -> (ShopDTO)s.toDTO());
     }
 
     @GetMapping("/shops")

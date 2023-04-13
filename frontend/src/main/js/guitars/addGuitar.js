@@ -10,26 +10,22 @@ import {
     DialogTitle, InputLabel, MenuItem, Select,
     TextField
 } from "@mui/material";
+import ShopsSelect from '../shops/shopsSelect';
 
 class AddGuitar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {creationYear: null, model: "", type: "", color: "", price: null,
-            allShops: [], shop: '', dialogOpen: false, isLoading: true};
+        this.state = {creationYear: null, model: "", type: "", color: "", price: null, 
+            shop: '', dialogOpen: false, isLoading: true
+        };
     }
 
     componentDidMount() {
         this.handleGuitarAdd = this.handleGuitarAdd.bind(this);
-        this.getAllShops();
+        this.onShopChange = this.onShopChange.bind(this);
+        this.setState({isLoading: false});
         this.forceUpdate();
-    }
-
-    getAllShops() {
-        fetch(`/api/shops`)
-            .then(response => response.json())
-            .then(data => this.setState({allShops: data}))
-            .then(() => this.setState({isLoading: false}));
     }
 
     handleGuitarAdd(event) {
@@ -52,15 +48,15 @@ class AddGuitar extends Component {
             .then(() => this.setState({dialogOpen: true}));
     }
 
+    onShopChange(event) {
+        this.setState({shop: event.target.value});
+    }
+
     render() {
-        const {shop, allShops, dialogOpen, isLoading} = this.state;
+        const {dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
-
-        const shopList = allShops.map((currentShop) => {
-            return <MenuItem key={currentShop.id} value={currentShop}>{currentShop.name}</MenuItem>
-        });
         return (
             <Container maxWidth={false}>
                 <GuitarsNavBar></GuitarsNavBar>
@@ -81,16 +77,7 @@ class AddGuitar extends Component {
                 <TextField id="outlined-basic" label="Color" variant="outlined"
                            onChange={(event)=>this.setState({color: event.target.value})}/>
                 <br/><br/>
-                <InputLabel id="demo-simple-select-label">Shop</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={shop}
-                    label="Shop"
-                    onChange={(event) => this.setState({shop: event.target.value})}
-                >
-                {shopList}
-                </Select>
+                <ShopsSelect parent={this}></ShopsSelect>
                 <br/><br/>
                 <Button onClick={this.handleGuitarAdd}>Add Guitar</Button>
             </Container>

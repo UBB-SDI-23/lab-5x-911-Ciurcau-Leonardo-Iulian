@@ -12,7 +12,7 @@ class FilteredGuitarList extends Component {
 
     componentDidMount() {
         this.handleFilteredGuitarsChange = this.handleFilteredGuitarsChange.bind(this);
-        this.handleFilteredGuitarsSubmit = this.handleFilteredGuitarsSubmit.bind(this);
+        this.getGuitars = this.getGuitars.bind(this);
         this.forceUpdate();
     }
 
@@ -22,7 +22,7 @@ class FilteredGuitarList extends Component {
         this.setState({filteredGuitarsPrice: value});
     }
 
-    handleFilteredGuitarsSubmit(event) {
+    getGuitars(event) {
         if (event)
             event.preventDefault();
         const filteredGuitarsPrice= this.state.filteredGuitarsPrice;
@@ -40,7 +40,7 @@ class FilteredGuitarList extends Component {
                             <InputLabel htmlFor="price">Show guitars with price greater than: </InputLabel>
                             <Input type="text" id="price" value={filteredGuitarsPrice}
                                    onChange={this.handleFilteredGuitarsChange}/>
-                            <Button onClick={this.handleFilteredGuitarsSubmit} className="submitButton">Submit</Button>
+                            <Button onClick={this.getGuitars} className="submitButton">Submit</Button>
                         </FormControl>
                             <GuitarList parent={this}></GuitarList>
                     </Container>

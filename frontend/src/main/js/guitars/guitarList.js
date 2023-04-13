@@ -18,20 +18,21 @@ import FindInPageIcon from '@mui/icons-material/FindInPage';
 import EditIcon from '@mui/icons-material/Edit';
 import {blue, red, grey} from "@mui/material/colors";
 import {Link} from "react-router-dom";
+import Pagination from "../pagination";
 
 class GuitarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {guitars: [], showPriceSVG: false, operationItemId: -1, page: 0, lastPage: false, dialogOpen: false};
+        this.state = {guitars: [], showPriceSVG: false, operationItemId: -1, page: 0, lastPage: true, dialogOpen: false};
     }
 
     componentDidMount() {
-        this.getGuitars = this.getGuitars.bind(this);
+        this.getGuitarsCall = this.props.parent ? this.props.parent.getGuitars : this.getGuitars.bind(this);
         this.sortGuitarsByPrice = this.sortGuitarsByPrice.bind(this);
         this.handleDeleteItem = this.handleDeleteItem.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         if (!this.props.parent)
-            this.getGuitars();
+            this.getGuitarsCall();
         this.forceUpdate();
     }
 
@@ -64,19 +65,13 @@ class GuitarList extends Component {
     }
 
     handlePageChange(event) {
-        if (!this.props.parent)
-            this.getGuitars();
-        else
-            this.props.parent.handleFilteredGuitarsSubmit();
+        this.getGuitarsCall();
     }
 
     deleteItem(event) {
         fetch(`/api/guitars/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
-                if (!this.props.parent)
-                    this.getGuitars();
-                else
-                    this.props.parent.handleFilteredGuitarsSubmit();
+                this.getGuitarsCall();
                 this.setState({operationItemId: -1});
             });
     }
@@ -84,7 +79,7 @@ class GuitarList extends Component {
     render() {
         const {guitars, showPriceSVG} =
             this.props.parent ? this.props.parent.state : this.state;
-        const {dialogOpen, page, lastPage, isLoading} = this.state;
+        const {dialogOpen, page, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>;
         }
@@ -155,11 +150,7 @@ class GuitarList extends Component {
                         {guitarList}
                     </TableBody>
                 </Table>
-                {   page > 0 &&
-                    <Button onClick={() => this.setState({page: page - 1}, this.handlePageChange)}>Previous page</Button>}
-                {   !lastPage &&
-                    <Button className="nextPageButton"
-                     onClick={() => this.setState({page: page + 1}, this.handlePageChange)}>Next page</Button>}
+                <Pagination parent={this}></Pagination>
             </Container>
         );
     }
