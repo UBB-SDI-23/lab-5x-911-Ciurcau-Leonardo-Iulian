@@ -158,7 +158,8 @@ class GuitarList extends Component {
                 {   page > 0 &&
                     <Button onClick={() => this.setState({page: page - 1}, this.handlePageChange)}>Previous page</Button>}
                 {   !lastPage &&
-                    <Button onClick={() => this.setState({page: page + 1}, this.handlePageChange)}>Next page</Button>}
+                    <Button className="nextPageButton"
+                     onClick={() => this.setState({page: page + 1}, this.handlePageChange)}>Next page</Button>}
             </Container>
         );
     }
