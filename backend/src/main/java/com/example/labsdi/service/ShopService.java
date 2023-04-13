@@ -88,6 +88,11 @@ public class ShopService implements IShopService {
     }
 
     @Override
+    public Slice<Shop> getShopContainsNamePage(Integer page, String name) {
+        return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, 10), name);
+    }
+
+    @Override
     public List<ShopAveragePriceDTO> getAllShopsOrderByAverageProductsPrice() {
         List<ShopAveragePriceDTO> listShop = new ArrayList<>(repository.findAll().stream()
                 .map(s -> new ShopAveragePriceDTO((ShopDTO)s.toDTO(),

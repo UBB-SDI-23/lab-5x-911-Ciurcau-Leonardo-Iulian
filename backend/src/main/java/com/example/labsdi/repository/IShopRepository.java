@@ -13,4 +13,5 @@ import java.util.List;
 public interface IShopRepository extends JpaRepository<Shop, Long> {
     List<Shop> findFirst100By();
     Slice<Shop> findAllBy(Pageable pageable);
+    Slice<Shop> findAllByNameContainingIgnoreCase(Pageable pageable, String name);
 }

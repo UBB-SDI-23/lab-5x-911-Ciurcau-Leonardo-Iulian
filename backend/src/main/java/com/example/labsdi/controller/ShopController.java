@@ -39,6 +39,13 @@ public class ShopController {
                 .map(s -> (ShopDTO)s.toDTO());
     }
 
+    @GetMapping("/shops/containsName/{name}/page/{page}")
+    public Slice<ShopDTO> getShopContainsNamePage(@PathVariable("name") String name,
+                                                  @PathVariable("page") Integer page) {
+        return shopService.getShopContainsNamePage(page, name)
+                .map(s -> (ShopDTO) s.toDTO());
+    }
+
     @GetMapping("/shops")
     public List<ShopDTO> getFirst100Shops() {
         return shopService.getFirst100Shops().stream()

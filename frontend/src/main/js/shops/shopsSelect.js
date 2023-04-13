@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Container, InputLabel, MenuItem, Select} from '@mui/material';
+import {Container, InputLabel, MenuItem, TextField, Select} from '@mui/material';
 import Pagination from '../pagination';
 import SimpleShop from './simpleShop';
 
 class ShopsSelect extends Component {
     constructor(props) {
         super(props);
-        this.state = {shop: null, allShops: [], page: 0, lastPage: true, isLoading: true};
+        this.state = {shop: null, allShops: [], page: 0, lastPage: true, autocompleteName: "", isLoading: true};
     }
 
     componentDidMount() {
@@ -21,8 +21,8 @@ class ShopsSelect extends Component {
     }
 
     getAllShops() {
-        const {page} = this.state;
-        fetch('/api/shops/page/' + page)
+        const {page, autocompleteName} = this.state;
+        fetch(autocompleteName == "" ? '/api/shops/page/' + page : '/api/shops/containsName/' + autocompleteName + '/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({
                 allShops: data.content, lastPage: data.last},
@@ -48,33 +48,22 @@ class ShopsSelect extends Component {
     }
 
     render() {
-        const {allShops, isLoading} = this.state;
+        const {allShops, autocompleteName, isLoading} = this.state;
         let {shop} = this.state;
         if (isLoading) 
             return <p>Loading...</p>;
 
-        if (this.props.defaultShop)
+        if (!shop && this.props.defaultShop)
             shop = this.props.defaultShop;
-        let found = false;
         let shopList = allShops.map((currentShop) => {
             let newShop = new SimpleShop(currentShop.id, currentShop.name);
-            if (!shop) {
+            if (shop && shop.id == newShop.id) {
                 shop = newShop;
-                found = true;
-            }
-            else if (shop.id == newShop.id) {
-                shop = newShop;
-                found = true;
             }
             return <MenuItem key={newShop.id} value={newShop}>{newShop.name}</MenuItem>
         });
 
-        if (!found) {
-            let shopItem = <MenuItem key={shop.id} value={shop}>{shop.name}</MenuItem>;
-            shopList.push(shopItem);
-        }
-
-        if (this.props.parent && (!this.props.parent.state.shop || this.props.parent.state.shop.id != shop.id)) {
+        if (shop && this.props.parent && (!this.props.parent.state.shop || this.props.parent.state.shop.id != shop.id)) {
             this.props.parent.setState({shop: shop});
         }
 
@@ -83,14 +72,38 @@ class ShopsSelect extends Component {
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={shop}
                 label="Shop"
+                displayEmpty
+                renderValue={(selected) => {
+                    if (!selected || selected.length == 0) {
+                        if (shop)
+                            return shop.name;
+                        else
+                            return "";
+                    }
+                    else
+                        return selected.name;
+                }}
                 onChange={(event) => {this.onShopChange(event); if (this.onShopChangeCall) this.onShopChangeCall(event);}}
             >
+            <AutocompleteField parent={this}></AutocompleteField>
             {shopList}
             <Pagination parent={this}></Pagination>
             </Select>
         </Container>
+    }
+}
+
+class AutocompleteField extends Component {
+
+    render() {
+        return (<MenuItem value={""} onKeyDown={e => e.stopPropagation()} 
+        onClickCapture={e => {e.stopPropagation(); e.preventDefault();}}>
+        <TextField id="outlined-basic" label="" variant="outlined" value={this.props.parent.state.autocompleteName}
+                       onChange={(event)=>this.props.parent.setState({page: 0, autocompleteName: event.target.value}, 
+                       this.props.parent.getAllShops)}/>
+        </MenuItem>
+    );
     }
 }
 

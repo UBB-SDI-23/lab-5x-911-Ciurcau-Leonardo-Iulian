@@ -19,6 +19,7 @@ public interface IShopService {
     Shop updateShop(Shop shop, Long id) throws ShopServiceException;
     List<Shop> getAllShops();
     Slice<Shop> getShopsPage(Integer page);
+    Slice<Shop> getShopContainsNamePage(Integer page, String name);
     List<ShopAveragePriceDTO> getAllShopsOrderByAverageProductsPrice();
     List<ShopAveragePriceDTO> getFirst100ShopsOrderByAverageProductsPrice();
 }
