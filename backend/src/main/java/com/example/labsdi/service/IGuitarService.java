@@ -17,5 +17,6 @@ public interface IGuitarService {
     Slice<Guitar> getGuitarsPage(Integer page);
     List<Guitar> findByPriceGreaterThan(Integer price);
     List<Guitar> findFirst100ByPriceGreaterThan(Integer price);
+    Slice<Guitar> findByPriceGreaterThanPage(Integer price, Integer page);
     void addGuitarsToShop(List<Guitar> guitars, Long id) throws GuitarServiceException;
 }

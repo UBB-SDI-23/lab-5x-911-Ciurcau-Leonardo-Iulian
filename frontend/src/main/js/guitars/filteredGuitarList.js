@@ -7,7 +7,7 @@ import GuitarsNavBar from './guitarsNavBar';
 class FilteredGuitarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {guitars: [], showPriceSVG: false, filteredGuitarsPrice: 0};
+        this.state = {guitars: [], showPriceSVG: false, page: 0, lastPage: true, filteredGuitarsPrice: 0};
     }
 
     componentDidMount() {
@@ -25,10 +25,22 @@ class FilteredGuitarList extends Component {
     getGuitars(event) {
         if (event)
             event.preventDefault();
-        const filteredGuitarsPrice= this.state.filteredGuitarsPrice;
-        fetch(`/api/guitars/priceGreaterThan/` + filteredGuitarsPrice)
+        const {filteredGuitarsPrice, page} = this.state;
+        fetch(`/api/guitars/priceGreaterThan/` + filteredGuitarsPrice + '/page/' + page)
             .then(response => response.json())
-            .then((data) => this.setState({guitars: data, showPriceSVG: false}));
+            .then((data) => this.setState({guitars: data.content, lastPage: data.last, showPriceSVG: false}));
+    }
+
+    getPage() {
+        return this.state.page;
+    }
+
+    setPage(page, callback) {
+        this.setState({page: page}, callback);
+    }
+
+    getLastPage() {
+        return this.state.lastPage;
     }
 
     render() {

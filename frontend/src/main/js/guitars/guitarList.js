@@ -33,6 +33,7 @@ class GuitarList extends Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         if (!this.props.parent)
             this.getGuitarsCall();
+        
         this.forceUpdate();
     }
 
@@ -65,7 +66,10 @@ class GuitarList extends Component {
     }
 
     handlePageChange(event) {
-        this.getGuitarsCall();
+        if (this.props.parent)
+            this.props.parent.setState({page: this.state.page}, this.getGuitarsCall);
+        else
+            this.getGuitarsCall();
     }
 
     deleteItem(event) {
@@ -76,10 +80,26 @@ class GuitarList extends Component {
             });
     }
 
+    getPage() {
+        if (this.props.parent)
+            return this.props.parent.getPage();
+        return this.state.page;
+    }
+
+    setPage(page, callback) {
+        this.setState({page: page}, callback);
+    }
+
+    getLastPage() {
+        if (this.props.parent)
+            return this.props.parent.getLastPage();
+        return this.state.lastPage;
+    }
+
     render() {
-        const {guitars, showPriceSVG} =
+        const {guitars, page, lastPage, showPriceSVG} =
             this.props.parent ? this.props.parent.state : this.state;
-        const {dialogOpen, page, isLoading} = this.state;
+        let {dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>;
         }

@@ -80,8 +80,6 @@ public class GuitarService implements IGuitarService {
 
     @Override
     public Slice<Guitar> getGuitarsPage(Integer page) {
-        Slice<Guitar> slice;
-
         return repository.findAllBy(PageRequest.of(page, 10));
     }
 
@@ -96,6 +94,11 @@ public class GuitarService implements IGuitarService {
         return guitars.stream()
                 .filter(g -> (Objects.isNull(g.getPrice()) ? 0 :g.getPrice()) > price)
                 .toList();
+    }
+
+    @Override
+    public Slice<Guitar> findByPriceGreaterThanPage(Integer price, Integer page) {
+        return repository.findAllByPriceGreaterThan(PageRequest.of(page, 10), price);
     }
 
     @Override

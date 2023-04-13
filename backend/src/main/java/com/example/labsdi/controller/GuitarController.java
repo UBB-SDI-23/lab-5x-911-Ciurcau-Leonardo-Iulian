@@ -19,11 +19,6 @@ public class GuitarController {
     @Autowired
     private IGuitarService guitarService;
 
-    @PostMapping("/guitars")
-    public Guitar addGuitar(@Valid @RequestBody Guitar guitar) throws GuitarServiceException {
-        return guitarService.addGuitar(guitar);
-    }
-
     @GetMapping("/guitars")
     public List<ProductDTO> getFirst100Guitars() {
         return guitarService.getFirst100Guitars().stream()
@@ -44,18 +39,6 @@ public class GuitarController {
                 .map(g -> (ProductDTO)g.toDTO());
     }
 
-    @PutMapping("/guitars/{id}")
-    public Guitar
-    updateGuitar(@RequestBody Guitar guitar, @PathVariable("id") Long id) throws GuitarServiceException {
-        return guitarService.updateGuitar(guitar, id);
-    }
-
-    @DeleteMapping("/guitars/{id}")
-    public String removeGuitar(@PathVariable("id") Long id) throws GuitarServiceException {
-        guitarService.removeGuitar(id);
-        return "Deleted Successfully";
-    }
-
     @GetMapping("/guitars/priceGreaterThan/{price}/all")
     public List<ProductDTO> findByPriceGreaterThan(@PathVariable("price") Integer price) {
         return guitarService.findByPriceGreaterThan(price).stream()
@@ -70,14 +53,38 @@ public class GuitarController {
                 .toList();
     }
 
+    @GetMapping("/guitars/priceGreaterThan/{price}/page/{page}")
+    public Slice<ProductDTO> findByPriceGreaterThanPage(@PathVariable("price") Integer price,
+                                                       @PathVariable("page") Integer page) {
+        return guitarService.findByPriceGreaterThanPage(price, page)
+                .map(g -> (ProductDTO)g.toDTO());
+    }
+
     @GetMapping("/guitars/{id}")
     public Guitar getGuitar(@PathVariable("id") Long id) throws GuitarServiceException {
         return guitarService.getGuitar(id);
+    }
+
+    @PostMapping("/guitars")
+    public Guitar addGuitar(@Valid @RequestBody Guitar guitar) throws GuitarServiceException {
+        return guitarService.addGuitar(guitar);
     }
 
     @PostMapping("/shops/{id}/guitars")
     public String addGuitarsToShop(@RequestBody List<Guitar> guitars, @PathVariable("id") Long id) throws GuitarServiceException {
         guitarService.addGuitarsToShop(guitars, id);
         return "Updated successfully";
+    }
+
+    @PutMapping("/guitars/{id}")
+    public Guitar
+    updateGuitar(@RequestBody Guitar guitar, @PathVariable("id") Long id) throws GuitarServiceException {
+        return guitarService.updateGuitar(guitar, id);
+    }
+
+    @DeleteMapping("/guitars/{id}")
+    public String removeGuitar(@PathVariable("id") Long id) throws GuitarServiceException {
+        guitarService.removeGuitar(id);
+        return "Deleted Successfully";
     }
 }

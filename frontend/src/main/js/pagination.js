@@ -19,10 +19,10 @@ class Pagination extends Component {
             return <p>Loading...</p>;
 
         return <Container> 
-            {   this.parent.state.page > 0 &&
-                <Button onClick={() => this.parent.setState({page: this.parent.state.page - 1}, this.parent.handlePageChange)}>Previous page</Button>}
-            {   !this.parent.state.lastPage &&
-                <Button onClick={() => this.parent.setState({page: this.parent.state.page + 1}, this.parent.handlePageChange)}>Next page</Button>}
+            {   this.parent.getPage() > 0 &&
+                <Button onClick={() => this.parent.setPage(this.parent.getPage() - 1, this.parent.handlePageChange)}>Previous page</Button>}
+            {   !this.parent.getLastPage() &&
+                <Button onClick={() => this.parent.setPage(this.parent.getPage() + 1, this.parent.handlePageChange)}>Next page</Button>}
         </Container>  
     }
 }

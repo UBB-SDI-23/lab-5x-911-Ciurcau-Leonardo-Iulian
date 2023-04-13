@@ -35,6 +35,18 @@ class ShopsSelect extends Component {
         this.getAllShops();
     }
 
+    getPage() {
+        return this.state.page;
+    }
+
+    setPage(page, callback) {
+        this.setState({page: page}, callback);
+    }
+
+    getLastPage() {
+        return this.state.lastPage;
+    }
+
     render() {
         const {allShops, isLoading} = this.state;
         let {shop} = this.state;
@@ -60,6 +72,10 @@ class ShopsSelect extends Component {
         if (!found) {
             let shopItem = <MenuItem key={shop.id} value={shop}>{shop.name}</MenuItem>;
             shopList.push(shopItem);
+        }
+
+        if (this.props.parent && (!this.props.parent.state.shop || this.props.parent.state.shop.id != shop.id)) {
+            this.props.parent.setState({shop: shop});
         }
 
         return <Container>

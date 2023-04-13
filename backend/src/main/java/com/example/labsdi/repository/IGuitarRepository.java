@@ -13,6 +13,6 @@ import java.util.List;
 public interface IGuitarRepository extends JpaRepository<Guitar, Long> {
     List<Guitar> findByPriceGreaterThan(int price);
     Slice<Guitar> findAllBy(Pageable pageable);
+    Slice<Guitar> findAllByPriceGreaterThan(Pageable pageable, Integer price);
     List<Guitar> findFirst100By();
-    List<Guitar> findFirst100ByPriceGreaterThan(int price);
 }

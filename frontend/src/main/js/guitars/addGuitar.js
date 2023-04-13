@@ -17,7 +17,7 @@ class AddGuitar extends Component {
     constructor(props) {
         super(props);
         this.state = {creationYear: null, model: "", type: "", color: "", price: null, 
-            shop: '', dialogOpen: false, isLoading: true
+            shop: null, dialogOpen: false, isLoading: true
         };
     }
 
