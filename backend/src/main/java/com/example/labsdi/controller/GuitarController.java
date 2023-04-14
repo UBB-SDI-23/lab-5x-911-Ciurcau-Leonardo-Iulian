@@ -2,7 +2,9 @@ package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Guitar;
 import com.example.labsdi.domain.Product;
+import com.example.labsdi.domain.dto.GuitarDTO;
 import com.example.labsdi.domain.dto.ProductDTO;
+import com.example.labsdi.domain.dto.SimpleGuitarDTO;
 import com.example.labsdi.service.IGuitarService;
 import com.example.labsdi.service.exception.GuitarServiceException;
 import jakarta.validation.Valid;
@@ -39,6 +41,12 @@ public class GuitarController {
                 .map(g -> (ProductDTO)g.toDTO());
     }
 
+    @GetMapping("/guitars/simple/page/{page}")
+    public Slice<SimpleGuitarDTO> getGuitarsSimplePage(@PathVariable("page") Integer page) {
+        return guitarService.getGuitarsPage(page)
+                .map(g -> (SimpleGuitarDTO)g.toSimpleDTO());
+    }
+
     @GetMapping("/guitars/priceGreaterThan/{price}/all")
     public List<ProductDTO> findByPriceGreaterThan(@PathVariable("price") Integer price) {
         return guitarService.findByPriceGreaterThan(price).stream()
@@ -47,10 +55,10 @@ public class GuitarController {
     }
 
     @GetMapping("/guitars/containsName/{name}/page/{page}")
-    public Slice<ProductDTO> getGuitarContainsNamePage(@PathVariable("name") String name,
-                                                       @PathVariable("page") Integer page) {
+    public Slice<SimpleGuitarDTO> getGuitarContainsNamePage(@PathVariable("name") String name,
+                                                            @PathVariable("page") Integer page) {
         return guitarService.getGuitarContainsNamePage(name, page)
-                .map(g -> (ProductDTO) g.toDTO());
+                .map(g -> (SimpleGuitarDTO) g.toSimpleDTO());
     }
 
     @GetMapping("/guitars/priceGreaterThan/{price}")
@@ -70,6 +78,11 @@ public class GuitarController {
     @GetMapping("/guitars/{id}")
     public Guitar getGuitar(@PathVariable("id") Long id) throws GuitarServiceException {
         return guitarService.getGuitar(id);
+    }
+
+    @GetMapping("/guitars/dto/{id}")
+    public GuitarDTO getGuitarDTO(@PathVariable("id") Long id) throws GuitarServiceException {
+        return (GuitarDTO) guitarService.getGuitar(id).toDTO();
     }
 
     @PostMapping("/guitars")

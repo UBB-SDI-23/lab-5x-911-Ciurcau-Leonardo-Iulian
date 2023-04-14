@@ -1,6 +1,7 @@
 package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Client;
+import com.example.labsdi.domain.dto.SimpleClientDTO;
 import com.example.labsdi.service.ClientService;
 import com.example.labsdi.service.IClientService;
 import com.example.labsdi.service.exception.ClientServiceException;
@@ -38,10 +39,17 @@ public class ClientController {
         return clientService.getClientsPage(page);
     }
 
+    @GetMapping("/clients/simple/page/{page}")
+    public Slice<SimpleClientDTO> getClientsSimplePage(@PathVariable("page") Integer page) {
+        return clientService.getClientsPage(page)
+                .map(c -> (SimpleClientDTO) c.toSimpleDTO());
+    }
+
     @GetMapping("/clients/containsName/{name}/page/{page}")
-    public Slice<Client> getClientContainsNamePage(@PathVariable("name") String name,
-                                                   @PathVariable("page") Integer page) {
-        return clientService.getClientContainsNamePage(name, page);
+    public Slice<SimpleClientDTO> getClientContainsNamePage(@PathVariable("name") String name,
+                                                            @PathVariable("page") Integer page) {
+        return clientService.getClientContainsNamePage(name, page)
+                .map(c -> (SimpleClientDTO) c.toSimpleDTO());
     }
 
     @PutMapping("/clients/{id}")

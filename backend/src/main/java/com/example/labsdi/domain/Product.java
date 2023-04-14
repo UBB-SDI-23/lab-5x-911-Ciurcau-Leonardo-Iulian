@@ -15,7 +15,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Guitar.class, name = "guitar")
 })
-public abstract class Product implements IDTOConvertable {
+public abstract class Product implements IDTOConvertable, ISimpleDTOConvertable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter(AccessLevel.PUBLIC)

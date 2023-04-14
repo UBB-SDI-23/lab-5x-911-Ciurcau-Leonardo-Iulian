@@ -2,10 +2,7 @@ package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Product;
 import com.example.labsdi.domain.Shop;
-import com.example.labsdi.domain.dto.DTO;
-import com.example.labsdi.domain.dto.ProductDTO;
-import com.example.labsdi.domain.dto.ShopAveragePriceDTO;
-import com.example.labsdi.domain.dto.ShopDTO;
+import com.example.labsdi.domain.dto.*;
 import com.example.labsdi.service.IShopService;
 import com.example.labsdi.service.exception.ShopServiceException;
 import jakarta.validation.Valid;
@@ -39,11 +36,17 @@ public class ShopController {
                 .map(s -> (ShopDTO)s.toDTO());
     }
 
+    @GetMapping("/shops/simple/page/{page}")
+    public Slice<SimpleShopDTO> getSimpleShopPage(@PathVariable("page") Integer page) {
+        return shopService.getShopsPage(page)
+                .map(s -> (SimpleShopDTO)s.toSimpleDTO());
+    }
+
     @GetMapping("/shops/containsName/{name}/page/{page}")
-    public Slice<ShopDTO> getShopContainsNamePage(@PathVariable("name") String name,
-                                                  @PathVariable("page") Integer page) {
+    public Slice<SimpleShopDTO> getShopContainsNamePage(@PathVariable("name") String name,
+                                                        @PathVariable("page") Integer page) {
         return shopService.getShopContainsNamePage(page, name)
-                .map(s -> (ShopDTO) s.toDTO());
+                .map(s -> (SimpleShopDTO) s.toSimpleDTO());
     }
 
     @GetMapping("/shops")

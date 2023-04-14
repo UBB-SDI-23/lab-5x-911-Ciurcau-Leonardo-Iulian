@@ -64,6 +64,11 @@ public class TransactionController {
         return transactionService.getTransaction(id);
     }
 
+    @GetMapping("/transactions/dto/{id}")
+    public TransactionDTO getTransactionDTO(@PathVariable("id") Long id) throws TransactionServiceException {
+        return (TransactionDTO) transactionService.getTransaction(id).toDTO();
+    }
+
     @GetMapping("/shops/sorted")
     public List<SortedShopDTO> getAllShopsSorted() {
         return transactionService.getAllShopsSorted();

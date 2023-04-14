@@ -22,7 +22,7 @@ class GuitarsSelect extends Component {
 
     getAllGuitars() {
         const {page, autocompleteName} = this.state;
-        fetch(autocompleteName == "" ? '/api/guitars/page/' + page : '/api/guitars/containsName/' + autocompleteName + '/page/' + page)
+        fetch(autocompleteName == "" ? '/api/guitars/simple/page/' + page : '/api/guitars/containsName/' + autocompleteName + '/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({
                 allGuitars: data.content, lastPage: data.last},

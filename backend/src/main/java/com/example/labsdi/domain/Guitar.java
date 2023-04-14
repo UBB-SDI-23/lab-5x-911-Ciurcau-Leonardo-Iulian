@@ -1,7 +1,6 @@
 package com.example.labsdi.domain;
 
-import com.example.labsdi.domain.dto.DTO;
-import com.example.labsdi.domain.dto.GuitarDTO;
+import com.example.labsdi.domain.dto.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.*;
@@ -54,7 +53,15 @@ public class Guitar extends Product {
         gdto.setPrice(price);
         gdto.setModel(model);
         gdto.setCreationYear(creationYear);
-        gdto.setShopId(shop.getId());
+        gdto.setShop((SimpleShopDTO) shop.toSimpleDTO());
         return gdto;
+    }
+
+    @Override
+    public SimpleDTO toSimpleDTO() {
+        SimpleGuitarDTO sgdto = new SimpleGuitarDTO();
+        sgdto.setId(id);
+        sgdto.setModel(model);
+        return sgdto;
     }
 }

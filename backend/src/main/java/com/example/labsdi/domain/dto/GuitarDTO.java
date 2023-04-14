@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 public class GuitarDTO extends ProductDTO {
     private Long id;
-    private Long shopId;
+    private SimpleShopDTO shop;
     private Integer creationYear;
     private String model;
     private String type;

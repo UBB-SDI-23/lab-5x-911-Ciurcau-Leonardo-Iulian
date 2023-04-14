@@ -17,8 +17,8 @@ import java.util.Date;
 @Builder
 public class TransactionDTO extends DTO {
     private Long id;
-    private ProductDTO product;
-    private Client client;
+    private SimpleGuitarDTO product;
+    private SimpleClientDTO client;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
     private Boolean isCashPayment;

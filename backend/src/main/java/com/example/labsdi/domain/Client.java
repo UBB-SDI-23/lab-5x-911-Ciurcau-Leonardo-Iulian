@@ -1,5 +1,7 @@
 package com.example.labsdi.domain;
 
+import com.example.labsdi.domain.dto.SimpleClientDTO;
+import com.example.labsdi.domain.dto.SimpleDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -18,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name="client")
-public class Client {
+public class Client implements ISimpleDTOConvertable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,4 +36,12 @@ public class Client {
     @Column(name="birthDate")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;
+
+    @Override
+    public SimpleDTO toSimpleDTO() {
+        SimpleClientDTO scdto = new SimpleClientDTO();
+        scdto.setId(id);
+        scdto.setName(name);
+        return scdto;
+    }
 }

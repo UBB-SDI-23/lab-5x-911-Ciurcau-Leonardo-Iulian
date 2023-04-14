@@ -14,8 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ShopDTO extends DTO {
-    protected List<Long> products;
-    //protected List<Long> couriers;
+    protected List<SimpleGuitarDTO> products;
+    protected List<SimpleCourierDTO> couriers;
     protected Long id;
     protected String name;
     protected String address;

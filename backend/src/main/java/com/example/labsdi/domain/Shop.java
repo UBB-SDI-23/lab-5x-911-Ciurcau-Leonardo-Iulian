@@ -1,9 +1,6 @@
 package com.example.labsdi.domain;
 
-import com.example.labsdi.domain.dto.CourierDTO;
-import com.example.labsdi.domain.dto.DTO;
-import com.example.labsdi.domain.dto.ProductDTO;
-import com.example.labsdi.domain.dto.ShopDTO;
+import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -24,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name="shop")
-public class Shop implements IDTOConvertable {
+public class Shop implements IDTOConvertable, ISimpleDTOConvertable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -69,8 +66,16 @@ public class Shop implements IDTOConvertable {
         shopdto.setTelephoneNumber(telephoneNumber);
         shopdto.setShippingAvailable(shippingAvailable);
 
-        //shopdto.setCouriers(couriers.stream().map(Courier::getId).toList());
-        shopdto.setProducts(products.stream().map(Product::getId).toList());
+        shopdto.setCouriers(couriers.stream().map(c -> (SimpleCourierDTO) c.toSimpleDTO()).toList());
+        shopdto.setProducts(products.stream().map(p -> (SimpleGuitarDTO) p.toSimpleDTO()).toList());
         return shopdto;
+    }
+
+    @Override
+    public SimpleDTO toSimpleDTO() {
+        SimpleShopDTO sshopdto = new SimpleShopDTO();
+        sshopdto.setId(id);
+        sshopdto.setName(name);
+        return sshopdto;
     }
 }

@@ -21,7 +21,7 @@ class SeeTransaction extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/transactions/' + this.id)
+        fetch('/api/transactions/dto/' + this.id)
             .then(response => response.json())
             .then(transaction =>
                 this.setState({product: transaction.product, client: transaction.client, 

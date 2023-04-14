@@ -39,7 +39,7 @@ class UpdateTransaction extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/transactions/' + this.id)
+        fetch('/api/transactions/dto/' + this.id)
             .then(response => response.json())
             .then(transaction =>{
                 this.setState({product: new SimpleGuitar(transaction.product.id, transaction.product.model), 

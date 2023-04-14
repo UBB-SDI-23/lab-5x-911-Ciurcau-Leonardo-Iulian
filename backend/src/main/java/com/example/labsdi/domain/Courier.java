@@ -1,9 +1,6 @@
 package com.example.labsdi.domain;
 
-import com.example.labsdi.domain.dto.CourierDTO;
-import com.example.labsdi.domain.dto.DTO;
-import com.example.labsdi.domain.dto.ProductDTO;
-import com.example.labsdi.domain.dto.ShopDTO;
+import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -22,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name="courier")
-public class Courier implements IDTOConvertable {
+public class Courier implements IDTOConvertable, ISimpleDTOConvertable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -54,5 +51,13 @@ public class Courier implements IDTOConvertable {
         courierdto.setDescription(description);
 
         return courierdto;
+    }
+
+    @Override
+    public SimpleDTO toSimpleDTO() {
+        SimpleCourierDTO scourierdto = new SimpleCourierDTO();
+        scourierdto.setId(id);
+        scourierdto.setName(name);
+        return scourierdto;
     }
 }

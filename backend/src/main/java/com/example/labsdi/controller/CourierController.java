@@ -3,6 +3,7 @@ package com.example.labsdi.controller;
 import com.example.labsdi.domain.Courier;
 import com.example.labsdi.domain.dto.CourierDTO;
 import com.example.labsdi.domain.dto.DTO;
+import com.example.labsdi.domain.dto.SimpleCourierDTO;
 import com.example.labsdi.service.ICourierService;
 import com.example.labsdi.service.ICourierService;
 import com.example.labsdi.service.exception.CourierServiceException;
@@ -38,6 +39,12 @@ public class CourierController {
     public Slice<CourierDTO> getCouriersPage(@PathVariable("page") Integer page) {
         return courierService.getCourierPage(page)
                 .map(c -> (CourierDTO)c.toDTO());
+    }
+
+    @GetMapping("/couriers/simple/page/{page}")
+    public Slice<SimpleCourierDTO> getSimpleCouriersPage(@PathVariable("page") Integer page) {
+        return courierService.getCourierPage(page)
+                .map(c -> (SimpleCourierDTO)c.toSimpleDTO());
     }
 
     @PutMapping("/couriers/{id}")

@@ -22,7 +22,7 @@ class ShopsSelect extends Component {
 
     getAllShops() {
         const {page, autocompleteName} = this.state;
-        fetch(autocompleteName == "" ? '/api/shops/page/' + page : '/api/shops/containsName/' + autocompleteName + '/page/' + page)
+        fetch(autocompleteName == "" ? '/api/shops/simple/page/' + page : '/api/shops/containsName/' + autocompleteName + '/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({
                 allShops: data.content, lastPage: data.last},

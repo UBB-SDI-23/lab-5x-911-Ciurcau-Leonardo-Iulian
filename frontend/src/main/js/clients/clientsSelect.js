@@ -22,7 +22,7 @@ class ClientsSelect extends Component {
 
     getAllClients() {
         const {page, autocompleteName} = this.state;
-        fetch(autocompleteName == "" ? '/api/clients/page/' + page : '/api/clients/containsName/' + autocompleteName + '/page/' + page)
+        fetch(autocompleteName == "" ? '/api/clients/simple/page/' + page : '/api/clients/containsName/' + autocompleteName + '/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({
                 allClients: data.content, lastPage: data.last},

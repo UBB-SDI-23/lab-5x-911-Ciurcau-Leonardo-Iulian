@@ -34,8 +34,7 @@ class AddTransaction extends Component {
     }
 
     onGuitarChange(event) {
-        console.log('here');
-        this.setState({product: event.target.value}, console.log(this.state.product));
+        this.setState({product: event.target.value});
     }
 
     onClientChange(event) {

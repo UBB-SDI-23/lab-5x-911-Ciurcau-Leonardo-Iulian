@@ -37,7 +37,7 @@ class UpdateGuitar extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/guitars/' + this.id)
+        fetch('/api/guitars/dto/' + this.id)
             .then(response => response.json())
             .then(guitar =>
                 this.setState({price: guitar.price,

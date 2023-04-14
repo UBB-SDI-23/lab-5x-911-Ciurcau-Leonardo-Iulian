@@ -1,8 +1,6 @@
 package com.example.labsdi.domain;
 
-import com.example.labsdi.domain.dto.DTO;
-import com.example.labsdi.domain.dto.ProductDTO;
-import com.example.labsdi.domain.dto.TransactionDTO;
+import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PastOrPresent;
@@ -42,8 +40,8 @@ public class Transaction implements IDTOConvertable {
     public DTO toDTO() {
         TransactionDTO tdto = new TransactionDTO();
         tdto.setId(id);
-        tdto.setProduct((ProductDTO)product.toDTO());
-        tdto.setClient(client);
+        tdto.setProduct((SimpleGuitarDTO) product.toSimpleDTO());
+        tdto.setClient((SimpleClientDTO) client.toSimpleDTO());
         tdto.setDate(date);
         tdto.setIsCashPayment(isCashPayment);
         return tdto;
