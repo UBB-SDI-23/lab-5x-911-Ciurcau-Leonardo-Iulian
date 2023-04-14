@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name="shop")
-public class Shop implements IDTOConvertable, ISimpleDTOConvertable {
+public class Shop implements IDTOConvertable, ISimpleDTOConvertable, IShowAllDTOConvertable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -36,7 +36,9 @@ public class Shop implements IDTOConvertable, ISimpleDTOConvertable {
                     foreignKeyDefinition = "FOREIGN KEY (courier_id) REFERENCES courier(id) ON DELETE CASCADE"),
             inverseJoinColumns = @JoinColumn(name = "courier_id", referencedColumnName = "id"),
             inverseForeignKey = @ForeignKey(name="fk_shop_id",
-                    foreignKeyDefinition = "FOREIGN KEY (shop_id) REFERENCES shop(id) ON DELETE CASCADE"))
+                    foreignKeyDefinition = "FOREIGN KEY (shop_id) REFERENCES shop(id) ON DELETE CASCADE"),
+            indexes = {@Index(name = "shop_id_shop_courier_index", columnList = "shop_id")}
+    )
     //@JsonIgnore
     private List<Courier> couriers;
     @Column(name="name")
@@ -77,5 +79,17 @@ public class Shop implements IDTOConvertable, ISimpleDTOConvertable {
         sshopdto.setId(id);
         sshopdto.setName(name);
         return sshopdto;
+    }
+
+    @Override
+    public ShowAllDTO toShowAllDTO() {
+        return ShowAllShopDTO.builder()
+                .email(email)
+                .telephoneNumber(telephoneNumber)
+                .name(name)
+                .id(id)
+                .couriers(couriers.size())
+                .products(products.size())
+                .build();
     }
 }

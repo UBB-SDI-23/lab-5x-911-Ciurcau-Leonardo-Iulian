@@ -110,8 +110,8 @@ class ShopList extends Component {
                 <TableCell>{shop.name}</TableCell>
                 <TableCell>{shop.email}</TableCell>
                 <TableCell>{shop.telephoneNumber}</TableCell>
-                <TableCell>{shop.products.length}</TableCell>
-                <TableCell>{shop.couriers.length}</TableCell>
+                <TableCell>{shop.products}</TableCell>
+                <TableCell>{shop.couriers}</TableCell>
                 <TableCell>
                     <Button component={Link} to={"/seeShop/"+shop.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>

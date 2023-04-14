@@ -15,6 +15,8 @@ import org.hibernate.annotations.OnDeleteAction;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Guitar.class, name = "guitar")
 })
+@Table(name="product", indexes = {@Index(name="shop_id_index", columnList = "shop_id"),
+@Index(name = "price_index_guitar", columnList = "price")})
 public abstract class Product implements IDTOConvertable, ISimpleDTOConvertable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

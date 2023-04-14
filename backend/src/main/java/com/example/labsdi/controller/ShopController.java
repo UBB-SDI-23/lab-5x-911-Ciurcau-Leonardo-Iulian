@@ -32,9 +32,9 @@ public class ShopController {
     }
 
     @GetMapping("/shops/page/{page}")
-    public Slice<ShopDTO> getShopPage(@PathVariable("page") Integer page) {
+    public Slice<ShowAllShopDTO> getShopPage(@PathVariable("page") Integer page) {
         return shopService.getShopsPage(page)
-                .map(s -> (ShopDTO)s.toDTO());
+                .map(s -> (ShowAllShopDTO) s.toShowAllDTO());
     }
 
     @GetMapping("/shops/simple/page/{page}")
