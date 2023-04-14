@@ -22,6 +22,10 @@ import TransactionsHome from './transactions/transactionsHome';
 import SeeTransaction from './transactions/seeTransaction';
 import AddTransaction from './transactions/addTransaction';
 import UpdateTransaction from './transactions/updateTransaction';
+import ShopsHome from './shops/shopsHome';
+import SeeShop from './shops/seeShop';
+import AddShop from './shops/addShop';
+import UpdateShop from './shops/updateShop';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -57,8 +61,12 @@ class App extends React.Component {
                     <Route path='/updateCourier/:id' element={<UpdateCourier/>}/>
                     <Route path='/transactions' element={<TransactionsHome/>}/>
                     <Route path='/seeTransaction/:id' element={<SeeTransaction/>}/>
-                    <Route path='addTransaction' element={<AddTransaction/>}/>
-                    <Route path='updateTransaction/:id' element={<UpdateTransaction/>}/>
+                    <Route path='/addTransaction' element={<AddTransaction/>}/>
+                    <Route path='/updateTransaction/:id' element={<UpdateTransaction/>}/>
+                    <Route path='/shops' element={<ShopsHome/>}/>
+                    <Route path='seeShop/:id' element={<SeeShop/>}/>
+                    <Route path='/addShop' element={<AddShop/>}/>
+                    <Route path='/updateShop/:id' element={<UpdateShop/>}/>
                 </Routes>
             </BrowserRouter>
         );

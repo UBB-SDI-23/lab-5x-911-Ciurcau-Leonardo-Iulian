@@ -28,7 +28,7 @@ public class Shop implements IDTOConvertable, ISimpleDTOConvertable {
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Product> products;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "shop_courier",
             joinColumns = @JoinColumn(name = "shop_id", referencedColumnName = "id"),

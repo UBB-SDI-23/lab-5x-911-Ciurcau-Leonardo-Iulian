@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import {useParams} from "react-router-dom";
-import {Container, TextField} from "@mui/material";
+import {Container, FormControlLabel, Checkbox, TextField} from "@mui/material";
 import TransactionsNavBar from "./transactionsNavBar";
 
 function withParams(Component) {
@@ -48,8 +48,8 @@ class SeeTransaction extends Component {
                     <TextField id="outlined-basic" label="Date" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={date}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Cash payment" variant="filled"
-                               InputProps={{readOnly: true,}} defaultValue={isCashPayment}/>
+                    <FormControlLabel control={<Checkbox checked={isCashPayment} />} label="Cash payment" />
+                    <br/><br/>
                 </Container>
             </Container>
         );
