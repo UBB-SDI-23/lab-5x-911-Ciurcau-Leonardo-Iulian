@@ -1,5 +1,6 @@
 package com.example.labsdi.controller;
 
+import com.example.labsdi.domain.Courier;
 import com.example.labsdi.domain.Product;
 import com.example.labsdi.domain.Shop;
 import com.example.labsdi.domain.dto.*;
@@ -60,6 +61,17 @@ public class ShopController {
     public Shop
     updateShop(@RequestBody Shop shop, @PathVariable("id") Long id) throws ShopServiceException {
         return shopService.updateShop(shop, id);
+    }
+
+    @PutMapping("/shops/{id}/addCourier")
+    public Shop addCourier(@RequestBody Courier courier, @PathVariable("id") Long id) throws ShopServiceException {
+        return shopService.addCourier(courier, id);
+    }
+
+    @DeleteMapping("/shops/{shopId}/removeCourier/{courierId}")
+    public Shop removeCourier(@PathVariable("shopId") Long shopId,
+                                @PathVariable("courierId") Long courierId) throws ShopServiceException {
+        return shopService.removeCourier(shopId, courierId);
     }
 
     @DeleteMapping("/shops/{id}")

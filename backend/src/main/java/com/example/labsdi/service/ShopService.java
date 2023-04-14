@@ -1,5 +1,6 @@
 package com.example.labsdi.service;
 
+import com.example.labsdi.domain.Courier;
 import com.example.labsdi.domain.Product;
 import com.example.labsdi.domain.Shop;
 import com.example.labsdi.domain.dto.ShopAveragePriceDTO;
@@ -114,5 +115,33 @@ public class ShopService implements IShopService {
                 .toList());
         listShop.sort(Comparator.comparing(ShopAveragePriceDTO::getAverageProductPrice));
         return listShop;
+    }
+
+    @Override
+    public Shop addCourier(Courier courier, Long id) throws ShopServiceException {
+        Optional<Shop> shopOpt = repository.findById(id);
+        if (shopOpt.isEmpty()) {
+            throw new ShopServiceException("Shop with id " + id + " does not exist!");
+        }
+        Shop retrievedShop = shopOpt.get();
+        if (retrievedShop.getCouriers().stream().anyMatch(c -> c.getId().equals(courier.getId()))) {
+            throw new ShopServiceException("Courier is already present in shop!");
+        }
+        retrievedShop.getCouriers().add(courier);
+        return repository.save(retrievedShop);
+    }
+
+    @Override
+    public Shop removeCourier(Long shopId, Long courierId) throws ShopServiceException {
+        Optional<Shop> shopOpt = repository.findById(shopId);
+        if (shopOpt.isEmpty()) {
+            throw new ShopServiceException("Shop with id " + shopId + " does not exist!");
+        }
+        Shop retrievedShop = shopOpt.get();
+        if (retrievedShop.getCouriers().stream().noneMatch(c -> c.getId().equals(courierId))) {
+            throw new ShopServiceException("Courier is not present in shop!");
+        }
+        retrievedShop.getCouriers().removeIf(c -> Objects.equals(c.getId(), courierId));
+        return repository.save(retrievedShop);
     }
 }

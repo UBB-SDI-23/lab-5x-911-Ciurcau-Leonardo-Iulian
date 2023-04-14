@@ -47,6 +47,13 @@ public class CourierController {
                 .map(c -> (SimpleCourierDTO)c.toSimpleDTO());
     }
 
+    @GetMapping("/couriers/containsName/{name}/page/{page}")
+    public Slice<SimpleCourierDTO> getCourierContainsNamePage(@PathVariable("name") String name,
+                                                              @PathVariable("page") Integer page) {
+        return courierService.getCourierContainsNamePage(name, page)
+                .map(c -> (SimpleCourierDTO) c.toSimpleDTO());
+    }
+
     @PutMapping("/couriers/{id}")
     public Courier
     updateCourier(@RequestBody Courier courier, @PathVariable("id") Long id) throws CourierServiceException {

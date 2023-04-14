@@ -4,6 +4,7 @@ import { Container, TextField, Button } from "@mui/material";
 import ShopsNavBar from "./shopsNavBar";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
     FormControlLabel, Checkbox} from "@mui/material";
+import CouriersSelect from "../couriers/couriersSelect";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -13,13 +14,14 @@ class UpdateShop extends Component {
     constructor(props) {
         super(props);
         this.state = {name: "", email: "", telephoneNumber: "", 
-        address: "", shippingAvailable: false, dialogOpen: false, isLoading: true};
+        address: "", courier: null, shippingAvailable: false, dialogOpen: false, isLoading: true};
         this.id = this.props.params.id;
     }
 
     componentDidMount() {
         this.handleShopUpdate = this.handleShopUpdate.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
+        this.handleCourierAdd = this.handleCourierAdd.bind(this);
         this.fillTextFields();
         this.forceUpdate();
     }
@@ -50,6 +52,24 @@ class UpdateShop extends Component {
         fetch('/api/shops/' + this.id, requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
+    }
+
+    handleCourierAdd(event) {
+        const {courier} = this.state;
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: courier.id
+            })
+        };
+        fetch('/api/shops/' + this.id + '/addCourier', requestOptions)
+            .then(response => response.json())
+            .then(() => this.setState({dialogOpen: true}));
+    }
+
+    onCourierChange = (event) => {
+        this.setState({courier: event.target.value});
     }
 
     render() {
@@ -84,6 +104,8 @@ class UpdateShop extends Component {
                     <br/><br/>
                     <Button onClick={this.handleShopUpdate}>Update shop</Button>
                 </Container>
+                <CouriersSelect parent={this}/>
+                <Button onClick={this.handleCourierAdd}>Add courier</Button>
                 <Dialog
                     open={dialogOpen}
                     onClose={() => {this.setState({dialogOpen: false});}}

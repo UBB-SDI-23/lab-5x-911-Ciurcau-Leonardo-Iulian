@@ -4,6 +4,7 @@ import com.example.labsdi.domain.Courier;
 import com.example.labsdi.repository.ICourierRepository;
 import com.example.labsdi.service.exception.CourierServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,11 @@ public class CourierService implements ICourierService {
     @Override
     public Slice<Courier> getCourierPage(Integer page) {
         return repository.findAllBy(PageRequest.of(page, 10));
+    }
+
+    @Override
+    public Slice<Courier> getCourierContainsNamePage(String name, Integer page) {
+        return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, 10), name);
     }
 
     @Override

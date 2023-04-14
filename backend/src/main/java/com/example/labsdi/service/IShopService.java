@@ -1,10 +1,8 @@
 package com.example.labsdi.service;
 
-import com.example.labsdi.domain.Guitar;
-import com.example.labsdi.domain.Product;
+import com.example.labsdi.domain.Courier;
 import com.example.labsdi.domain.Shop;
 import com.example.labsdi.domain.dto.ShopAveragePriceDTO;
-import com.example.labsdi.domain.dto.ShopDTO;
 import com.example.labsdi.service.exception.ShopServiceException;
 import org.springframework.data.domain.Slice;
 
@@ -22,4 +20,8 @@ public interface IShopService {
     Slice<Shop> getShopContainsNamePage(Integer page, String name);
     List<ShopAveragePriceDTO> getAllShopsOrderByAverageProductsPrice();
     List<ShopAveragePriceDTO> getFirst100ShopsOrderByAverageProductsPrice();
+
+    Shop addCourier(Courier courier, Long id) throws ShopServiceException;
+
+    Shop removeCourier(Long shopId, Long courierId) throws ShopServiceException;
 }
