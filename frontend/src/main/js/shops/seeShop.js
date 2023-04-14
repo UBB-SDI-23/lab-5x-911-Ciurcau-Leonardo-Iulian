@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import { Container, InputLabel,Select,MenuItem,Checkbox, FormControlLabel, TextField } from "@mui/material";
 import ShopsNavBar from "./shopsNavBar";
 
 function withParams(Component) {
@@ -10,7 +10,8 @@ function withParams(Component) {
 class SeeShop extends Component {
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", telephoneNumber: "", address: "", shippingAvailable: false, isLoading: true};
+        this.state = {name: "", email: "", couriers: [], 
+            telephoneNumber: "", address: "", shippingAvailable: false, isLoading: true};
         this.id = this.props.params.id;
         this.fillTextFields();
     }
@@ -25,15 +26,22 @@ class SeeShop extends Component {
             .then(shop =>
                 this.setState({name: shop.name, email: shop.email, 
                     telephoneNumber: shop.telephoneNumber,
-                    address: shop.address, shippingAvailable: shop.shippingAvailable})
+                    address: shop.address, shippingAvailable: shop.shippingAvailable, couriers: shop.couriers})
             )
             .then(() => this.setState({isLoading: false}));
     }
 
     render() {
-        const {name, email, telephoneNumber, address, shippingAvailable, isLoading} = this.state
+        const {name, email, couriers, telephoneNumber, address, shippingAvailable, isLoading} = this.state
         if (isLoading)
             return <p>Loading...</p>;
+
+        const courierList = couriers.map((courier) => {
+            return (
+                    <MenuItem key={courier.id} value={courier}>{courier.name}</MenuItem>
+            );
+        });
+
         return (
             <Container maxWidth={false}>
                 <ShopsNavBar></ShopsNavBar>
@@ -52,6 +60,18 @@ class SeeShop extends Component {
                                InputProps={{readOnly: true,}} defaultValue={address}/>
                     <br/><br/>
                     <FormControlLabel control={<Checkbox checked={shippingAvailable} />} label="Shipping available" />
+                    <br></br>
+                    <Container>
+                        <InputLabel>Couriers</InputLabel>
+                        <Select
+                        label="Couriers"
+                        displayEmpty
+                        renderValue={() => {
+                            return "";
+                        }}>
+                        {courierList}
+                        </Select>
+                    </Container>
                 </Container>
             </Container>
         );

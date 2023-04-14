@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { useParams } from "react-router-dom";
-import { Container, TextField, Button } from "@mui/material";
+import {  TextField, Button } from "@mui/material";
 import ShopsNavBar from "./shopsNavBar";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-    FormControlLabel, Checkbox} from "@mui/material";
+import {Dialog, Select,Box,List,ListItem,ListItemText,DialogActions, DialogContent, DialogContentText, DialogTitle,
+    FormControlLabel,Container,InputLabel,MenuItem,ListItemButton, Checkbox} from "@mui/material";
 import CouriersSelect from "../couriers/couriersSelect";
 
 function withParams(Component) {
@@ -14,7 +14,8 @@ class UpdateShop extends Component {
     constructor(props) {
         super(props);
         this.state = {name: "", email: "", telephoneNumber: "", 
-        address: "", courier: null, shippingAvailable: false, dialogOpen: false, isLoading: true};
+        address: "", courier: null, couriers: [], 
+        deleteCourier: null, shippingAvailable: false, dialogOpen: false, isLoading: true};
         this.id = this.props.params.id;
     }
 
@@ -22,6 +23,7 @@ class UpdateShop extends Component {
         this.handleShopUpdate = this.handleShopUpdate.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
         this.handleCourierAdd = this.handleCourierAdd.bind(this);
+        this.handleCourierRemove = this.handleCourierRemove.bind(this);
         this.fillTextFields();
         this.forceUpdate();
     }
@@ -33,7 +35,7 @@ class UpdateShop extends Component {
             .then(shop =>
                 this.setState({name: shop.name, email: shop.email, 
                     telephoneNumber: shop.telephoneNumber, address: shop.address,
-                     shippingAvailable: shop.shippingAvailable})
+                     shippingAvailable: shop.shippingAvailable, couriers: shop.couriers})
             )
             .then(() => this.setState({isLoading: false}));
     }
@@ -65,7 +67,18 @@ class UpdateShop extends Component {
         };
         fetch('/api/shops/' + this.id + '/addCourier', requestOptions)
             .then(response => response.json())
-            .then(() => this.setState({dialogOpen: true}));
+            .then(shop => this.setState({dialogOpen: true, couriers: shop.couriers}));
+    }
+
+    handleCourierRemove(event) {
+        const {deleteCourier} = this.state;
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        };
+        fetch('/api/shops/' + this.id + '/removeCourier/' + deleteCourier.id, requestOptions)
+            .then(response => response.json())
+            .then(shop => this.setState({dialogOpen: true, couriers: shop.couriers}));
     }
 
     onCourierChange = (event) => {
@@ -73,10 +86,17 @@ class UpdateShop extends Component {
     }
 
     render() {
-        const {name, email, telephoneNumber, address, shippingAvailable, dialogOpen, isLoading} = this.state;
+        const {name, email, couriers,
+             telephoneNumber, address, shippingAvailable, dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>;
         } 
+
+        const courierList = couriers.map((courier) => {
+            return (
+                    <MenuItem key={courier.id} value={courier}>{courier.name}</MenuItem>
+            );
+        });
 
         return (
             <Container>
@@ -106,6 +126,25 @@ class UpdateShop extends Component {
                 </Container>
                 <CouriersSelect parent={this}/>
                 <Button onClick={this.handleCourierAdd}>Add courier</Button>
+                <br></br>
+                <Container>
+                    <InputLabel>Courier</InputLabel>
+                    <Select
+                        label="Courier"
+                        displayEmpty
+                        renderValue={(selected) => {
+                            if (!selected || selected.length == 0) {
+                                return "";
+                            }
+                            else
+                                return selected.name;
+                        }}
+                        onChange={(event) => this.setState({deleteCourier: event.target.value})}>
+                        {courierList}
+                    </Select>
+                </Container>
+                <br></br>
+                <Button onClick={this.handleCourierRemove}>Remove courier</Button>
                 <Dialog
                     open={dialogOpen}
                     onClose={() => {this.setState({dialogOpen: false});}}
