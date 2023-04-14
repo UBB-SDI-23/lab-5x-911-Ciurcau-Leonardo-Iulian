@@ -84,6 +84,11 @@ public class GuitarService implements IGuitarService {
     }
 
     @Override
+    public Slice<Guitar> getGuitarContainsNamePage(String name, Integer page) {
+        return repository.findAllByModelContainsIgnoreCase(PageRequest.of(page, 10), name);
+    }
+
+    @Override
     public List<Guitar> findByPriceGreaterThan(Integer price) {
         return repository.findByPriceGreaterThan(price);
     }

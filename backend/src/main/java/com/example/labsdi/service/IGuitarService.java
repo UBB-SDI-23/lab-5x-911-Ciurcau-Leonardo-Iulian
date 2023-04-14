@@ -15,6 +15,7 @@ public interface IGuitarService {
     List<Guitar> getAllGuitars();
     List<Guitar> getFirst100Guitars();
     Slice<Guitar> getGuitarsPage(Integer page);
+    Slice<Guitar> getGuitarContainsNamePage(String name, Integer page);
     List<Guitar> findByPriceGreaterThan(Integer price);
     List<Guitar> findFirst100ByPriceGreaterThan(Integer price);
     Slice<Guitar> findByPriceGreaterThanPage(Integer price, Integer page);

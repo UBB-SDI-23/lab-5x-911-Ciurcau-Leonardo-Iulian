@@ -13,6 +13,7 @@ public interface IClientService {
     Client getClient(Long id) throws ClientServiceException;
     List<Client> getFirst100Clients();
     Slice<Client> getClientsPage(Integer page);
+    Slice<Client> getClientContainsNamePage(String name, Integer page);
     void removeClient(Long id) throws ClientServiceException;
     Client updateClient(Client client, Long id) throws ClientServiceException;
     List<Client> getAllClients();

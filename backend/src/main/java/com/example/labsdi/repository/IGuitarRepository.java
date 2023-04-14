@@ -4,7 +4,6 @@ import com.example.labsdi.domain.Guitar;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,6 +12,7 @@ import java.util.List;
 public interface IGuitarRepository extends JpaRepository<Guitar, Long> {
     List<Guitar> findByPriceGreaterThan(int price);
     Slice<Guitar> findAllBy(Pageable pageable);
+    Slice<Guitar> findAllByModelContainsIgnoreCase(Pageable pageable, String name);
     Slice<Guitar> findAllByPriceGreaterThan(Pageable pageable, Integer price);
     List<Guitar> findFirst100By();
 }

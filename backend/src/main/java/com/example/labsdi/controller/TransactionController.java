@@ -9,6 +9,7 @@ import com.example.labsdi.service.ITransactionService;
 import com.example.labsdi.service.exception.TransactionServiceException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
@@ -33,10 +34,9 @@ public class TransactionController {
     }
 
     @GetMapping("/transactions/page/{page}")
-    public List<TransactionDTO> getTransactionsPage(@PathVariable("page") Integer page) {
-        return transactionService.getTransactionsPage(page).stream()
-                .map(t -> (TransactionDTO)t.toDTO())
-                .toList();
+    public Slice<TransactionDTO> getTransactionsPage(@PathVariable("page") Integer page) {
+        return transactionService.getTransactionsPage(page)
+                .map(t -> (TransactionDTO)t.toDTO());
     }
 
     @GetMapping("/transactions")

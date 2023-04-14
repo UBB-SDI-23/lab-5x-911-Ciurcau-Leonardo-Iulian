@@ -3,8 +3,7 @@ package com.example.labsdi.service;
 import com.example.labsdi.domain.*;
 import com.example.labsdi.domain.dto.SortedShopDTO;
 import com.example.labsdi.service.exception.TransactionServiceException;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import org.springframework.data.util.Pair;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface ITransactionService {
     void removeTransaction(Long id) throws TransactionServiceException;
     Transaction updateTransaction(Transaction transaction, Long id) throws TransactionServiceException;
     List<Transaction> getAllTransactions();
-    List<Transaction> getTransactionsPage(Integer page);
+    Slice<Transaction> getTransactionsPage(Integer page);
     boolean containsProduct(Product product);
     List<SortedShopDTO> getAllShopsSorted(); // sorted by the number of other shops their clients bought from
 }

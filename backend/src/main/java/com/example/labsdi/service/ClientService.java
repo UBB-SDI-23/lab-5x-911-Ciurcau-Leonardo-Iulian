@@ -50,6 +50,11 @@ public class ClientService implements IClientService {
     }
 
     @Override
+    public Slice<Client> getClientContainsNamePage(String name, Integer page) {
+        return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, 10), name);
+    }
+
+    @Override
     public void removeClient(Long id) throws ClientServiceException {
         if (!containsClient(id))
             throw new ClientServiceException("Client with id " + id + " does not exist!");

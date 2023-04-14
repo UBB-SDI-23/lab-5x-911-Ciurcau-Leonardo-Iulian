@@ -23,6 +23,7 @@ class AppNavbar extends Component {
                 <Button color="inherit" component={Link} to="/guitars">Guitars</Button>
                 <Button color="inherit" component={Link} to="/clients">Clients</Button>
                 <Button color="inherit" component={Link} to="/couriers">Couriers</Button>
+                <Button color="inherit" component={Link} to="/transactions">Transactions</Button>
             </Toolbar>
         </AppBar>
         </Box>;

@@ -18,6 +18,10 @@ import CourierHome from './couriers/couriersHome';
 import AddCourier from './couriers/addCourier';
 import SeeCourier from './couriers/seeCourier';
 import UpdateCourier from './couriers/updateCourier';
+import TransactionsHome from './transactions/transactionsHome';
+import SeeTransaction from './transactions/seeTransaction';
+import AddTransaction from './transactions/addTransaction';
+import UpdateTransaction from './transactions/updateTransaction';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -51,6 +55,10 @@ class App extends React.Component {
                     <Route path='/addCourier' element={<AddCourier/>}/>
                     <Route path='/seeCourier/:id' element={<SeeCourier/>}/>
                     <Route path='/updateCourier/:id' element={<UpdateCourier/>}/>
+                    <Route path='/transactions' element={<TransactionsHome/>}/>
+                    <Route path='/seeTransaction/:id' element={<SeeTransaction/>}/>
+                    <Route path='addTransaction' element={<AddTransaction/>}/>
+                    <Route path='updateTransaction/:id' element={<UpdateTransaction/>}/>
                 </Routes>
             </BrowserRouter>
         );

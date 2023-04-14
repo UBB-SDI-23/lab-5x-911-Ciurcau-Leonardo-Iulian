@@ -3,12 +3,10 @@ package com.example.labsdi.service;
 import com.example.labsdi.domain.*;
 import com.example.labsdi.domain.dto.SortedShopDTO;
 import com.example.labsdi.repository.ITransactionRepository;
-import com.example.labsdi.service.exception.GuitarServiceException;
 import com.example.labsdi.service.exception.TransactionServiceException;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.util.Pair;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -62,7 +60,9 @@ public class TransactionService implements ITransactionService {
         }
         Transaction retrievedTransaction= transactionOpt.get();
         if (Objects.nonNull(transaction.getProduct())) {
-            if (containsProduct(transaction.getProduct()))
+            if (containsProduct(transaction.getProduct()) &&
+                    (Objects.isNull(retrievedTransaction.getProduct()) ||
+                            !Objects.equals(retrievedTransaction.getProduct().getId(), transaction.getProduct().getId())))
                 throw new TransactionServiceException("Product with id " + id
                         + " already exists in a transaction!");
             else retrievedTransaction.setProduct(transaction.getProduct());
@@ -82,7 +82,7 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactionsPage(Integer page) {
+    public Slice<Transaction> getTransactionsPage(Integer page) {
         return repository.findAllBy(PageRequest.of(page, 10));
     }
 

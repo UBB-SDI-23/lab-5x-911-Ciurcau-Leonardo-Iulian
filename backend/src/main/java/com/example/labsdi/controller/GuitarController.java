@@ -46,6 +46,13 @@ public class GuitarController {
                 .toList();
     }
 
+    @GetMapping("/guitars/containsName/{name}/page/{page}")
+    public Slice<ProductDTO> getGuitarContainsNamePage(@PathVariable("name") String name,
+                                                       @PathVariable("page") Integer page) {
+        return guitarService.getGuitarContainsNamePage(name, page)
+                .map(g -> (ProductDTO) g.toDTO());
+    }
+
     @GetMapping("/guitars/priceGreaterThan/{price}")
     public List<ProductDTO> findFirst100ByPriceGreaterThan(@PathVariable("price") Integer price) {
         return guitarService.findFirst100ByPriceGreaterThan(price).stream()

@@ -38,6 +38,12 @@ public class ClientController {
         return clientService.getClientsPage(page);
     }
 
+    @GetMapping("/clients/containsName/{name}/page/{page}")
+    public Slice<Client> getClientContainsNamePage(@PathVariable("name") String name,
+                                                   @PathVariable("page") Integer page) {
+        return clientService.getClientContainsNamePage(name, page);
+    }
+
     @PutMapping("/clients/{id}")
     public Client
     updateClient(@RequestBody Client client, @PathVariable("id") Long id) throws ClientServiceException {
