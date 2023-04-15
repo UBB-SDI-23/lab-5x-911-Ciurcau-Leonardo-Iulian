@@ -23,12 +23,11 @@ import Pagination from "../pagination";
 class ShopList extends Component {
     constructor(props) {
         super(props);
-        this.state = {shops: [], showPriceSVShop: false, operationItemId: -1, page: 0, lastPage: true, dialogOpen: false};
+        this.state = {shops: [], operationItemId: -1, page: 0, lastPage: true, dialogOpen: false};
     }
 
     componentDidMount() {
         this.getShopsCall = this.props.parent ? this.props.parent.getShops : this.getShops.bind(this);
-        this.sortShopsByPrice = this.sortShopsByPrice.bind(this);
         this.handleDeleteItem = this.handleDeleteItem.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         if (!this.props.parent)
@@ -42,21 +41,6 @@ class ShopList extends Component {
         fetch('/api/shops/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({shops: data.content, lastPage: data.last}));
-    }
-
-    sortShopsByPrice(event) {
-        if (!this.props.parent) {
-            let {shops} = this.state;
-            let sortedShops = [...shops].sort((a, b) => a.price - b.price);
-            this.setState({shops: sortedShops});
-            this.setState({showPriceSVShop: true});
-        }
-        else {
-            let {shops} = this.props.parent.state;
-            let sortedShops = [...shops].sort((a, b) => a.price - b.price);
-            this.props.parent.setState({shops: sortedShops});
-            this.props.parent.setState({showPriceSVShop: true});
-        }
     }
 
     handleDeleteItem(event) {
@@ -97,10 +81,10 @@ class ShopList extends Component {
     }
 
     render() {
-        const {shops, page, lastPage, showPriceSVShop} =
+        const {shops, page} =
             this.props.parent ? this.props.parent.state : this.state;
         let {dialogOpen, isLoading} = this.state;
-        if (isLoading) {
+        if (isLoading || !shops) {
             return <p>Loading...</p>;
         }
 
@@ -112,6 +96,7 @@ class ShopList extends Component {
                 <TableCell>{shop.telephoneNumber}</TableCell>
                 <TableCell>{shop.products}</TableCell>
                 <TableCell>{shop.couriers}</TableCell>
+                {shop.averageProductPrice != null && <TableCell>{shop.averageProductPrice}</TableCell>}
                 <TableCell>
                     <Button component={Link} to={"/seeShop/"+shop.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
@@ -158,6 +143,7 @@ class ShopList extends Component {
                             <TableCell>Phone</TableCell>
                             <TableCell>Products</TableCell>
                             <TableCell>Couriers</TableCell>
+                            {shops.length > 0 && shops[0].averageProductPrice != null && <TableCell>Average product price</TableCell>}
                         </TableRow>
                     </TableHead>
                     <TableBody>

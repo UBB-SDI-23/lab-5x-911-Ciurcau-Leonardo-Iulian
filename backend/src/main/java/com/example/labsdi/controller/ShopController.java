@@ -1,7 +1,6 @@
 package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Courier;
-import com.example.labsdi.domain.Product;
 import com.example.labsdi.domain.Shop;
 import com.example.labsdi.domain.dto.*;
 import com.example.labsdi.service.IShopService;
@@ -93,5 +92,10 @@ public class ShopController {
     @GetMapping("/shops/orderByAveragePrice")
     public List<ShopAveragePriceDTO> getFirst100ShopsOrderByAverageProductsPrice() {
         return shopService.getFirst100ShopsOrderByAverageProductsPrice();
+    }
+
+    @GetMapping("/shops/orderByAveragePrice/page/{page}")
+    public Slice<ShopAveragePriceDTO> getShopsByAvgPricePage(@PathVariable("page") Integer page) {
+        return shopService.getShopsByAveragePricePage(page);
     }
 }

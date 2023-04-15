@@ -20,6 +20,7 @@ public interface IShopService {
     Slice<Shop> getShopContainsNamePage(Integer page, String name);
     List<ShopAveragePriceDTO> getAllShopsOrderByAverageProductsPrice();
     List<ShopAveragePriceDTO> getFirst100ShopsOrderByAverageProductsPrice();
+    Slice<ShopAveragePriceDTO> getShopsByAveragePricePage(Integer page);
 
     Shop addCourier(Courier courier, Long id) throws ShopServiceException;
 

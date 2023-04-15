@@ -26,6 +26,7 @@ import ShopsHome from './shops/shopsHome';
 import SeeShop from './shops/seeShop';
 import AddShop from './shops/addShop';
 import UpdateShop from './shops/updateShop';
+import AvgPriceShopList from './shops/avgPriceShopList';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -67,6 +68,7 @@ class App extends React.Component {
                     <Route path='seeShop/:id' element={<SeeShop/>}/>
                     <Route path='/addShop' element={<AddShop/>}/>
                     <Route path='/updateShop/:id' element={<UpdateShop/>}/>
+                    <Route path='/averagePriceShops' element={<AvgPriceShopList/>}/>
                 </Routes>
             </BrowserRouter>
         );

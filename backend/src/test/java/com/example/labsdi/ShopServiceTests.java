@@ -54,11 +54,11 @@ public class ShopServiceTests {
                         "model3", "type3", "color3")
         );
         List<Shop> shops = List.of(new Shop(1L, products.subList(0, 1), null, "shop1", "address1",
-                        "1@1.com", "1111", true),
+                        "1@1.com", "1111", true,0d),
                 new Shop(2L, products.subList(1, 3), null, "shop2", "address2",
-                        "2@2.com", "2222", true),
+                        "2@2.com", "2222", true,0d),
                 new Shop(3L, List.of(), null, "shop3", "address3",
-                        "3@3.com", "3333", true)
+                        "3@3.com", "3333", true,0d)
         );
 
         products.get(0).setShop(shops.get(0));

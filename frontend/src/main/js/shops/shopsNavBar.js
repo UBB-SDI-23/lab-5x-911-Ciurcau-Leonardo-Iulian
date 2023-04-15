@@ -22,6 +22,7 @@ class ShopsNavBar extends Component {
                 <Button color="inherit" component={Link} to="/">Home</Button>
                 <Button color="inherit" component={Link} to="/shops">Shops</Button>
                 <Button color="inherit" component={Link} to="/addShop">Add shop</Button>
+                <Button color="inherit" component={Link} to="/averagePriceShops">Shops sorted by average price</Button>
             </Toolbar>
         </AppBar>
         </Box>;

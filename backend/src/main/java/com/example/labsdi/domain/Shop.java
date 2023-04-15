@@ -9,10 +9,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
@@ -52,6 +56,8 @@ public class Shop implements IDTOConvertable, ISimpleDTOConvertable, IShowAllDTO
     private String telephoneNumber;
     @Column(name="shipping_available")
     private Boolean shippingAvailable;
+    @Formula(value="(SELECT COALESCE(AVG(product.price),0) FROM shop LEFT JOIN product ON shop.id=product.shop_id WHERE shop.id=id GROUP BY shop.id)")
+    private Double averageProductPriceField;
 
     @Builder(builderMethodName = "shopBuilder")
     public Shop(Long id) {
@@ -91,5 +97,17 @@ public class Shop implements IDTOConvertable, ISimpleDTOConvertable, IShowAllDTO
                 .couriers(couriers.size())
                 .products(products.size())
                 .build();
+    }
+
+    public static Double getAveragePrice(Shop s) {
+        return Objects.isNull(s.getProducts()) ? 0.0 :
+                s.getProducts().stream()
+                        .collect(Collectors.averagingInt(
+                                p -> Objects.nonNull(p.getPrice()) ? p.getPrice() : 0
+                        ));
+    }
+
+    public static ShopAveragePriceDTO toShopAveragePriceDTO(Shop s) {
+        return new ShopAveragePriceDTO((ShowAllShopDTO) s.toShowAllDTO(), getAveragePrice(s));
     }
 }

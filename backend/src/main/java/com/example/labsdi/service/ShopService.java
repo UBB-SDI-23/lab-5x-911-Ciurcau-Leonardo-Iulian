@@ -4,12 +4,13 @@ import com.example.labsdi.domain.Courier;
 import com.example.labsdi.domain.Product;
 import com.example.labsdi.domain.Shop;
 import com.example.labsdi.domain.dto.ShopAveragePriceDTO;
-import com.example.labsdi.domain.dto.ShopDTO;
+import com.example.labsdi.domain.dto.ShowAllShopDTO;
 import com.example.labsdi.repository.IShopRepository;
 import com.example.labsdi.service.exception.ShopServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -96,10 +97,7 @@ public class ShopService implements IShopService {
     @Override
     public List<ShopAveragePriceDTO> getAllShopsOrderByAverageProductsPrice() {
         List<ShopAveragePriceDTO> listShop = new ArrayList<>(repository.findAll().stream()
-                .map(s -> new ShopAveragePriceDTO((ShopDTO)s.toDTO(),
-                        s.getProducts().stream()
-                        .collect(Collectors.averagingInt(Product::getPrice))
-                ))
+                .map(Shop::toShopAveragePriceDTO)
                 .toList());
         listShop.sort(Comparator.comparing(ShopAveragePriceDTO::getAverageProductPrice));
         return listShop;
@@ -108,13 +106,16 @@ public class ShopService implements IShopService {
     @Override
     public List<ShopAveragePriceDTO> getFirst100ShopsOrderByAverageProductsPrice() {
         List<ShopAveragePriceDTO> listShop = new ArrayList<>(repository.findFirst100By().stream()
-                .map(s -> new ShopAveragePriceDTO((ShopDTO)s.toDTO(),
-                        s.getProducts().stream()
-                                .collect(Collectors.averagingInt(Product::getPrice))
-                ))
+                .map(Shop::toShopAveragePriceDTO)
                 .toList());
         listShop.sort(Comparator.comparing(ShopAveragePriceDTO::getAverageProductPrice));
         return listShop;
+    }
+
+    @Override
+    public Slice<ShopAveragePriceDTO> getShopsByAveragePricePage(Integer page) {
+        return repository.findByOrderByAverageProductPriceFieldDesc(PageRequest.of(page, 10))
+                .map(Shop::toShopAveragePriceDTO);
     }
 
     @Override

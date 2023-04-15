@@ -8,13 +8,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShopAveragePriceDTO extends ShopDTO {
+public class ShopAveragePriceDTO extends ShowAllShopDTO {
     private Double averageProductPrice;
 
     @Builder(builderMethodName = "ShopAveragePriceBuilder")
-    public ShopAveragePriceDTO(ShopDTO stdo, Double averageProductPrice) {
-        super(stdo.products,  stdo.couriers, stdo.id, stdo.name, stdo.address, stdo.email,
-                stdo.telephoneNumber, stdo.shippingAvailable);
+    public ShopAveragePriceDTO(ShowAllShopDTO stdo, Double averageProductPrice) {
+        super(stdo.products, stdo.couriers, stdo.id, stdo.name, stdo.email, stdo.telephoneNumber);
         this.averageProductPrice = averageProductPrice;
     }
 }
