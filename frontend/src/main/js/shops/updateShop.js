@@ -99,7 +99,7 @@ class UpdateShop extends Component {
         });
 
         return (
-            <Container>
+            <Container maxWidth={false}>
                 <ShopsNavBar></ShopsNavBar>
                 <br/><br/>
                 <Container>
@@ -109,6 +109,7 @@ class UpdateShop extends Component {
                     <br/><br/>
                     <TextField id="outlined-basic" label="Email" variant="outlined"
                                 defaultValue={email}
+                                error={email === ''} helperText={email === '' ? "Email is mandatory" : ''}
                                 onChange={e => this.setState({email: e.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
@@ -122,29 +123,30 @@ class UpdateShop extends Component {
                     <FormControlLabel control={<Checkbox checked={shippingAvailable} />} label="Shipping available"
                                 onChange={(event)=>this.setState({shippingAvailable: event.target.checked})} />
                     <br/><br/>
-                    <Button onClick={this.handleShopUpdate}>Update shop</Button>
+                    <Button disabled={email === ''} onClick={this.handleShopUpdate}>Update shop</Button>
+                    <br></br>
+                    <CouriersSelect parent={this}/>
+                    <Button onClick={this.handleCourierAdd}>Add courier</Button>
+                    <br></br>
+                    <Container>
+                        <InputLabel>Courier</InputLabel>
+                        <Select
+                            label="Courier"
+                            displayEmpty
+                            renderValue={(selected) => {
+                                if (!selected || selected.length == 0) {
+                                    return "";
+                                }
+                                else
+                                    return selected.name;
+                            }}
+                            onChange={(event) => this.setState({deleteCourier: event.target.value})}>
+                            {courierList}
+                        </Select>
+                        <br></br>
+                        <Button onClick={this.handleCourierRemove}>Remove courier</Button>
+                    </Container>
                 </Container>
-                <CouriersSelect parent={this}/>
-                <Button onClick={this.handleCourierAdd}>Add courier</Button>
-                <br></br>
-                <Container>
-                    <InputLabel>Courier</InputLabel>
-                    <Select
-                        label="Courier"
-                        displayEmpty
-                        renderValue={(selected) => {
-                            if (!selected || selected.length == 0) {
-                                return "";
-                            }
-                            else
-                                return selected.name;
-                        }}
-                        onChange={(event) => this.setState({deleteCourier: event.target.value})}>
-                        {courierList}
-                    </Select>
-                </Container>
-                <br></br>
-                <Button onClick={this.handleCourierRemove}>Remove courier</Button>
                 <Dialog
                     open={dialogOpen}
                     onClose={() => {this.setState({dialogOpen: false});}}

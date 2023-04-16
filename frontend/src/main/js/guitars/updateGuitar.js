@@ -24,7 +24,7 @@ class UpdateGuitar extends Component {
     constructor(props) {
         super(props);
         this.state = {creationYear: null, model: "", type: "", color: "",
-            price: null, shop: null, dialogOpen: false, isLoading: true};
+            price: 0, shop: null, dialogOpen: false, isLoading: true};
         this.id = this.props.params.id;
     }
 
@@ -87,6 +87,7 @@ class UpdateGuitar extends Component {
                     <br/><br/>
                     <TextField id="outlined-number" label="Price" variant="outlined" type="number"
                                defaultValue={price}
+                               error={price <= 0} helperText={price < 0 ? "Price must be positive" : ""}
                                onChange={(event)=>this.setState({price: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Model" variant="outlined"
@@ -103,7 +104,7 @@ class UpdateGuitar extends Component {
                     <br/><br/>
                     <ShopsSelect parent={this} defaultShop={shop}></ShopsSelect>
                     <br/><br/>
-                    <Button onClick={this.handleGuitarUpdate}>Update Guitar</Button>
+                    <Button disabled={price < 0 || !shop} onClick={this.handleGuitarUpdate}>Update Guitar</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

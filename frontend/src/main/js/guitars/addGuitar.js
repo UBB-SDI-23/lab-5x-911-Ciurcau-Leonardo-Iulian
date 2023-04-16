@@ -16,7 +16,7 @@ class AddGuitar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {creationYear: null, model: "", type: "", color: "", price: null, 
+        this.state = {creationYear: null, model: "", type: "", color: "", price: 0, 
             shop: null, dialogOpen: false, isLoading: true
         };
     }
@@ -53,7 +53,7 @@ class AddGuitar extends Component {
     }
 
     render() {
-        const {dialogOpen, isLoading} = this.state;
+        const {dialogOpen, shop, price, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
@@ -66,6 +66,7 @@ class AddGuitar extends Component {
                            onChange={(event)=>this.setState({creationYear: event.target.value})}/>
                 <br/><br/>
                     <TextField id="outlined-number" label="Price" variant="outlined" type="number"
+                                error={price < 0} helperText={price < 0 ? "Price must be positive" : ''}
                                onChange={(event)=>this.setState({price: event.target.value})}/>
                     <br/><br/>
                 <TextField id="outlined-basic" label="Model" variant="outlined"
@@ -79,7 +80,7 @@ class AddGuitar extends Component {
                 <br/><br/>
                 <ShopsSelect parent={this}></ShopsSelect>
                 <br/><br/>
-                <Button onClick={this.handleGuitarAdd}>Add Guitar</Button>
+                <Button disabled={price < 0 || !shop} onClick={this.handleGuitarAdd}>Add Guitar</Button>
             </Container>
                 <Dialog
                     open={dialogOpen}

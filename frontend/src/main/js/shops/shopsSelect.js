@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Container, InputLabel, MenuItem, TextField, Select} from '@mui/material';
+import {Container, InputLabel, MenuItem, TextField, Select, FormHelperText} from '@mui/material';
+import {red} from "@mui/material/colors";
 import Pagination from '../pagination';
 import SimpleShop from './simpleShop';
 
@@ -74,6 +75,7 @@ class ShopsSelect extends Component {
                 id="demo-simple-select"
                 label="Shop"
                 displayEmpty
+                error={!shop}
                 renderValue={(selected) => {
                     if (!selected || selected.length == 0) {
                         if (shop)
@@ -90,6 +92,7 @@ class ShopsSelect extends Component {
             {shopList}
             <Pagination parent={this}></Pagination>
             </Select>
+            <FormHelperText sx={{color: red[500]}}>{!shop ? "Shop is mandatory" : ""}</FormHelperText>
         </Container>
     }
 }

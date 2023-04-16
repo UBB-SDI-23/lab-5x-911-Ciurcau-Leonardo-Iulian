@@ -58,7 +58,7 @@ class UpdateCourier extends Component {
         } 
 
         return (
-            <Container>
+            <Container maxWidth={false}>
                 <CouriersNavBar></CouriersNavBar>
                 <br/><br/>
                 <Container>

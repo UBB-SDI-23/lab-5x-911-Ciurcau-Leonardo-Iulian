@@ -42,7 +42,7 @@ class AddTransaction extends Component {
     }
 
     render() {
-        const {dialogOpen, isCashPayment, isLoading} = this.state;
+        const {dialogOpen, client, product, isCashPayment, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
@@ -60,7 +60,7 @@ class AddTransaction extends Component {
                     <FormControlLabel control={<Checkbox checked={isCashPayment} />} label="Cash payment"
                                 onChange={(event)=>this.setState({isCashPayment: event.target.checked})} />
                     <br/><br/>
-                    <Button onClick={this.handleTransactionAdd}>Add transaction</Button>
+                    <Button disabled={!client || !product} onClick={this.handleTransactionAdd}>Add transaction</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

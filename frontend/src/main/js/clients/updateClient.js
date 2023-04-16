@@ -73,6 +73,7 @@ class UpdateClient extends Component {
                     <br/><br/>
                     <TextField id="outlined-basic" label="Email" variant="outlined"
                                defaultValue={email}
+                               error={email === ''} helperText={email === '' ? "Email is mandatory" : ''}
                                onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
@@ -87,7 +88,7 @@ class UpdateClient extends Component {
                                defaultValue={address}
                                onChange={(event)=>this.setState({address: event.target.value})}/>
                     <br/><br/>
-                    <Button onClick={this.handleClientUpdate}>Update client</Button>
+                    <Button disabled={email === ''} onClick={this.handleClientUpdate}>Update client</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

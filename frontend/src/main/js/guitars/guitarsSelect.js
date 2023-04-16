@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Container, InputLabel, MenuItem, TextField, Select} from '@mui/material';
+import {Container, InputLabel, MenuItem, TextField, Select,FormHelperText} from '@mui/material';
 import Pagination from '../pagination';
 import SimpleGuitar from './simpleGuitar';
+import {red} from "@mui/material/colors";
 
 class GuitarsSelect extends Component {
     constructor(props) {
@@ -74,6 +75,7 @@ class GuitarsSelect extends Component {
                 id="demo-simple-select"
                 label="Product"
                 displayEmpty
+                error={!guitar}
                 renderValue={(selected) => {
                     if (!selected || selected.length == 0) {
                         if (guitar)
@@ -90,6 +92,7 @@ class GuitarsSelect extends Component {
             {guitarList}
             <Pagination parent={this}></Pagination>
             </Select>
+            <FormHelperText sx={{color: red[500]}}>{!guitar ? "Product is mandatory" : ""}</FormHelperText>
         </Container>
     }
 }

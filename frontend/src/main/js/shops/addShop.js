@@ -32,7 +32,7 @@ class AddShop extends Component {
     }
 
     render() {
-        const {shippingAvailable, dialogOpen, isLoading} = this.state;
+        const {shippingAvailable, email, dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
@@ -45,6 +45,7 @@ class AddShop extends Component {
                                onChange={(event)=>this.setState({name: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-number" label="Email" variant="outlined"
+                                error={email === ''} helperText={email === '' ? "Email is mandatory" : ''}
                                onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
@@ -57,7 +58,7 @@ class AddShop extends Component {
                             onChange={(event)=>this.setState({shippingAvailable: event.target.checked})} />} 
                             label="Shipping available" />
                     <br/><br/>
-                    <Button onClick={this.handleShopAdd}>Add shop</Button>
+                    <Button disabled={email === ''} onClick={this.handleShopAdd}>Add shop</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

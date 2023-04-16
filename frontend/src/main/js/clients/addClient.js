@@ -41,7 +41,7 @@ class AddClient extends Component {
     }
 
     render() {
-        const {dialogOpen, isLoading} = this.state
+        const {dialogOpen, email, isLoading} = this.state
         if (isLoading) {
             return <p>Loading...</p>
         }
@@ -53,8 +53,9 @@ class AddClient extends Component {
                     <TextField id="outlined-number" label="Name" variant="outlined"
                                onChange={(event)=>this.setState({name: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-number" label="Email" variant="outlined"
-                               onChange={(event)=>this.setState({email: event.target.value})}/>
+                    <TextField id="outlined-number" label="Email" variant="outlined" 
+                                error={email === ''} helperText={email === '' ? "Email is mandatory" : ''}
+                                onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
                                onChange={(event)=>this.setState({phone: event.target.value})}/>
@@ -65,7 +66,7 @@ class AddClient extends Component {
                     <TextField id="outlined-basic" label="Address" variant="outlined"
                                onChange={(event)=>this.setState({address: event.target.value})}/>
                     <br/><br/>
-                    <Button onClick={this.handleClientAdd}>Add client</Button>
+                    <Button disabled={email === ''} onClick={this.handleClientAdd}>Add client</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

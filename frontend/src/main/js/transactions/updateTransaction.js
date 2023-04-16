@@ -91,7 +91,7 @@ class UpdateTransaction extends Component {
                     <FormControlLabel control={<Checkbox checked={isCashPayment} />} label="Cash payment"
                                 onChange={(event)=>this.setState({isCashPayment: event.target.checked})} />
                     <br/><br/>
-                    <Button onClick={this.handleTransactionUpdate}>Update Transaction</Button>
+                    <Button disabled={!client || !product} onClick={this.handleTransactionUpdate}>Update Transaction</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

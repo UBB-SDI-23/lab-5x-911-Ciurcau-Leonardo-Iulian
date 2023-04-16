@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Container, InputLabel, MenuItem, TextField, Select} from '@mui/material';
+import {Container, InputLabel, MenuItem, TextField, Select,FormHelperText} from '@mui/material';
 import Pagination from '../pagination';
 import SimpleClient from './simpleClient';
+import {red} from "@mui/material/colors";
 
 class ClientsSelect extends Component {
     constructor(props) {
@@ -74,6 +75,7 @@ class ClientsSelect extends Component {
                 id="demo-simple-select"
                 label="Client"
                 displayEmpty
+                error={!client}
                 renderValue={(selected) => {
                     if (!selected || selected.length == 0) {
                         if (client)
@@ -90,6 +92,7 @@ class ClientsSelect extends Component {
             {clientList}
             <Pagination parent={this}></Pagination>
             </Select>
+            <FormHelperText sx={{color: red[500]}}>{!client ? "Client is mandatory" : ""}</FormHelperText>
         </Container>
     }
 }
