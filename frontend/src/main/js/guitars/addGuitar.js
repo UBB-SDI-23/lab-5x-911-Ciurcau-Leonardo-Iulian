@@ -44,7 +44,7 @@ class AddGuitar extends Component {
                 color: color
             })
         };
-        fetch(App.API_URL + 'api/guitars', requestOptions)
+        fetch(App.API_URL + '/api/guitars', requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }
