@@ -35,7 +35,7 @@ class TransactionsList extends Component {
 
     getTransactions() {
         const { page } = this.state;
-        fetch(App.API_URL + 'api/transactions/page/' + page)
+        fetch(App.API_URL + '/api/transactions/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({ transactions: data.content, lastPage: data.last }));
     }
