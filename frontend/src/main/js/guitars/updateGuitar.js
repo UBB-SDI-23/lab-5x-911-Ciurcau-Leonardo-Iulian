@@ -14,6 +14,7 @@ import {
 import {useParams} from "react-router-dom";
 import ShopsSelect from '../shops/shopsSelect';
 import SimpleShop from '../shops/simpleShop';
+import App from "../app";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -37,7 +38,7 @@ class UpdateGuitar extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/guitars/dto/' + this.id)
+        fetch(App.API_URL + '/api/guitars/dto/' + this.id)
             .then(response => response.json())
             .then(guitar =>
                 this.setState({price: guitar.price,
@@ -62,7 +63,7 @@ class UpdateGuitar extends Component {
                 color: color
             })
         };
-        fetch('/api/guitars/' + this.id, requestOptions)
+        fetch(App.API_URL + '/api/guitars/' + this.id, requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }

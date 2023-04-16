@@ -38,7 +38,7 @@ class ClientList extends Component {
 
     getClients(event) {
         const {page} = this.state;
-        fetch('/api/clients/page/' + page)
+        fetch(App.API_URL + '/api/clients/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({clients: data.content, lastPage: data.last}));
     }
@@ -57,7 +57,7 @@ class ClientList extends Component {
     }
 
     deleteItem(event) {
-        fetch(`/api/clients/` + this.state.operationItemId, { method: 'DELETE' })
+        fetch(App.API_URL + `/api/clients/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
                 this.getClientsCall();
                 this.setState({operationItemId: -1});

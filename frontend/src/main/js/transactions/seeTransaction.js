@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import {useParams} from "react-router-dom";
 import {Container, FormControlLabel, Checkbox, TextField} from "@mui/material";
 import TransactionsNavBar from "./transactionsNavBar";
+import App from "../app";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -21,7 +22,7 @@ class SeeTransaction extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/transactions/dto/' + this.id)
+        fetch(App.API_URL + '/api/transactions/dto/' + this.id)
             .then(response => response.json())
             .then(transaction =>
                 this.setState({product: transaction.product, client: transaction.client, 

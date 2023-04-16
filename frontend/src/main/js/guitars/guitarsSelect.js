@@ -3,6 +3,7 @@ import {Container, InputLabel, MenuItem, TextField, Select,FormHelperText} from 
 import Pagination from '../pagination';
 import SimpleGuitar from './simpleGuitar';
 import {red} from "@mui/material/colors";
+import App from "../app";
 
 class GuitarsSelect extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class GuitarsSelect extends Component {
 
     getAllGuitars() {
         const {page, autocompleteName} = this.state;
-        fetch(autocompleteName == "" ? '/api/guitars/simple/page/' + page : '/api/guitars/containsName/' + autocompleteName + '/page/' + page)
+        fetch(App.API_URL + (autocompleteName == "" ? '/api/guitars/simple/page/' + page : '/api/guitars/containsName/' + autocompleteName + '/page/' + page))
             .then(response => response.json())
             .then(data => this.setState({
                 allGuitars: data.content, lastPage: data.last},

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Container, InputLabel, MenuItem, TextField, Select} from '@mui/material';
 import Pagination from '../pagination';
 import SimpleCourier from './simpleCourier';
+import App from "../app";
 
 class CouriersSelect extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ class CouriersSelect extends Component {
 
     getAllCouriers() {
         const {page, autocompleteName} = this.state;
-        fetch(autocompleteName == "" ? '/api/couriers/simple/page/' + page : '/api/couriers/containsName/' + autocompleteName + '/page/' + page)
+        fetch(App.API_URL + (autocompleteName == "" ? '/api/couriers/simple/page/' + page : '/api/couriers/containsName/' + autocompleteName + '/page/' + page))
             .then(response => response.json())
             .then(data => this.setState({
                 allCouriers: data.content, lastPage: data.last},

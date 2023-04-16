@@ -39,7 +39,7 @@ class GuitarList extends Component {
 
     getGuitars(event) {
         const {page} = this.state;
-        fetch('/api/guitars/page/' + page)
+        fetch(App.API_URL + '/api/guitars/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({guitars: data.content, lastPage: data.last}));
     }
@@ -73,7 +73,7 @@ class GuitarList extends Component {
     }
 
     deleteItem(event) {
-        fetch(`/api/guitars/` + this.state.operationItemId, { method: 'DELETE' })
+        fetch(App.API_URL + `/api/guitars/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
                 this.getGuitarsCall();
                 this.setState({operationItemId: -1});

@@ -11,6 +11,7 @@ import {
     InputLabel, MenuItem, Select,
     TextField
 } from "@mui/material";
+import App from "../app";
 
 class AddClient extends Component {
 
@@ -35,7 +36,7 @@ class AddClient extends Component {
                 telephoneNumber: phone, birthDate: birthDate, address: address
             })
         };
-        fetch('/api/clients', requestOptions)
+        fetch(App.API_URL + '/api/clients', requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }

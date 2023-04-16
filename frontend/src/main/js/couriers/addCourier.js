@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import CouriersNavBar from "./couriersNavBar";
+import App from "../app";
 
 class AddCourier extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class AddCourier extends Component {
                 deliveryPrice: deliveryPrice, address: address, description: description
             })
         };
-        fetch('/api/couriers', requestOptions)
+        fetch(App.API_URL + '/api/couriers', requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }

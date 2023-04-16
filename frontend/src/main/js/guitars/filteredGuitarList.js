@@ -26,7 +26,7 @@ class FilteredGuitarList extends Component {
         if (event)
             event.preventDefault();
         const {filteredGuitarsPrice, page} = this.state;
-        fetch(`/api/guitars/priceGreaterThan/` + filteredGuitarsPrice + '/page/' + page)
+        fetch(App.API_URL + `/api/guitars/priceGreaterThan/` + filteredGuitarsPrice + '/page/' + page)
             .then(response => response.json())
             .then((data) => this.setState({guitars: data.content, lastPage: data.last, showPriceSVG: false}));
     }

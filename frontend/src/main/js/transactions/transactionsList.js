@@ -16,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
 import {Link} from "react-router-dom";
 import Pagination from "../pagination";
+import App from "../app";
 
 class TransactionsList extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class TransactionsList extends Component {
 
     getTransactions() {
         const { page } = this.state;
-        fetch('api/transactions/page/' + page)
+        fetch(App.API_URL + 'api/transactions/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({ transactions: data.content, lastPage: data.last }));
     }
@@ -53,7 +54,7 @@ class TransactionsList extends Component {
     }
 
     deleteItem(event) {
-        fetch(`/api/transactions/` + this.state.operationItemId, { method: 'DELETE' })
+        fetch(App.API_URL + `/api/transactions/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
                 this.getTransactionsCall();
                 this.setState({ operationItemId: -1 });

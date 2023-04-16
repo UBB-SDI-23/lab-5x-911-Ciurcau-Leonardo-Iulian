@@ -3,6 +3,7 @@ import {Container, InputLabel, MenuItem, TextField, Select, FormHelperText} from
 import {red} from "@mui/material/colors";
 import Pagination from '../pagination';
 import SimpleShop from './simpleShop';
+import App from "../app";
 
 class ShopsSelect extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class ShopsSelect extends Component {
 
     getAllShops() {
         const {page, autocompleteName} = this.state;
-        fetch(autocompleteName == "" ? '/api/shops/simple/page/' + page : '/api/shops/containsName/' + autocompleteName + '/page/' + page)
+        fetch(App.API_URL + (autocompleteName == "" ? '/api/shops/simple/page/' + page : '/api/shops/containsName/' + autocompleteName + '/page/' + page))
             .then(response => response.json())
             .then(data => this.setState({
                 allShops: data.content, lastPage: data.last},

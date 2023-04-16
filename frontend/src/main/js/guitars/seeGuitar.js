@@ -5,6 +5,7 @@ import {
     TextField
 } from "@mui/material";
 import {useParams} from "react-router-dom";
+import App from "../app";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -25,7 +26,7 @@ class SeeGuitar extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/guitars/dto/' + this.id)
+        fetch(App.API_URL + '/api/guitars/dto/' + this.id)
             .then(response => response.json())
             .then(guitar =>
                 this.setState({price: guitar.price,

@@ -11,6 +11,7 @@ import {
     TextField
 } from "@mui/material";
 import ShopsSelect from '../shops/shopsSelect';
+import App from "../app";
 
 class AddGuitar extends Component {
 
@@ -43,7 +44,7 @@ class AddGuitar extends Component {
                 color: color
             })
         };
-        fetch('api/guitars', requestOptions)
+        fetch(App.API_URL + 'api/guitars', requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }

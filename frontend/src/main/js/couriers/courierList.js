@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import {blue, red, grey} from "@mui/material/colors";
 import Pagination from "../pagination";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import App from "../app";
 
 
 class CourierList extends Component {
@@ -27,7 +28,7 @@ class CourierList extends Component {
 
     getCouriers() {
         const {page} = this.state;
-        fetch('api/couriers/page/' + page)
+        fetch(App.API_URL + 'api/couriers/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({couriers: data.content, lastPage: data.last}));
     }
@@ -46,7 +47,7 @@ class CourierList extends Component {
     }
 
     deleteItem(event) {
-        fetch(`/api/couriers/` + this.state.operationItemId, { method: 'DELETE' })
+        fetch(App.API_URL + `/api/couriers/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
                 this.getCouriersCall();
                 this.setState({operationItemId: -1});

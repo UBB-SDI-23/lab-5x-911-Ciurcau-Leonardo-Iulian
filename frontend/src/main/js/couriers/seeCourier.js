@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { useParams } from "react-router-dom";
 import { Container, TextField } from "@mui/material";
 import CouriersNavBar from "./couriersNavBar";
+import App from "../app";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -20,7 +21,7 @@ class SeeCourier extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/couriers/' + this.id)
+        fetch(App.API_URL + '/api/couriers/' + this.id)
             .then(response => response.json())
             .then(courier =>
                 this.setState({name: courier.name, email: courier.email, 

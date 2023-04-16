@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Container, TextField, Button } from "@mui/material";
 import CouriersNavBar from "./couriersNavBar";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import App from "../app";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -25,7 +26,7 @@ class UpdateCourier extends Component {
 
     
     fillTextFields() {
-        fetch('/api/couriers/' + this.id)
+        fetch(App.API_URL + '/api/couriers/' + this.id)
             .then(response => response.json())
             .then(courier =>
                 this.setState({name: courier.name, email: courier.email, 
@@ -46,7 +47,7 @@ class UpdateCourier extends Component {
                 address: address, description: description
             })
         };
-        fetch('/api/couriers/' + this.id, requestOptions)
+        fetch(App.API_URL + '/api/couriers/' + this.id, requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }

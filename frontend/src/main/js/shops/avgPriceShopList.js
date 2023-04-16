@@ -20,7 +20,7 @@ class AvgPriceShopList extends Component {
         if (event)
             event.preventDefault();
         const {page} = this.state;
-        fetch('/api/shops/orderByAveragePrice/page/' + page)
+        fetch(App.API_URL + '/api/shops/orderByAveragePrice/page/' + page)
             .then(response => response.json())
             .then((data) => this.setState({shops: data.content, lastPage: data.last}));
     }

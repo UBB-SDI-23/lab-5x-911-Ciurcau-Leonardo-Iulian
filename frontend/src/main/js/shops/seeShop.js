@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { useParams } from "react-router-dom";
 import { Container, InputLabel,Select,MenuItem,Checkbox, FormControlLabel, TextField } from "@mui/material";
 import ShopsNavBar from "./shopsNavBar";
+import App from "../app";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -21,7 +22,7 @@ class SeeShop extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/shops/' + this.id)
+        fetch(App.API_URL + '/api/shops/' + this.id)
             .then(response => response.json())
             .then(shop =>
                 this.setState({name: shop.name, email: shop.email, 

@@ -38,7 +38,7 @@ class ShopList extends Component {
 
     getShops(event) {
         const {page} = this.state;
-        fetch('/api/shops/page/' + page)
+        fetch(App.API_URL + '/api/shops/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({shops: data.content, lastPage: data.last}));
     }
@@ -57,7 +57,7 @@ class ShopList extends Component {
     }
 
     deleteItem(event) {
-        fetch(`/api/shops/` + this.state.operationItemId, { method: 'DELETE' })
+        fetch(App.API_URL + `/api/shops/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
                 this.getShopsCall();
                 this.setState({operationItemId: -1});

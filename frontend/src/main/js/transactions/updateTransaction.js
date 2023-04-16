@@ -16,6 +16,7 @@ import GuitarsSelect from "../guitars/guitarsSelect";
 import ClientsSelect from "../clients/clientsSelect";
 import SimpleGuitar from "../guitars/simpleGuitar";
 import SimpleClient from "../clients/simpleClient";
+import App from "../app";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -39,7 +40,7 @@ class UpdateTransaction extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/transactions/dto/' + this.id)
+        fetch(App.API_URL + '/api/transactions/dto/' + this.id)
             .then(response => response.json())
             .then(transaction =>{
                 this.setState({product: new SimpleGuitar(transaction.product.id, transaction.product.model), 
@@ -59,7 +60,7 @@ class UpdateTransaction extends Component {
                 date: date, isCashPayment: isCashPayment
             })
         };
-        fetch('/api/transactions/' + this.id, requestOptions)
+        fetch(App.API_URL + '/api/transactions/' + this.id, requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }

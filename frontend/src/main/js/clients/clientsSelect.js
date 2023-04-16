@@ -3,6 +3,7 @@ import {Container, InputLabel, MenuItem, TextField, Select,FormHelperText} from 
 import Pagination from '../pagination';
 import SimpleClient from './simpleClient';
 import {red} from "@mui/material/colors";
+import App from "../app";
 
 class ClientsSelect extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class ClientsSelect extends Component {
 
     getAllClients() {
         const {page, autocompleteName} = this.state;
-        fetch(autocompleteName == "" ? '/api/clients/simple/page/' + page : '/api/clients/containsName/' + autocompleteName + '/page/' + page)
+        fetch(App.API_URL + (autocompleteName == "" ? '/api/clients/simple/page/' + page : '/api/clients/containsName/' + autocompleteName + '/page/' + page))
             .then(response => response.json())
             .then(data => this.setState({
                 allClients: data.content, lastPage: data.last},

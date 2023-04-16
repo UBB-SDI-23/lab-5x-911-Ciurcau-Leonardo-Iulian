@@ -5,6 +5,7 @@ import ShopsNavBar from "./shopsNavBar";
 import {Dialog, Select,Box,List,ListItem,ListItemText,DialogActions, DialogContent, DialogContentText, DialogTitle,
     FormControlLabel,Container,InputLabel,MenuItem,ListItemButton, Checkbox} from "@mui/material";
 import CouriersSelect from "../couriers/couriersSelect";
+import App from "../app";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -30,7 +31,7 @@ class UpdateShop extends Component {
 
     
     fillTextFields() {
-        fetch('/api/shops/' + this.id)
+        fetch(App.API_URL + '/api/shops/' + this.id)
             .then(response => response.json())
             .then(shop =>
                 this.setState({name: shop.name, email: shop.email, 
@@ -51,7 +52,7 @@ class UpdateShop extends Component {
                 address: address, shippingAvailable: shippingAvailable
             })
         };
-        fetch('/api/shops/' + this.id, requestOptions)
+        fetch(App.API_URL + '/api/shops/' + this.id, requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }

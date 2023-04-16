@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Button, Container, Dialog, DialogActions, DialogContent, 
     DialogContentText, DialogTitle, TextField, FormControlLabel, Checkbox} from "@mui/material";
 import ShopsNavBar from "./shopsNavBar";
+import App from "../app";
 
 class AddShop extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class AddShop extends Component {
                 address: address, shippingAvailable: shippingAvailable
             })
         };
-        fetch('/api/shops', requestOptions)
+        fetch(App.API_URL + '/api/shops', requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }

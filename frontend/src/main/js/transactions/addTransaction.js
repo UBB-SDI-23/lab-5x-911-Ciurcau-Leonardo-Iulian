@@ -4,6 +4,7 @@ import {Button, Container, Dialog, DialogActions, DialogContent, DialogContentTe
 import TransactionsNavBar from "./transactionsNavBar";
 import GuitarsSelect from "../guitars/guitarsSelect";
 import ClientsSelect from "../clients/clientsSelect";
+import App from "../app";
 
 class AddTransaction extends Component {
     constructor(props) {
@@ -28,7 +29,7 @@ class AddTransaction extends Component {
                 date: date, isCashPayment: isCashPayment
             })
         };
-        fetch('/api/transactions', requestOptions)
+        fetch(App.API_URL + '/api/transactions', requestOptions)
             .then(response => response.json())
             .then(() => this.setState({dialogOpen: true}));
     }

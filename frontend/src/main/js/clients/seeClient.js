@@ -5,6 +5,7 @@ import {
     TextField
 } from "@mui/material";
 import {useParams} from "react-router-dom";
+import App from "../app";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -24,7 +25,7 @@ class SeeClient extends Component {
     }
 
     fillTextFields() {
-        fetch('/api/clients/' + this.id)
+        fetch(App.API_URL + '/api/clients/' + this.id)
             .then(response => response.json())
             .then(client =>
                 this.setState({name: client.name, email: client.email, 
