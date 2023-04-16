@@ -21,7 +21,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Index(name = "price_index_guitar", columnList = "price")})
 public abstract class Product implements IDTOConvertable, ISimpleDTOConvertable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter(AccessLevel.PUBLIC)
     @Setter(AccessLevel.PUBLIC)
     protected Long id;
