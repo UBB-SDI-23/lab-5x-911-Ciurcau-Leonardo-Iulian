@@ -28,7 +28,7 @@ class CourierList extends Component {
 
     getCouriers() {
         const {page} = this.state;
-        fetch(App.API_URL + 'api/couriers/page/' + page)
+        fetch(App.API_URL + '/api/couriers/page/' + page)
             .then(response => response.json())
             .then(data => this.setState({couriers: data.content, lastPage: data.last}));
     }
