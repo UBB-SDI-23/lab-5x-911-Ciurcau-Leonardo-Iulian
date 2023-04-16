@@ -100,7 +100,7 @@ class GuitarList extends Component {
         const {guitars, page, lastPage, showPriceSVG} =
             this.props.parent ? this.props.parent.state : this.state;
         let {dialogOpen, isLoading} = this.state;
-        if (isLoading) {
+        if (isLoading || !guitars) {
             return <p>Loading...</p>;
         }
 
