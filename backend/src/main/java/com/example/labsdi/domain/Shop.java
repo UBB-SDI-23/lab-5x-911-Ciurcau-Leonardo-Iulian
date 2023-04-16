@@ -4,6 +4,7 @@ import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,7 +51,7 @@ public class Shop implements IDTOConvertable, ISimpleDTOConvertable, IShowAllDTO
     @Column(name="address")
     private String address;
     @Column(name="email")
-    @NotEmpty(message = "Email is mandatory")
+    @NotBlank(message = "Email is mandatory")
     private String email;
     @Column(name="telephone_number")
     private String telephoneNumber;

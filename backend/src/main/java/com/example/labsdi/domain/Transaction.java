@@ -4,6 +4,7 @@ import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,12 +28,12 @@ public class Transaction implements IDTOConvertable {
     @OneToOne
     @JoinColumn(name="product_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotBlank(message = "Product is mandatory")
+    @NotNull(message = "Product is mandatory")
     private Product product;
     @ManyToOne
     @JoinColumn(name="client_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotBlank(message = "Client is mandatory")
+    @NotNull(message = "Client is mandatory")
     private Client client;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
