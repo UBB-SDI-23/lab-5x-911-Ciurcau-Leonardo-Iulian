@@ -15,4 +15,5 @@ public interface IClientRepository extends JpaRepository<Client, Long> {
     List<Client> findFirst100By();
     Slice<Client> findAllBy(Pageable pageable);
     Slice<Client> findAllByNameContainingIgnoreCase(Pageable pageable, String name);
+    Integer countAllBy();
 }

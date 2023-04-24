@@ -11,6 +11,7 @@ public interface IClientService {
     boolean containsClient(Long id);
     Client addClient(Client client) throws ClientServiceException;
     Client getClient(Long id) throws ClientServiceException;
+    Integer getCount();
     List<Client> getFirst100Clients();
     Slice<Client> getClientsPage(Integer page);
     Slice<Client> getClientContainsNamePage(String name, Integer page);

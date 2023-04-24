@@ -18,22 +18,30 @@ import FindInPageIcon from '@mui/icons-material/FindInPage';
 import EditIcon from '@mui/icons-material/Edit';
 import {blue, red, grey} from "@mui/material/colors";
 import {Link} from "react-router-dom";
-import Pagination from "../pagination";
+import ComplexPagination from "../complexPagination";
 
 class ClientList extends Component {
     constructor(props) {
         super(props);
-        this.state = {clients: [], operationItemId: -1, page: 0, lastPage: true, dialogOpen: false};
+        this.state = {clients: [], operationItemId: -1, page: 0, lastPage: true, dialogOpen: false, totalCount: 0};
     }
 
     componentDidMount() {
         this.getClientsCall = this.props.parent ? this.props.parent.getClients : this.getClients.bind(this);
+        this.clientsCountCall = this.props.parent ? this.props.parent.getCount : this.getCount.bind(this);
         this.handleDeleteItem = this.handleDeleteItem.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
+        this.clientsCountCall();
         if (!this.props.parent)
             this.getClientsCall();
         
         this.forceUpdate();
+    }
+
+    getCount() {
+        fetch(App.API_URL + '/api/clients/count')
+            .then(response => response.json())
+            .then(data => this.setState({totalCount: data.count}));
     }
 
     getClients(event) {
@@ -60,6 +68,7 @@ class ClientList extends Component {
         fetch(App.API_URL + `/api/clients/` + this.state.operationItemId, { method: 'DELETE' })
             .then(() => {
                 this.getClientsCall();
+                this.clientsCountCall();
                 this.setState({operationItemId: -1});
             });
     }
@@ -83,7 +92,7 @@ class ClientList extends Component {
     render() {
         const {clients, page, lastPage} =
             this.props.parent ? this.props.parent.state : this.state;
-        let {dialogOpen, isLoading} = this.state;
+        let {dialogOpen, totalCount, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>;
         }
@@ -146,7 +155,7 @@ class ClientList extends Component {
                         {clientList}
                     </TableBody>
                 </Table>
-                <Pagination parent={this}></Pagination>
+                <ComplexPagination parent={this}></ComplexPagination>
             </Container>
         );
     }

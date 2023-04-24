@@ -40,6 +40,11 @@ public class ClientService implements IClientService {
     }
 
     @Override
+    public Integer getCount() {
+        return repository.countAllBy();
+    }
+
+    @Override
     public List<Client> getFirst100Clients() {
         return repository.findFirst100By();
     }

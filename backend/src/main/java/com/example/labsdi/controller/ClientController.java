@@ -1,10 +1,12 @@
 package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Client;
+import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.domain.dto.SimpleClientDTO;
 import com.example.labsdi.service.ClientService;
 import com.example.labsdi.service.IClientService;
 import com.example.labsdi.service.exception.ClientServiceException;
+import io.swagger.v3.core.util.Json;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
@@ -43,6 +45,11 @@ public class ClientController {
     public Slice<SimpleClientDTO> getClientsSimplePage(@PathVariable("page") Integer page) {
         return clientService.getClientsPage(page)
                 .map(c -> (SimpleClientDTO) c.toSimpleDTO());
+    }
+
+    @GetMapping("/clients/count")
+    public Count getCount() {
+        return new Count(clientService.getCount());
     }
 
     @GetMapping("/clients/containsName/{name}/page/{page}")
