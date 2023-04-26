@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/main/js/app.js',
+    entry: './src/main/js/app.jsx',
     devtool: 'eval',
     cache: true,
     mode: 'development',
@@ -11,6 +11,9 @@ module.exports = {
     },
     watchOptions: {
         ignored: /node_modules/
+    },
+    resolve: {
+      extensions: ['*', '.js', '.jsx'],
     },
     module: {
         rules: [
