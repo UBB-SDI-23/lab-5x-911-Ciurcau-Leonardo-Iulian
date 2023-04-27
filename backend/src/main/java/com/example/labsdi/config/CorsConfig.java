@@ -1,4 +1,4 @@
-package com.example.labsdi;
+package com.example.labsdi.config;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

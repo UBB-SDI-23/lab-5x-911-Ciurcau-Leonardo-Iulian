@@ -1,4 +1,4 @@
-package com.example.labsdi;
+package com.example.labsdi.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
