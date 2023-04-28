@@ -9,17 +9,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
+@ContextConfiguration(classes = LabSdiApplication.class)
 @DataJpaTest
-@SuppressWarnings("SpringContextConfigurationInspection")
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-
 public class GuitarRepositoryTests {
     @Autowired
     private TestEntityManager entityManager;

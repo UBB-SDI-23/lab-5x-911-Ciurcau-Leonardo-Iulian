@@ -12,11 +12,13 @@ import com.example.labsdi.service.exception.ShopServiceException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -65,7 +67,7 @@ public class ShopServiceTests {
         products.get(1).setShop(shops.get(1));
         products.get(2).setShop(shops.get(1));
 
-        when(repository.findAll())
+        Mockito.when(repository.findAll())
                 .thenReturn(shops);
     }
 
