@@ -40,10 +40,7 @@ class UserLogin extends Component {
             .then(response => response.json())
             .then(data => {
                 if (data.username && data.accessToken) {
-                    const d = new Date();
-                    d.setTime(d.getTime() + (1*24*60*60*1000));
-                    let expires = "expires="+ d.toUTCString();
-                    document.cookie = "currentUser=" + JSON.stringify(data) + ";" + expires + ";path=/";
+                    localStorage.setItem('currentUser', JSON.stringify(data));
                     this.setState({invalidCredentials: false});
                     document.location.href = '/';
                 }

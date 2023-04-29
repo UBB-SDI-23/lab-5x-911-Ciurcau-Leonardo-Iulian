@@ -47,28 +47,15 @@ class App extends React.Component {
         this.forceUpdate();
     }
 
-    getCurrentUserCookie() {
-        let cname = "currentUser";
-        let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(';');
-        for(let i = 0; i <ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return JSON.stringify(c.substring(name.length, c.length));
-            }
-        }
-        return null;
+    getCurrentUserLocalStorage() {
+        return JSON.parse(localStorage.getItem('currentUser'));
     }
 
     getCurrentUser() {
-        let cookie = this.getCurrentUserCookie();
-        if (cookie) {
-            this.state.currentUser.setUsername(cookie.username);
-            this.state.currentUser.setAccessToken(cookie.accessToken);
+        let userStorage = this.getCurrentUserLocalStorage();
+        if (userStorage) {
+            this.state.currentUser.setUsername(userStorage.username);
+            this.state.currentUser.setAccessToken(userStorage.accessToken);
         }
         else {
             this.state.currentUser.setUsername(null);
