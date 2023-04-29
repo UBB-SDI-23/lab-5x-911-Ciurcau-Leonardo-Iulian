@@ -49,7 +49,6 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(
                             request.getUsername(), request.getPassword())
             );
-
             User user = (User) authentication.getPrincipal();
             String accessToken = jwtUtil.generateAccessToken(user);
             AuthResponse response = new AuthResponse(user.getUsername(), accessToken);
@@ -57,7 +56,7 @@ public class AuthController {
             return ResponseEntity.ok().body(response);
 
         } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Invalid credentials!\"}");
         }
     }
 }

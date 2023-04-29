@@ -3,7 +3,9 @@ package com.example.labsdi.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,14 +30,17 @@ public class UserProfile {
     @NotNull(message = "User is mandatory")
     private User user;
     @Column(name="first_name")
+    @NotBlank
     private String firstName;
     @Column(name="last_name")
+    @NotBlank
     private String lastName;
     @Column(name="address")
     private String address;
     @Column(name="telephone_number")
     private String telephoneNumber;
-    @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name="birth_date")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @PastOrPresent
     private Date birthDate;
 }

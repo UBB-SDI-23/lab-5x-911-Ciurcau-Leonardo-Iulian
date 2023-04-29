@@ -19,9 +19,9 @@ class CouriersNavBar extends Component {
         return <Box>
             <AppBar position="sticky">
                 <Toolbar>
-                    <Button color="inherit" component={Link} to="/">Home</Button>
-                    <Button color="inherit" component={Link} to="/couriers">Couriers</Button>
-                    <Button color="inherit" component={Link} to="/addCourier">Add courier</Button>
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/couriers">Couriers</Button>
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addCourier">Add courier</Button>
                 </Toolbar>
             </AppBar>
         </Box>

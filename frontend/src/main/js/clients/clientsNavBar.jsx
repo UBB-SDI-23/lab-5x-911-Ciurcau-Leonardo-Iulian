@@ -19,9 +19,9 @@ class ClientsNavBar extends Component {
         return <Box>
         <AppBar position="sticky">
             <Toolbar>
-                <Button color="inherit" component={Link} to="/">Home</Button>
-                <Button color="inherit" component={Link} to="/clients">Clients</Button>
-                <Button color="inherit" component={Link} to="/addClient">Add client</Button>
+                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
+                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/clients">Clients</Button>
+                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addClient">Add client</Button>
             </Toolbar>
         </AppBar>
         </Box>;

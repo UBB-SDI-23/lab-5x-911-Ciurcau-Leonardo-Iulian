@@ -19,9 +19,9 @@ class TransactionsNavBar extends Component {
         return <Box>
             <AppBar position="sticky">
                 <Toolbar>
-                    <Button color="inherit" component={Link} to="/">Home</Button>
-                    <Button color="inherit" component={Link} to="/transactions">Transactions</Button>
-                    <Button color="inherit" component={Link} to="/addTransaction">Add transaction</Button>
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/transactions">Transactions</Button>
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addTransaction">Add transaction</Button>
                 </Toolbar>
             </AppBar>
         </Box>

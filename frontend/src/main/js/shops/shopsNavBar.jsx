@@ -19,10 +19,10 @@ class ShopsNavBar extends Component {
         return <Box>
         <AppBar position="sticky">
             <Toolbar>
-                <Button color="inherit" component={Link} to="/">Home</Button>
-                <Button color="inherit" component={Link} to="/shops">Shops</Button>
-                <Button color="inherit" component={Link} to="/addShop">Add shop</Button>
-                <Button color="inherit" component={Link} to="/averagePriceShops">Shops sorted by average price</Button>
+                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
+                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/shops">Shops</Button>
+                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addShop">Add shop</Button>
+                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/averagePriceShops">Shops sorted by average price</Button>
             </Toolbar>
         </AppBar>
         </Box>;

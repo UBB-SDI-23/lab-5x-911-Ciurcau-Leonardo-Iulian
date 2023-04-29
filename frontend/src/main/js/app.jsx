@@ -27,6 +27,8 @@ import SeeShop from './shops/seeShop';
 import AddShop from './shops/addShop';
 import UpdateShop from './shops/updateShop';
 import AvgPriceShopList from './shops/avgPriceShopList';
+import UserLogin from './user/userLogin';
+import CurrentUser from './user/currentUser';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -36,19 +38,49 @@ class App extends React.Component {
     static API_URL = '';
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {currentUser: CurrentUser.getInstance()};
     }
 
-
      componentDidMount() {
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
+    }
+
+    getCurrentUserCookie() {
+        let cname = "currentUser";
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return JSON.stringify(c.substring(name.length, c.length));
+            }
+        }
+        return null;
+    }
+
+    getCurrentUser() {
+        let cookie = this.getCurrentUserCookie();
+        if (cookie) {
+            this.state.currentUser.setUsername(cookie.username);
+            this.state.currentUser.setAccessToken(cookie.accessToken);
+        }
+        else {
+            this.state.currentUser.setUsername(null);
+            this.state.currentUser.setAccessToken(null);
+        }
+        return this.state.currentUser;
     }
 
     render() {
         return (
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' exact={true} element={<Home/>}/>
+                    <Route path='/' exact={true} element={<Home parent={this}/>}/>
                     <Route path='/guitars' element={<GuitarsHome/>}/>
                     <Route path='/filteredGuitars' element={<FilteredGuitarList/>}/>
                     <Route path='/addGuitar' element={<AddGuitar/>}/>
@@ -71,6 +103,7 @@ class App extends React.Component {
                     <Route path='/addShop' element={<AddShop/>}/>
                     <Route path='/updateShop/:id' element={<UpdateShop/>}/>
                     <Route path='/averagePriceShops' element={<AvgPriceShopList/>}/>
+                    <Route path='/login' element={<UserLogin parent={this}/>}/>
                 </Routes>
             </BrowserRouter>
         );
