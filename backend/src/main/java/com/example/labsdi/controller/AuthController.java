@@ -16,10 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -38,8 +35,17 @@ public class AuthController {
             return ResponseEntity.ok().body(newUser);
         }
         catch (UserServiceException exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getLocalizedMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"message\": \"" + exception.getLocalizedMessage() + "\"}");
         }
+    }
+
+    @GetMapping("/auth/register/confirm/{code}")
+    public ResponseEntity<?> confirmRegistration(@PathVariable("code") String code) {
+        if (userService.confirmRegistration(code))
+            return ResponseEntity.ok().body("{\"message\": \"user registration confirmed\"}");
+        else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"confirmation code not valid\"}");
     }
 
     @PostMapping("/auth/login")

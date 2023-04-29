@@ -29,6 +29,7 @@ import UpdateShop from './shops/updateShop';
 import AvgPriceShopList from './shops/avgPriceShopList';
 import UserLogin from './user/userLogin';
 import CurrentUser from './user/currentUser';
+import UserRegister from './user/userRegister';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -104,6 +105,7 @@ class App extends React.Component {
                     <Route path='/updateShop/:id' element={<UpdateShop/>}/>
                     <Route path='/averagePriceShops' element={<AvgPriceShopList/>}/>
                     <Route path='/login' element={<UserLogin parent={this}/>}/>
+                    <Route path='/register' element={<UserRegister parent={this}/>}/>
                 </Routes>
             </BrowserRouter>
         );

@@ -9,4 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface IUserService extends UserDetailsService {
     UserDetails loadUserByEmail(String email);
     User register(RegisterRequest request) throws UserServiceException;
+    String generateVerificationCode();
+    Boolean confirmRegistration(String confirmationCode);
 }

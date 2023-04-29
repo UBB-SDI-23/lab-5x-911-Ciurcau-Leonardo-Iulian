@@ -2,7 +2,7 @@ import { Container, Button, TextField } from "@mui/material";
 import React, {Component} from "react";
 import AppNavbar from "../appNavBar";
 import App from "../app";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -73,6 +73,9 @@ class UserLogin extends Component {
                     onChange={(event)=>this.setState({invalidCredentials: false, password: event.target.value})} />
                     <br/><br/>
                     <Button disabled={username === '' || password === ''} onClick={this.handleUserLogin}>Login</Button>
+                    <br/><br/>
+                    <p>Don't have an account?</p>
+                    <Button component={Link} to='/register'>Register</Button>
                 </Container>
             </Container>
         );

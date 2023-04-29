@@ -1,5 +1,6 @@
 package com.example.labsdi.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
@@ -27,6 +29,12 @@ public class User implements UserDetails {
     private String password;
     @Column(name="email", nullable = false)
     private String email;
+    @Column(name="confirmation_code", length = 8)
+    private String confirmationCode;
+    @Column(name="confirmation_code_set_time")
+    private Long confirmationCodeSetTime;
+    @Column(name="isEnabled", nullable = false)
+    private Boolean isEnabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -50,6 +58,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }
