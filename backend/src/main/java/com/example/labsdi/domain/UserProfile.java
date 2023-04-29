@@ -24,6 +24,8 @@ import java.util.Date;
 @Table(name="user_profile")
 public class UserProfile {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @OneToOne
     @JoinColumn(name="user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

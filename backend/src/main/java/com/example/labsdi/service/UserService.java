@@ -3,6 +3,8 @@ package com.example.labsdi.service;
 import com.example.labsdi.config.SecurityConfig;
 import com.example.labsdi.domain.RegisterRequest;
 import com.example.labsdi.domain.User;
+import com.example.labsdi.domain.UserProfile;
+import com.example.labsdi.repository.IUserProfileRepository;
 import com.example.labsdi.repository.IUserRepository;
 import com.example.labsdi.service.exception.UserServiceException;
 import net.bytebuddy.utility.RandomString;
@@ -18,6 +20,8 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserRepository userRepository;
+    @Autowired
+    private IUserProfileRepository userProfileRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -94,6 +98,18 @@ public class UserService implements IUserService {
             user.setConfirmationCode("");
             userRepository.save(user);
             return true;
+        }
+    }
+
+    @Override
+    public UserProfile getUserProfile(String username) {
+        try {
+            User user = (User) loadUserByUsername(username);
+            Optional<UserProfile> userProfileOptional = userProfileRepository.findByUser(user);
+            return userProfileOptional.orElseGet(() -> UserProfile.builder().user(user).build());
+        }
+        catch (UsernameNotFoundException e) {
+            return null;
         }
     }
 }
