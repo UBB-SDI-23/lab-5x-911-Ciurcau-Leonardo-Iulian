@@ -91,6 +91,11 @@ class TransactionsList extends Component {
             <TableCell>{transaction.client.name}</TableCell>
             <TableCell>{transaction.date}</TableCell>
             <TableCell>
+                    <Button component={Link} to={"/seeProfile/"+transaction.user.username} sx={{textTransform: "none"}}>
+                        {transaction.user.username}
+                    </Button>
+                </TableCell>
+            <TableCell>
                 <Button component={Link} to={"/seeTransaction/"+transaction.id}>
                     <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                 </Button>
@@ -134,6 +139,7 @@ class TransactionsList extends Component {
                         <TableCell>Product</TableCell>
                         <TableCell>Client</TableCell>
                         <TableCell>Date</TableCell>
+                        <TableCell>Added by</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

@@ -98,6 +98,12 @@ class ShopList extends Component {
                 <TableCell>{shop.couriers}</TableCell>
                 {shop.averageProductPrice != null && <TableCell>{shop.averageProductPrice}</TableCell>}
                 <TableCell>
+                    <Button component={Link} to={"/seeProfile/"+shop.user.username} sx={{textTransform: "none"}}>
+                        {shop.user.username}
+                    </Button>
+                </TableCell>
+            <TableCell></TableCell>
+                <TableCell>
                     <Button component={Link} to={"/seeShop/"+shop.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
@@ -144,6 +150,7 @@ class ShopList extends Component {
                             <TableCell>Products</TableCell>
                             <TableCell>Couriers</TableCell>
                             {shops.length > 0 && shops[0].averageProductPrice != null && <TableCell>Average product price</TableCell>}
+                            <TableCell>Added by</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

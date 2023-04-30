@@ -31,6 +31,7 @@ import UserLogin from './user/userLogin';
 import CurrentUser from './user/currentUser';
 import UserRegister from './user/userRegister';
 import UpdateUserProfile from './user/updateUserProfile';
+import SeeUserProfile from './user/seeUserProfile';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -95,6 +96,7 @@ class App extends React.Component {
                     <Route path='/login' element={<UserLogin parent={this}/>}/>
                     <Route path='/register' element={<UserRegister parent={this}/>}/>
                     <Route path='/updateProfile/:username' element={<UpdateUserProfile parent={this}/>}/>
+                    <Route path='/seeProfile/:username' element={<SeeUserProfile parent={this}/>}/>
                 </Routes>
             </BrowserRouter>
         );

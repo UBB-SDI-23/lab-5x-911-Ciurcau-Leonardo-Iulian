@@ -105,6 +105,11 @@ class ClientList extends Component {
                 <TableCell>{client.telephoneNumber}</TableCell>
                 <TableCell>{client.birthDate}</TableCell>
                 <TableCell>
+                    <Button component={Link} to={"/seeProfile/"+client.user.username} sx={{textTransform: "none"}}>
+                        {client.user.username}
+                    </Button>
+                </TableCell>
+                <TableCell>
                     <Button component={Link} to={"/seeClient/"+client.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
@@ -149,6 +154,7 @@ class ClientList extends Component {
                             <TableCell>Email</TableCell>
                             <TableCell>Phone</TableCell>
                             <TableCell>Birth Date</TableCell>
+                            <TableCell>Added by</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

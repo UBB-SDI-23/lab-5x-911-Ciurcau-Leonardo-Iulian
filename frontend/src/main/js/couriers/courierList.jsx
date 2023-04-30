@@ -84,6 +84,11 @@ class CourierList extends Component {
                 <TableCell>{courier.telephoneNumber}</TableCell>
                 <TableCell>{courier.deliveryPrice}</TableCell>
                 <TableCell>
+                    <Button component={Link} to={"/seeProfile/"+courier.user.username} sx={{textTransform: "none"}}>
+                        {courier.user.username}
+                    </Button>
+                </TableCell>
+                <TableCell>
                     <Button component={Link} to={"/seeCourier/"+courier.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
@@ -128,6 +133,7 @@ class CourierList extends Component {
                             <TableCell>Email</TableCell>
                             <TableCell>Phone</TableCell>
                             <TableCell>Delivery price</TableCell>
+                            <TableCell>Added by</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

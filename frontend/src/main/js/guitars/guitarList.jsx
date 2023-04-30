@@ -113,6 +113,11 @@ class GuitarList extends Component {
                 <TableCell>{guitar.color}</TableCell>
                 <TableCell>{guitar.creationYear}</TableCell>
                 <TableCell>
+                    <Button component={Link} to={"/seeProfile/"+guitar.user.username} sx={{textTransform: "none"}}>
+                        {guitar.user.username}
+                    </Button>
+                </TableCell>
+                <TableCell>
                     <Button component={Link} to={"/seeGuitar/"+guitar.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
@@ -163,6 +168,7 @@ class GuitarList extends Component {
                             <TableCell>Type</TableCell>
                             <TableCell>Color</TableCell>
                             <TableCell>Creation year</TableCell>
+                            <TableCell>Added by</TableCell>
                             <TableCell>Operations</TableCell>
                         </TableRow>
                     </TableHead>
