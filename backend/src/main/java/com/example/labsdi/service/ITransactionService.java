@@ -17,5 +17,6 @@ public interface ITransactionService {
     List<Transaction> getAllTransactions();
     Slice<Transaction> getTransactionsPage(Integer page);
     boolean containsProduct(Product product);
+    Integer countByUsername(String username);
     List<SortedShopDTO> getAllShopsSorted(); // sorted by the number of other shops their clients bought from
 }

@@ -13,4 +13,5 @@ import java.util.List;
 public interface ITransactionRepository extends JpaRepository<Transaction, Long> {
     List<Transaction> findFirst100By();
     Slice<Transaction> findAllBy(Pageable pageable);
+    Integer countAllByUser_Username(String username);
 }

@@ -14,4 +14,5 @@ public interface ICourierRepository extends JpaRepository<Courier, Long> {
     List<Courier> findFirst100By();
     Slice<Courier> findAllBy(Pageable pageable);
     Slice<Courier> findAllByNameContainingIgnoreCase(Pageable pageable, String name);
+    Integer countAllByUser_Username(String username);
 }

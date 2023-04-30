@@ -16,4 +16,5 @@ public interface ICourierService {
     void removeCourier(Long id) throws CourierServiceException;
     Courier updateCourier(Courier courier, Long id) throws CourierServiceException;
     List<Courier> getAllCouriers();
+    Integer countByUsername(String username);
 }

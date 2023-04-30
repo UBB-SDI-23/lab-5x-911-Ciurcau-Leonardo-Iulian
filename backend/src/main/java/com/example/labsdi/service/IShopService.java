@@ -21,6 +21,7 @@ public interface IShopService {
     List<ShopAveragePriceDTO> getAllShopsOrderByAverageProductsPrice();
     List<ShopAveragePriceDTO> getFirst100ShopsOrderByAverageProductsPrice();
     Slice<ShopAveragePriceDTO> getShopsByAveragePricePage(Integer page);
+    Integer countByUsername(String username);
 
     Shop addCourier(Courier courier, Long id) throws ShopServiceException;
 

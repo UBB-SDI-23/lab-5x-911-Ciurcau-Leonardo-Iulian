@@ -1,7 +1,6 @@
 package com.example.labsdi.domain;
 
-import com.example.labsdi.domain.dto.SimpleClientDTO;
-import com.example.labsdi.domain.dto.SimpleDTO;
+import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -21,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name="client")
-public class Client extends UserCreated implements ISimpleDTOConvertable {
+public class Client extends UserCreated implements ISimpleDTOConvertable, IDTOConvertable {
     @Column(name="name")
     private String name;
     @Column(name="address")
@@ -41,5 +40,17 @@ public class Client extends UserCreated implements ISimpleDTOConvertable {
         scdto.setId(id);
         scdto.setName(name);
         return scdto;
+    }
+
+    @Override
+    public DTO toDTO() {
+        return ClientDTO.builder()
+                .email(email)
+                .telephoneNumber(telephoneNumber)
+                .birthDate(birthDate)
+                .name(name)
+                .user((UserDTO) user.toDTO())
+                .id(id)
+                .build();
     }
 }

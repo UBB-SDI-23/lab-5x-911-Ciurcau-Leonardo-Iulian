@@ -1,6 +1,7 @@
 package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Client;
+import com.example.labsdi.domain.dto.ClientDTO;
 import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.domain.dto.SimpleClientDTO;
 import com.example.labsdi.service.ClientService;
@@ -37,8 +38,9 @@ public class ClientController {
     }
 
     @GetMapping("/clients/page/{page}")
-    public Slice<Client> getClientsPage(@PathVariable("page") Integer page) {
-        return clientService.getClientsPage(page);
+    public Slice<ClientDTO> getClientsPage(@PathVariable("page") Integer page) {
+        return clientService.getClientsPage(page)
+                .map(c -> (ClientDTO) c.toDTO());
     }
 
     @GetMapping("/clients/simple/page/{page}")
@@ -51,6 +53,12 @@ public class ClientController {
     public Count getCount() {
         return new Count(clientService.getCount());
     }
+
+    @GetMapping("/clients/count/{username}")
+    public Count getCountByUsername(@PathVariable("username") String username) {
+        return new Count(clientService.getCountByUsername(username));
+    }
+
 
     @GetMapping("/clients/containsName/{name}/page/{page}")
     public Slice<SimpleClientDTO> getClientContainsNamePage(@PathVariable("name") String name,

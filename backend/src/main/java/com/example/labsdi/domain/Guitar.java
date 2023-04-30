@@ -54,6 +54,7 @@ public class Guitar extends Product {
         gdto.setModel(model);
         gdto.setCreationYear(creationYear);
         gdto.setShop((SimpleShopDTO) shop.toSimpleDTO());
+        gdto.setUser((UserDTO) user.toDTO());
         return gdto;
     }
 

@@ -1,6 +1,7 @@
 package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Courier;
+import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.domain.dto.CourierDTO;
 import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.domain.dto.SimpleCourierDTO;
@@ -52,6 +53,11 @@ public class CourierController {
                                                               @PathVariable("page") Integer page) {
         return courierService.getCourierContainsNamePage(name, page)
                 .map(c -> (SimpleCourierDTO) c.toSimpleDTO());
+    }
+
+    @GetMapping("/couriers/count/{username}")
+    public Count getCountByUsername(@PathVariable("username") String username) {
+        return new Count(courierService.countByUsername(username));
     }
 
     @PutMapping("/couriers/{id}")

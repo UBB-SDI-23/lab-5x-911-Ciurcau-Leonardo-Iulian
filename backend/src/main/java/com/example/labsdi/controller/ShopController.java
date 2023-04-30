@@ -84,6 +84,11 @@ public class ShopController {
         return shopService.getShop(id).toDTO();
     }
 
+    @GetMapping("/shops/count/{username}")
+    public Count countByUsername(@PathVariable("username") String username) {
+        return new Count(shopService.countByUsername(username));
+    }
+
     @GetMapping("/shops/orderByAveragePrice/all")
     public List<ShopAveragePriceDTO> getAllShopsOrderByAverageProductsPrice() {
         return shopService.getAllShopsOrderByAverageProductsPrice();

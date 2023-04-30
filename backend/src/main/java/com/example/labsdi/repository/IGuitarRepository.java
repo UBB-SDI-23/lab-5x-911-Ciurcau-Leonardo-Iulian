@@ -15,4 +15,5 @@ public interface IGuitarRepository extends JpaRepository<Guitar, Long> {
     Slice<Guitar> findAllByModelContainsIgnoreCase(Pageable pageable, String name);
     Slice<Guitar> findAllByPriceGreaterThan(Pageable pageable, Integer price);
     List<Guitar> findFirst100By();
+    Integer countAllByUser_Username(String username);
 }

@@ -27,6 +27,11 @@ class UpdateUserProfile extends Component {
             address: null,
             telephoneNumber: null,
             birthDate: null,
+            clientCount: null,
+            courierCount: null,
+            guitarCount: null,
+            transactionCount: null,
+            shopCount: null,
             dialogOpen: false,
             isLoading: true};
     }
@@ -40,15 +45,38 @@ class UpdateUserProfile extends Component {
     }
 
     fillTextFields() {
-        fetch(App.API_URL + '/api/user/profile/' + this.state.username)
+        const {username} = this.state;
+
+        fetch(App.API_URL + '/api/user/profile/' + username)
             .then(response => response.json())
             .then(profile =>{
-                this.setState({ firstName: profile.firstName,
+                this.setState(
+                    { firstName: profile.firstName,
                     lastName: profile.lastName,
                     address: profile.address,
                     telephoneNumber: profile.telephoneNumber,
                     birthDate: profile.birthDate
-                }, this.setState({isLoading: false}));});
+                }, 
+                () => fetch(App.API_URL + '/api/clients/count/' + username)
+                    .then(response => response.json())
+                    .then(data => this.setState({clientCount: data.count}, 
+                        () => fetch(App.API_URL + '/api/couriers/count/' + username)
+                        .then(response => response.json())
+                        .then(data => this.setState({courierCount: data.count},
+                            () => fetch(App.API_URL + '/api/guitars/count/' + username)
+                            .then(response => response.json())
+                            .then(data => this.setState({guitarCount: data.count},
+                                () => fetch(App.API_URL + '/api/transactions/count/' + username)
+                                .then(response => response.json())
+                                .then(data => this.setState({transactionCount: data.count},
+                                    () => fetch(App.API_URL + '/api/shops/count/' + username)
+                                    .then(response => response.json())
+                                    .then(data => this.setState({shopCount: data.count},
+                                    this.setState({isLoading: false}))))))
+                            )
+                            ))))
+                );
+            });
     }
 
     handleUserProfileUpdate() {
@@ -72,7 +100,9 @@ class UpdateUserProfile extends Component {
     }
 
     render() {
-        const {username, firstName, lastName, address, telephoneNumber, birthDate, dialogOpen, isLoading} = this.state;
+        const {username, firstName, lastName, address, telephoneNumber, birthDate, dialogOpen, 
+            clientCount, courierCount, guitarCount, transactionCount, shopCount,
+            isLoading} = this.state;
 
         if (isLoading) 
             return <p>Loading...</p>;
@@ -81,9 +111,24 @@ class UpdateUserProfile extends Component {
             <Container maxWidth={false}>
                 <AppNavBar parent={this}/>
                 <br/><br/><br/><br/>
-                <Container>
+                <Container maxWidth={false}>
                     <TextField id="outlined-basic" label="Username" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={username}/>
+                    &nbsp;
+                    <TextField id="outlined-basic" label="Guitars added" variant="filled"
+                               InputProps={{readOnly: true,}} defaultValue={guitarCount}/>
+                    &nbsp;
+                    <TextField id="outlined-basic" label="Clients added" variant="filled"
+                               InputProps={{readOnly: true,}} defaultValue={clientCount}/>
+                    &nbsp;
+                    <TextField id="outlined-basic" label="Couriers added" variant="filled"
+                    InputProps={{readOnly: true,}} defaultValue={courierCount}/>
+                    &nbsp;
+                    <TextField id="outlined-basic" label="Transactions added" variant="filled"
+                               InputProps={{readOnly: true,}} defaultValue={transactionCount}/>
+                    &nbsp;
+                    <TextField id="outlined-basic" label="Shops added" variant="filled"
+                               InputProps={{readOnly: true,}} defaultValue={shopCount}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="First name" variant="outlined" defaultValue={firstName}
                                onChange={(event)=>this.setState({firstName: event.target.value})}/>

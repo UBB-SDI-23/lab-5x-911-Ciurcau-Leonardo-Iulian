@@ -90,4 +90,9 @@ public class CourierService implements ICourierService {
     public List<Courier> getAllCouriers() {
         return new ArrayList<>(repository.findAll());
     }
+
+    @Override
+    public Integer countByUsername(String username) {
+        return repository.countAllByUser_Username(username);
+    }
 }

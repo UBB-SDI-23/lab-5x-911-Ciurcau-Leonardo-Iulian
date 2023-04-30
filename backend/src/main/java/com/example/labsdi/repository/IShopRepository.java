@@ -17,4 +17,5 @@ public interface IShopRepository extends JpaRepository<Shop, Long> {
     Slice<Shop> findAllBy(Pageable pageable);
     Slice<Shop> findByOrderByAverageProductPriceFieldDesc(Pageable pageable);
     Slice<Shop> findAllByNameContainingIgnoreCase(Pageable pageable, String name);
+    Integer countAllByUser_Username(String username);
 }

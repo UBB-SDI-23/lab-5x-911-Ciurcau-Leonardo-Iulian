@@ -20,7 +20,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "user_table")
+@Table(name = "user_table", indexes = @Index(name = "user_username_index", columnList = "username"))
 public class User implements UserDetails, IDTOConvertable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -65,6 +65,6 @@ public class User implements UserDetails, IDTOConvertable {
 
     @Override
     public DTO toDTO() {
-        return new UserDTO(id, username);
+        return new UserDTO(username);
     }
 }

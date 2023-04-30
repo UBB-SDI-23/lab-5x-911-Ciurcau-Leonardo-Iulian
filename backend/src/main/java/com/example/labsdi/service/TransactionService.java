@@ -94,6 +94,11 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
+    public Integer countByUsername(String username) {
+        return repository.countAllByUser_Username(username);
+    }
+
+    @Override
     public List<SortedShopDTO> getAllShopsSorted() {
         List<SortedShopDTO> finalShopList = new ArrayList<>();
         HashMap<Shop, List<Client>> shops = new HashMap<>();

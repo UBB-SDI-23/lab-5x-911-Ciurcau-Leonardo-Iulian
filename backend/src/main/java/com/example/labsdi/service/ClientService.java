@@ -2,6 +2,7 @@ package com.example.labsdi.service;
 
 import com.example.labsdi.domain.Client;
 import com.example.labsdi.domain.Guitar;
+import com.example.labsdi.domain.dto.ClientDTO;
 import com.example.labsdi.repository.IClientRepository;
 import com.example.labsdi.service.exception.ClientServiceException;
 import com.example.labsdi.service.exception.GuitarServiceException;
@@ -42,6 +43,11 @@ public class ClientService implements IClientService {
     @Override
     public Integer getCount() {
         return repository.countAllBy();
+    }
+
+    @Override
+    public Integer getCountByUsername(String username) {
+        return repository.countAllByUser_Username(username);
     }
 
     @Override

@@ -119,6 +119,11 @@ public class ShopService implements IShopService {
     }
 
     @Override
+    public Integer countByUsername(String username) {
+        return repository.countAllByUser_Username(username);
+    }
+
+    @Override
     public Shop addCourier(Courier courier, Long id) throws ShopServiceException {
         Optional<Shop> shopOpt = repository.findById(id);
         if (shopOpt.isEmpty()) {

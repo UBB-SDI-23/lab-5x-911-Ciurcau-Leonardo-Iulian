@@ -2,6 +2,7 @@ package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Guitar;
 import com.example.labsdi.domain.Product;
+import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.domain.dto.GuitarDTO;
 import com.example.labsdi.domain.dto.ProductDTO;
 import com.example.labsdi.domain.dto.SimpleGuitarDTO;
@@ -78,6 +79,11 @@ public class GuitarController {
     @GetMapping("/guitars/{id}")
     public Guitar getGuitar(@PathVariable("id") Long id) throws GuitarServiceException {
         return guitarService.getGuitar(id);
+    }
+
+    @GetMapping("/guitars/count/{username}")
+    public Count getCountByUsername(@PathVariable("username") String username) {
+        return new Count(guitarService.countGuitarsByUsername(username));
     }
 
     @GetMapping("/guitars/dto/{id}")

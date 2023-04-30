@@ -2,6 +2,7 @@ package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.IDTOConvertable;
 import com.example.labsdi.domain.Transaction;
+import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.domain.dto.SortedShopDTO;
 import com.example.labsdi.domain.dto.TransactionDTO;
@@ -62,6 +63,11 @@ public class TransactionController {
     @GetMapping("/transactions/{id}")
     public Transaction getTransaction(@PathVariable("id") Long id) throws TransactionServiceException {
         return transactionService.getTransaction(id);
+    }
+
+    @GetMapping("/transactions/count/{username}")
+    public Count countByUsername(@PathVariable("username") String username) {
+        return new Count(transactionService.countByUsername(username));
     }
 
     @GetMapping("/transactions/dto/{id}")
