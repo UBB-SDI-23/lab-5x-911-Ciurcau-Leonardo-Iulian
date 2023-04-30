@@ -63,13 +63,15 @@ class UserLogin extends Component {
                     {invalidCredentials ? <p style={{color: 'red'}}>Invalid credentials</p> : <Container><br/><br/></Container>}
                     <TextField id="outlined-basic" label="Username" variant="outlined"
                     defaultValue={username}
+                    onKeyDown={(event) => {if (event.key == 'Enter') {document.getElementById('password').focus();}}}
                     onChange={(event)=>this.setState({invalidCredentials: false, username: event.target.value})} />
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Password" variant="outlined" type="password"
+                    <TextField id="password" label="Password" variant="outlined" type="password"
                     defaultValue={password}
+                    onKeyDown={(event) => {if (event.key == 'Enter') {document.getElementById('loginButton').click();}}}
                     onChange={(event)=>this.setState({invalidCredentials: false, password: event.target.value})} />
                     <br/><br/>
-                    <Button disabled={username === '' || password === ''} onClick={this.handleUserLogin}>Login</Button>
+                    <Button id="loginButton" disabled={username === '' || password === ''} onClick={this.handleUserLogin}>Login</Button>
                     <br/><br/>
                     <p>Don't have an account?</p>
                     <Button component={Link} to='/register'>Register</Button>

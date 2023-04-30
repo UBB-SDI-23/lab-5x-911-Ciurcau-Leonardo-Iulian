@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -111,5 +112,24 @@ public class UserService implements IUserService {
         catch (UsernameNotFoundException e) {
             return null;
         }
+    }
+
+    @Override
+    public UserProfile updateUserProfile(UserProfile userProfile, String username) {
+        UserProfile retrievedUserProfile = getUserProfile(username);
+        if (Objects.isNull(retrievedUserProfile))
+            return null;
+
+        if (Objects.nonNull(userProfile.getAddress()) && !"".equals(userProfile.getAddress()))
+            retrievedUserProfile.setAddress(userProfile.getAddress());
+        if (Objects.nonNull(userProfile.getFirstName()) && !"".equals(userProfile.getFirstName()))
+            retrievedUserProfile.setFirstName(userProfile.getFirstName());
+        if (Objects.nonNull(userProfile.getLastName()) && !"".equals(userProfile.getLastName()))
+            retrievedUserProfile.setLastName(userProfile.getLastName());
+        if (Objects.nonNull(userProfile.getTelephoneNumber()) && !"".equals(userProfile.getTelephoneNumber()))
+            retrievedUserProfile.setTelephoneNumber(userProfile.getTelephoneNumber());
+        if (Objects.nonNull(userProfile.getBirthDate()))
+            retrievedUserProfile.setBirthDate(userProfile.getBirthDate());
+        return userProfileRepository.save(retrievedUserProfile);
     }
 }

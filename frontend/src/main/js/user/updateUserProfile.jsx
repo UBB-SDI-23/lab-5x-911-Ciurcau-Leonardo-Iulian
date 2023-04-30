@@ -34,6 +34,7 @@ class UpdateUserProfile extends Component {
     componentDidMount() {
         this.getCurrentUser = this.getCurrentUser.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
+        this.handleUserProfileUpdate = this.handleUserProfileUpdate.bind(this);
         this.fillTextFields();
         this.forceUpdate();
     }
@@ -48,6 +49,22 @@ class UpdateUserProfile extends Component {
                     telephoneNumber: profile.telephoneNumber,
                     birthDate: profile.birthDate
                 }, this.setState({isLoading: false}));});
+    }
+
+    handleUserProfileUpdate() {
+        const {username, firstName, lastName, address, telephoneNumber, birthDate} = this.state;
+        const requestOptions = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                firstName: firstName, lastName: lastName, address: address, telephoneNumber: telephoneNumber, 
+                birthDate: birthDate
+            })
+        };
+
+        fetch(App.API_URL + '/api/user/profile/' + username, requestOptions)
+            .then(response => response.json())
+            .then(this.setState({dialogOpen: true}));
     }
 
     getCurrentUser() {
@@ -83,8 +100,8 @@ class UpdateUserProfile extends Component {
                     <TextField id="outlined-basic" label="Birth Date" variant="outlined" defaultValue={birthDate}
                                onChange={(event)=>this.setState({birthDate: event.target.value})}/>
                     <br/><br/>
-                    <Button disabled={!firstName || !lastName || !address || !telephoneNumber || !birthDate} 
-                        onClick={this.handleTransactionUpdate}>Update profile</Button>
+                    <Button disabled={!firstName || !lastName} 
+                        onClick={this.handleUserProfileUpdate}>Update profile</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

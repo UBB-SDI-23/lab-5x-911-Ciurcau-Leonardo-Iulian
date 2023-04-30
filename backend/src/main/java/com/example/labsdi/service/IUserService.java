@@ -13,4 +13,5 @@ public interface IUserService extends UserDetailsService {
     String generateVerificationCode();
     Boolean confirmRegistration(String confirmationCode);
     UserProfile getUserProfile(String username);
+    UserProfile updateUserProfile(UserProfile userProfile, String username);
 }
