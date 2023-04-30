@@ -22,6 +22,7 @@ class UserRegister extends Component {
         this.forceUpdate();
         this.handleUserRegister = this.handleUserRegister.bind(this);
         this.handleUserConfirmCode = this.handleUserConfirmCode.bind(this);
+        this.getPasswordStrength = this.getPasswordStrength.bind(this);
         this.setState({isLoading: false});
     }
 
@@ -63,11 +64,42 @@ class UserRegister extends Component {
             });
     }
 
+    getPasswordStrength(password) {
+        if (!password)
+            return 'Very weak';
+
+        let points = 0;
+
+        if (password.length >= 12)
+            points += 2;
+        else if (password.length >= 8)
+            points += 1;
+
+        if (/[a-z]/g.test(password) && /[A-Z]/g.test(password))
+            points += 1;
+        if (/[0-9]/g.test(password))
+            points += 1;
+        if (/[^a-zA-Z0-9]/.test(password))
+            points += 2; 
+
+        if (points === 0)
+            return 'Very weak';
+        if (points <= 2)
+            return 'Weak';
+        if (points <= 4)
+            return 'Medium';
+        if (points <= 5)
+            return 'Strong';
+        return 'Very strong';
+    }
+
     render() {
         const {email, username, password, invalidCredentials, dialogOpen, 
             confirmationCode, confirmationCodeMessage, confirmCodeDialogOpen ,enteredCode, isLoading} = this.state;
         if (isLoading)
             return <p>Loading...</p>;
+
+        let passwordStrength = this.getPasswordStrength(password);
 
         return (
             <Container maxWidth={false}>
@@ -85,9 +117,13 @@ class UserRegister extends Component {
                     <br/><br/>
                     <TextField id="outlined-basic" label="Password" variant="outlined" type="password"
                     defaultValue={password}
+                    error={passwordStrength !== 'Strong' && passwordStrength !== 'Very strong'} 
+                    helperText={passwordStrength}
                     onChange={(event)=>this.setState({invalidCredentials: false, password: event.target.value})} />
                     <br/><br/>
-                    <Button disabled={email === '' || username === '' || password === ''} onClick={this.handleUserRegister}>Register</Button>
+                    <Button disabled={email === '' || username === '' || password === '' ||
+                         (passwordStrength !== 'Strong' && passwordStrength !== 'Very strong')} 
+                    onClick={this.handleUserRegister}>Register</Button>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Confirmation code" variant="outlined"
                     defaultValue={enteredCode}
