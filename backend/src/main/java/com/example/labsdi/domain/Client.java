@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Data
@@ -20,10 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name="client")
-public class Client implements ISimpleDTOConvertable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Client extends UserCreated implements ISimpleDTOConvertable {
     @Column(name="name")
     private String name;
     @Column(name="address")

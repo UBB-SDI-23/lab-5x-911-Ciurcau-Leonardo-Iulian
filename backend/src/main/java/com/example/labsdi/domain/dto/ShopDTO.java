@@ -22,4 +22,5 @@ public class ShopDTO extends DTO {
     protected String email;
     protected String telephoneNumber;
     protected Boolean shippingAvailable;
+    private UserDTO user;
 }

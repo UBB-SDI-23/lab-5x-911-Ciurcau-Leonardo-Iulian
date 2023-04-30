@@ -22,4 +22,5 @@ public class TransactionDTO extends DTO {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
     private Boolean isCashPayment;
+    private UserDTO user;
 }

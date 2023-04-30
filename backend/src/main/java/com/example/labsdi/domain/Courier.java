@@ -5,13 +5,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Data
@@ -19,10 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name="courier")
-public class Courier implements IDTOConvertable, ISimpleDTOConvertable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Courier extends UserCreated implements IDTOConvertable, ISimpleDTOConvertable {
     @ManyToMany(mappedBy = "couriers", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Shop> shops;

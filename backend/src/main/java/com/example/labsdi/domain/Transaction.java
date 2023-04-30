@@ -6,25 +6,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Transaction implements IDTOConvertable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Transaction extends UserCreated implements IDTOConvertable {
     @OneToOne
     @JoinColumn(name="product_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

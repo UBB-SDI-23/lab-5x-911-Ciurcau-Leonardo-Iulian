@@ -1,5 +1,7 @@
 package com.example.labsdi.domain;
 
+import com.example.labsdi.domain.dto.DTO;
+import com.example.labsdi.domain.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,7 +21,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Table(name = "user_table")
-public class User implements UserDetails {
+public class User implements UserDetails, IDTOConvertable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -59,5 +61,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    @Override
+    public DTO toDTO() {
+        return new UserDTO(id, username);
     }
 }

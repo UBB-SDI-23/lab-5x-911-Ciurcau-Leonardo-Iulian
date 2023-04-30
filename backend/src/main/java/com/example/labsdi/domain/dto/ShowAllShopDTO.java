@@ -16,4 +16,5 @@ public class ShowAllShopDTO extends ShowAllDTO {
     protected String name;
     protected String email;
     protected String telephoneNumber;
+    protected UserDTO user;
 }

@@ -13,7 +13,7 @@ public class ShopAveragePriceDTO extends ShowAllShopDTO {
 
     @Builder(builderMethodName = "ShopAveragePriceBuilder")
     public ShopAveragePriceDTO(ShowAllShopDTO stdo, Double averageProductPrice) {
-        super(stdo.products, stdo.couriers, stdo.id, stdo.name, stdo.email, stdo.telephoneNumber);
+        super(stdo.products, stdo.couriers, stdo.id, stdo.name, stdo.email, stdo.telephoneNumber, stdo.user);
         this.averageProductPrice = averageProductPrice;
     }
 }

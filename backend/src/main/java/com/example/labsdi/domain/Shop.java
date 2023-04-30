@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -19,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Data
@@ -26,10 +24,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @Table(name="shop")
-public class Shop implements IDTOConvertable, ISimpleDTOConvertable, IShowAllDTOConvertable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Shop extends UserCreated implements IDTOConvertable, ISimpleDTOConvertable, IShowAllDTOConvertable {
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Product> products;
