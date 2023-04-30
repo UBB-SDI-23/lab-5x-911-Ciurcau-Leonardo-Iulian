@@ -46,7 +46,7 @@ class UpdateUserProfile extends Component {
     fillTextFields() {
         const {username} = this.state;
 
-        fetch(App.API_URL + '/api/user/profile/' + username)
+        fetch(App.API_URL + '/api/users/profile/' + username)
             .then(response => response.json())
             .then(profile =>{
                 this.setState(

@@ -9,29 +9,39 @@ import App from "../app";
 class AddTransaction extends Component {
     constructor(props) {
         super(props);
-        this.state = {product: null, client: null, date: "", isCashPayment: true, dialogOpen: false, isLoading: true};
+        this.state = {parent: this.props.parent, 
+            product: null, client: null, date: "", isCashPayment: true, dialogOpen: false, isLoading: true};
     }
 
     componentDidMount() {
         this.handleTransactionAdd = this.handleTransactionAdd.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     handleTransactionAdd(event) {
         const {product, client, date, isCashPayment} = this.state;
         product["productType"] = "guitar";
-        const requestOptions = {
+        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+        .then(id => {return { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 product: product, client: client, 
-                date: date, isCashPayment: isCashPayment
+                date: date, isCashPayment: isCashPayment,
+                user: {id: id, isEnabled: true}
             })
-        };
-        fetch(App.API_URL + '/api/transactions', requestOptions)
+        };})
+        .then(requestOptions =>
+            fetch(App.API_URL + '/api/transactions', requestOptions)
             .then(response => response.json())
-            .then(() => this.setState({dialogOpen: true}));
+            .then(() => this.setState({dialogOpen: true}))
+        );
     }
 
     onGuitarChange(event) {
@@ -49,7 +59,7 @@ class AddTransaction extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <TransactionsNavBar></TransactionsNavBar>
+                <TransactionsNavBar parent={this}></TransactionsNavBar>
                 <br/><br/>
                 <Container>
                     <GuitarsSelect parent={this}></GuitarsSelect>

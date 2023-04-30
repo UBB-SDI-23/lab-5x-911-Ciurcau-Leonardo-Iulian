@@ -7,29 +7,38 @@ import App from "../app";
 class AddShop extends Component {
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", telephoneNumber: "", 
+        this.state = {parent: this.props.parent, name: "", email: "", telephoneNumber: "", 
         address: "", shippingAvailable: true, dialogOpen: false, isLoading: true};
     }
 
     componentDidMount() {
         this.handleShopAdd = this.handleShopAdd.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
+    }
+
     handleShopAdd(event) {
         const {name, email, telephoneNumber, address, shippingAvailable} = this.state
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: name, email: email, telephoneNumber: telephoneNumber,
-                address: address, shippingAvailable: shippingAvailable
+        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+            .then(id => {return { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name, email: email, telephoneNumber: telephoneNumber,
+                    address: address, shippingAvailable: shippingAvailable,
+                    user: {id: id, isEnabled: true}
             })
-        };
-        fetch(App.API_URL + '/api/shops', requestOptions)
-            .then(response => response.json())
-            .then(() => this.setState({dialogOpen: true}));
+            };})
+            .then(requestOptions =>
+                fetch(App.API_URL + '/api/shops', requestOptions)
+                .then(response => response.json())
+                .then(() => this.setState({dialogOpen: true}))
+            );
     }
 
     render() {
@@ -39,7 +48,7 @@ class AddShop extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <ShopsNavBar></ShopsNavBar>
+                <ShopsNavBar parent={this}></ShopsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-number" label="Name" variant="outlined"

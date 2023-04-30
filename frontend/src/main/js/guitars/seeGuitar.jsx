@@ -15,14 +15,19 @@ class SeeGuitar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {creationYear: null, model: "", type: "", color: "",
+        this.state = {parent: this.props.parent, creationYear: null, model: "", type: "", color: "",
             price: null, isLoading: true};
         this.id = this.props.params.id
         this.fillTextFields()
     }
 
     componentDidMount() {
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     fillTextFields() {
@@ -44,7 +49,7 @@ class SeeGuitar extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <GuitarsNavBar></GuitarsNavBar>
+                <GuitarsNavBar parent={this}></GuitarsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-number" label="Creation year" variant="filled"

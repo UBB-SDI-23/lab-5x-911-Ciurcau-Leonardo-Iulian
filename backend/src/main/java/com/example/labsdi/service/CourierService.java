@@ -28,7 +28,8 @@ public class CourierService implements ICourierService {
         if (Objects.nonNull(courier.getId()) && containsCourier(courier.getId())) {
             throw new CourierServiceException("Courier with id " + courier.getId() + " already exists!");
         }
-        System.out.println(courier);
+        if (Objects.isNull(courier.getUser()))
+            throw new CourierServiceException("User is required!");
         return repository.save(courier);
     }
 

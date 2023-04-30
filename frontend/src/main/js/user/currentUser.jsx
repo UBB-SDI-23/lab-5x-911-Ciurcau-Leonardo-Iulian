@@ -1,3 +1,5 @@
+import App from "../app";
+
 class CurrentUser {
     static #instance = null;
     static #constructorAccess = false;
@@ -31,6 +33,12 @@ class CurrentUser {
 
     isAuthenticated() {
         return this.#accessToken !== null;
+    }
+
+    async getId() {
+        return await fetch(App.API_URL + '/api/users/' + this.#username + '/id')
+                .then(response => response.json())
+                .then(data => data.id);
     }
 
     static getInstance() {

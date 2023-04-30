@@ -11,13 +11,19 @@ function withParams(Component) {
 class SeeCourier extends Component {
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", telephoneNumber: "", deliveryPrice: null, address: "", description: "", isLoading: true};
+        this.state = {parent: this.props.parent,
+            name: "", email: "", telephoneNumber: "", deliveryPrice: null, address: "", description: "", isLoading: true};
         this.id = this.props.params.id;
         this.fillTextFields();
     }
 
     componentDidMount() {
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     fillTextFields() {
@@ -37,7 +43,7 @@ class SeeCourier extends Component {
             return <p>Loading...</p>;
         return (
             <Container maxWidth={false}>
-                <CouriersNavBar></CouriersNavBar>
+                <CouriersNavBar parent={this}></CouriersNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-basic" label="Name" variant="filled"

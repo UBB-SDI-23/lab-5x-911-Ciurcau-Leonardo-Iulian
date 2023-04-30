@@ -6,29 +6,38 @@ import App from "../app";
 class AddCourier extends Component {
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", telephoneNumber: "", 
+        this.state = {parent: this.props.parent, name: "", email: "", telephoneNumber: "", 
         deliveryPrice: null, address: "", description: "", dialogOpen: false, isLoading: true};
     }
 
     componentDidMount() {
         this.handleCourierAdd = this.handleCourierAdd.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
+    }
+
     handleCourierAdd(event) {
         const {name, email, telephoneNumber, deliveryPrice, address, description} = this.state;
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: name, email: email, telephoneNumber: telephoneNumber,
-                deliveryPrice: deliveryPrice, address: address, description: description
-            })
-        };
-        fetch(App.API_URL + '/api/couriers', requestOptions)
-            .then(response => response.json())
-            .then(() => this.setState({dialogOpen: true}));
+        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+            .then(id => {return {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name, email: email, telephoneNumber: telephoneNumber,
+                    deliveryPrice: deliveryPrice, address: address, description: description,
+                    user: {id: id, isEnabled: true}
+                })
+            }})
+            .then(requestOptions => 
+                fetch(App.API_URL + '/api/couriers', requestOptions)
+                .then(response => response.json())
+                .then(() => this.setState({dialogOpen: true})));
+        ;
     }
 
     render() {
@@ -38,7 +47,7 @@ class AddCourier extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <CouriersNavBar></CouriersNavBar>
+                <CouriersNavBar parent={this}></CouriersNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-number" label="Name" variant="outlined"

@@ -11,13 +11,14 @@ function withParams(Component) {
 class SeeShop extends Component {
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", couriers: [], 
+        this.state = {parent: this.props.parent, name: "", email: "", couriers: [], 
             telephoneNumber: "", address: "", shippingAvailable: false, isLoading: true};
         this.id = this.props.params.id;
         this.fillTextFields();
     }
 
     componentDidMount() {
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
     }
 
@@ -30,6 +31,10 @@ class SeeShop extends Component {
                     address: shop.address, shippingAvailable: shop.shippingAvailable, couriers: shop.couriers})
             )
             .then(() => this.setState({isLoading: false}));
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     render() {
@@ -45,7 +50,7 @@ class SeeShop extends Component {
 
         return (
             <Container maxWidth={false}>
-                <ShopsNavBar></ShopsNavBar>
+                <ShopsNavBar parent={this}></ShopsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-basic" label="Name" variant="filled"

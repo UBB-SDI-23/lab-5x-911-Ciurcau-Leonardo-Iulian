@@ -24,7 +24,7 @@ class UpdateGuitar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {creationYear: null, model: "", type: "", color: "",
+        this.state = {parent: this.props.parent, creationYear: null, model: "", type: "", color: "",
             price: 0, shop: null, dialogOpen: false, isLoading: true};
         this.id = this.props.params.id;
     }
@@ -32,9 +32,14 @@ class UpdateGuitar extends Component {
     componentDidMount() {
         this.handleGuitarUpdate = this.handleGuitarUpdate.bind(this);
         this.onShopChange = this.onShopChange.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
         this.fillTextFields();
         this.forceUpdate();
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     fillTextFields() {
@@ -79,7 +84,7 @@ class UpdateGuitar extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <GuitarsNavBar></GuitarsNavBar>
+                <GuitarsNavBar parent={this}></GuitarsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-number" label="Creation year" variant="outlined" type="number"

@@ -14,7 +14,7 @@ function withParams(Component) {
 class UpdateShop extends Component {
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", telephoneNumber: "", 
+        this.state = {parent: this.props.parent, name: "", email: "", telephoneNumber: "", 
         address: "", courier: null, couriers: [], 
         deleteCourier: null, shippingAvailable: false, dialogOpen: false, isLoading: true};
         this.id = this.props.params.id;
@@ -24,6 +24,7 @@ class UpdateShop extends Component {
         this.handleShopUpdate = this.handleShopUpdate.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
         this.handleCourierAdd = this.handleCourierAdd.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.handleCourierRemove = this.handleCourierRemove.bind(this);
         this.fillTextFields();
         this.forceUpdate();
@@ -39,6 +40,10 @@ class UpdateShop extends Component {
                      shippingAvailable: shop.shippingAvailable, couriers: shop.couriers})
             )
             .then(() => this.setState({isLoading: false}));
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     handleShopUpdate() {
@@ -101,7 +106,7 @@ class UpdateShop extends Component {
 
         return (
             <Container maxWidth={false}>
-                <ShopsNavBar></ShopsNavBar>
+                <ShopsNavBar parent={this}></ShopsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-basic" label="Name" variant="outlined"

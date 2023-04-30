@@ -15,12 +15,13 @@ class SeeClient extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", phone: "", birthDate: "", address: "", isLoading: true};
+        this.state = {parent: this.props.parent, name: "", email: "", phone: "", birthDate: "", address: "", isLoading: true};
         this.id = this.props.params.id
         this.fillTextFields();
     }
 
     componentDidMount() {
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
     }
 
@@ -34,6 +35,10 @@ class SeeClient extends Component {
             .then(() => this.setState({isLoading: false}));
     }
 
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
+    }
+
     render() {
         const {name, email, phone, birthDate, address, isLoading} = this.state
         if (isLoading) {
@@ -41,7 +46,7 @@ class SeeClient extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <ClientsNavBar></ClientsNavBar>
+                <ClientsNavBar parent={this}></ClientsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-basic" label="Name" variant="filled"

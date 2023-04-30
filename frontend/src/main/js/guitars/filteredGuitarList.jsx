@@ -7,11 +7,13 @@ import GuitarsNavBar from './guitarsNavBar';
 class FilteredGuitarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {guitars: [], showPriceSVG: false, page: 0, lastPage: true, filteredGuitarsPrice: 0};
+        this.state = {parent: this.props.parent, 
+            guitars: [], showPriceSVG: false, page: 0, lastPage: true, filteredGuitarsPrice: 0};
     }
 
     componentDidMount() {
         this.handleFilteredGuitarsChange = this.handleFilteredGuitarsChange.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.getGuitars = this.getGuitars.bind(this);
         this.forceUpdate();
     }
@@ -20,6 +22,10 @@ class FilteredGuitarList extends Component {
         const target = event.target;
         const value = target.value;
         this.setState({filteredGuitarsPrice: value});
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     getGuitars(event) {
@@ -46,7 +52,7 @@ class FilteredGuitarList extends Component {
     render() {
         const {filteredGuitarsPrice} = this.state;
         return (<Container maxWidth={false}>
-                    <GuitarsNavBar></GuitarsNavBar>
+                    <GuitarsNavBar parent={this}></GuitarsNavBar>
                     <Container className="filteredGuitars tableContainer">
                         <FormControl className="formControlFilteredGuitars">
                             <InputLabel htmlFor="price">Show guitars with price greater than: </InputLabel>

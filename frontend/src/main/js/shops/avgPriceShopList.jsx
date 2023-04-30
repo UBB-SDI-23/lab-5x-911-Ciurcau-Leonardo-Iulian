@@ -7,11 +7,12 @@ import ShopsNavBar from './shopsNavBar';
 class AvgPriceShopList extends Component {
     constructor(props) {
         super(props);
-        this.state = {shops: [], page: 0, lastPage: true};
+        this.state = {parent: this.props.parent, shops: [], page: 0, lastPage: true};
     }
 
     componentDidMount() {
         this.getShops = this.getShops.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.getShops();
         this.forceUpdate();
     }
@@ -23,6 +24,10 @@ class AvgPriceShopList extends Component {
         fetch(App.API_URL + '/api/shops/orderByAveragePrice/page/' + page)
             .then(response => response.json())
             .then((data) => this.setState({shops: data.content, lastPage: data.last}));
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     getPage() {
@@ -39,7 +44,7 @@ class AvgPriceShopList extends Component {
 
     render() {
         return (<Container maxWidth={false}>
-                    <ShopsNavBar></ShopsNavBar>
+                    <ShopsNavBar parent={this}></ShopsNavBar>
                     <Container className="avgPriceShops tableContainer">
                         <ShopList parent={this}></ShopList>
                     </Container>

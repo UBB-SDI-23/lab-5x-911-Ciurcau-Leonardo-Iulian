@@ -17,7 +17,7 @@ class AddGuitar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {creationYear: null, model: "", type: "", color: "", price: 0, 
+        this.state = {parent: this.props.parent, creationYear: null, model: "", type: "", color: "", price: 0, 
             shop: null, dialogOpen: false, isLoading: true
         };
     }
@@ -25,28 +25,36 @@ class AddGuitar extends Component {
     componentDidMount() {
         this.handleGuitarAdd = this.handleGuitarAdd.bind(this);
         this.onShopChange = this.onShopChange.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
+    }
+
     handleGuitarAdd(event) {
         const {shop, price, creationYear, model, type, color} = this.state;
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                productType:"guitar",
-                shop:{"id": shop.id},
-                price: price,
-                creationYear: creationYear,
-                model: model,
-                type: type,
-                color: color
-            })
-        };
-        fetch(App.API_URL + '/api/guitars', requestOptions)
-            .then(response => response.json())
-            .then(() => this.setState({dialogOpen: true}));
+        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+            .then(id => {return {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    productType:"guitar",
+                    shop:{"id": shop.id},
+                    price: price,
+                    creationYear: creationYear,
+                    model: model,
+                    type: type,
+                    color: color,
+                    user: {id: id, isEnabled: true}
+                })
+            };})
+            .then(requestOptions => 
+                fetch(App.API_URL + '/api/guitars', requestOptions)
+                .then(response => response.json())
+                .then(() => this.setState({dialogOpen: true})));
     }
 
     onShopChange(event) {
@@ -60,7 +68,7 @@ class AddGuitar extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <GuitarsNavBar></GuitarsNavBar>
+                <GuitarsNavBar parent={this}></GuitarsNavBar>
                 <br/><br/>
                 <Container>
                 <TextField id="outlined-number" label="Creation year" variant="outlined" type="number"

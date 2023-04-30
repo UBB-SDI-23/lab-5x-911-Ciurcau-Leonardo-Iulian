@@ -46,6 +46,7 @@ class App extends React.Component {
 
      componentDidMount() {
         this.getCurrentUser = this.getCurrentUser.bind(this);
+        this.getCurrentUserLocalStorage = this.getCurrentUserLocalStorage.bind(this);
         this.forceUpdate();
     }
 
@@ -71,28 +72,28 @@ class App extends React.Component {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' exact={true} element={<Home parent={this}/>}/>
-                    <Route path='/guitars' element={<GuitarsHome/>}/>
-                    <Route path='/filteredGuitars' element={<FilteredGuitarList/>}/>
-                    <Route path='/addGuitar' element={<AddGuitar/>}/>
-                    <Route path='/updateGuitar/:id' element={<UpdateGuitar/>}/>
-                    <Route path='/seeGuitar/:id' element={<SeeGuitar/>}/>
-                    <Route path='/clients' element={<ClientsHome/>}/>
-                    <Route path='/seeClient/:id' element={<SeeClient/>} />
-                    <Route path='/updateClient/:id' element={<UpdateClient/>}/>
-                    <Route path='/addClient' element={<AddClient/>}/>
-                    <Route path='/couriers' element={<CourierHome/>}/>
-                    <Route path='/addCourier' element={<AddCourier/>}/>
-                    <Route path='/seeCourier/:id' element={<SeeCourier/>}/>
-                    <Route path='/updateCourier/:id' element={<UpdateCourier/>}/>
-                    <Route path='/transactions' element={<TransactionsHome/>}/>
-                    <Route path='/seeTransaction/:id' element={<SeeTransaction/>}/>
-                    <Route path='/addTransaction' element={<AddTransaction/>}/>
-                    <Route path='/updateTransaction/:id' element={<UpdateTransaction/>}/>
-                    <Route path='/shops' element={<ShopsHome/>}/>
-                    <Route path='seeShop/:id' element={<SeeShop/>}/>
-                    <Route path='/addShop' element={<AddShop/>}/>
-                    <Route path='/updateShop/:id' element={<UpdateShop/>}/>
-                    <Route path='/averagePriceShops' element={<AvgPriceShopList/>}/>
+                    <Route path='/guitars' element={<GuitarsHome parent={this}/>}/>
+                    <Route path='/filteredGuitars' element={<FilteredGuitarList parent={this}/>}/>
+                    <Route path='/addGuitar' element={<AddGuitar parent={this}/>}/>
+                    <Route path='/updateGuitar/:id' element={<UpdateGuitar parent={this}/>}/>
+                    <Route path='/seeGuitar/:id' element={<SeeGuitar parent={this}/>}/>
+                    <Route path='/clients' element={<ClientsHome parent={this}/>}/>
+                    <Route path='/seeClient/:id' element={<SeeClient parent={this}/>} />
+                    <Route path='/updateClient/:id' element={<UpdateClient parent={this}/>}/>
+                    <Route path='/addClient' element={<AddClient parent={this}/>}/>
+                    <Route path='/couriers' element={<CourierHome parent={this}/>}/>
+                    <Route path='/addCourier' element={<AddCourier parent={this}/>}/>
+                    <Route path='/seeCourier/:id' element={<SeeCourier parent={this}/>}/>
+                    <Route path='/updateCourier/:id' element={<UpdateCourier parent={this}/>}/>
+                    <Route path='/transactions' element={<TransactionsHome parent={this}/>}/>
+                    <Route path='/seeTransaction/:id' element={<SeeTransaction parent={this}/>}/>
+                    <Route path='/addTransaction' element={<AddTransaction parent={this}/>}/>
+                    <Route path='/updateTransaction/:id' element={<UpdateTransaction parent={this}/>}/>
+                    <Route path='/shops' element={<ShopsHome parent={this}/>}/>
+                    <Route path='seeShop/:id' element={<SeeShop parent={this}/>}/>
+                    <Route path='/addShop' element={<AddShop parent={this}/>}/>
+                    <Route path='/updateShop/:id' element={<UpdateShop parent={this}/>}/>
+                    <Route path='/averagePriceShops' element={<AvgPriceShopList parent={this}/>}/>
                     <Route path='/login' element={<UserLogin parent={this}/>}/>
                     <Route path='/register' element={<UserRegister parent={this}/>}/>
                     <Route path='/updateProfile/:username' element={<UpdateUserProfile parent={this}/>}/>

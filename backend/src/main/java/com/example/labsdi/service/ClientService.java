@@ -28,6 +28,8 @@ public class ClientService implements IClientService {
     public Client addClient(Client client) throws ClientServiceException {
         if (Objects.nonNull(client.getId()) && containsClient(client.getId()))
             throw new ClientServiceException("Client with id " + client.getId() + " already exists!");
+        if (Objects.isNull(client.getUser()))
+            throw new ClientServiceException("User is required!");
         return repository.save(client);
     }
 

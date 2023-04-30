@@ -12,13 +12,18 @@ function withParams(Component) {
 class SeeTransaction extends Component {
     constructor(props) {
         super(props);
-        this.state = {product: "", client: "", date: "", isCashPayment: "", isLoading: true};
+        this.state = {parent: this.props.parent, product: "", client: "", date: "", isCashPayment: "", isLoading: true};
         this.id = this.props.params.id;
         this.fillTextFields();
     }
 
     componentDidMount() {
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     fillTextFields() {
@@ -37,7 +42,7 @@ class SeeTransaction extends Component {
             return <p>Loading...</p>;
         return (
             <Container maxWidth={false}>
-                <TransactionsNavBar></TransactionsNavBar>
+                <TransactionsNavBar parent={this}></TransactionsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-basic" label="Product" variant="filled"

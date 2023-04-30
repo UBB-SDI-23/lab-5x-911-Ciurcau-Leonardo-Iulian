@@ -47,7 +47,7 @@ class UpdateUserProfile extends Component {
     fillTextFields() {
         const {username} = this.state;
 
-        fetch(App.API_URL + '/api/user/profile/' + username)
+        fetch(App.API_URL + '/api/users/profile/' + username)
             .then(response => response.json())
             .then(profile =>{
                 this.setState(
@@ -90,7 +90,7 @@ class UpdateUserProfile extends Component {
             })
         };
 
-        fetch(App.API_URL + '/api/user/profile/' + username, requestOptions)
+        fetch(App.API_URL + '/api/users/profile/' + username, requestOptions)
             .then(response => response.json())
             .then(this.setState({dialogOpen: true}));
     }

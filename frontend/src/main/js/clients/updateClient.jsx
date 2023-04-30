@@ -22,13 +22,15 @@ class UpdateClient extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", phone: "", birthDate: "", address: "", dialogOpen: false, isLoading: true};
+        this.state = {parent: this.props.parent, 
+            name: "", email: "", phone: "", birthDate: "", address: "", dialogOpen: false, isLoading: true};
         this.id = this.props.params.id;
     }
 
     componentDidMount() {
         this.handleClientUpdate = this.handleClientUpdate.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.fillTextFields();
         this.forceUpdate();
     }
@@ -41,6 +43,10 @@ class UpdateClient extends Component {
                     phone: client.telephoneNumber, birthDate: client.birthDate, address: client.address})
             )
             .then(() => this.setState({isLoading: false}));
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     handleClientUpdate(event) {
@@ -65,7 +71,7 @@ class UpdateClient extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <ClientsNavBar></ClientsNavBar>
+                <ClientsNavBar parent={this}></ClientsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-basic" label="Name" variant="outlined"

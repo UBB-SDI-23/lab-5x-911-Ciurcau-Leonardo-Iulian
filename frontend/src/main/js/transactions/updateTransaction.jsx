@@ -26,7 +26,8 @@ class UpdateTransaction extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {product: null, client: null, date: "", isCashPayment: true, dialogOpen: false, isLoading: true};
+        this.state = {parent: this.props.parent, 
+            product: null, client: null, date: "", isCashPayment: true, dialogOpen: false, isLoading: true};
         this.id = this.props.params.id;
     }
 
@@ -34,9 +35,14 @@ class UpdateTransaction extends Component {
         this.handleTransactionUpdate = this.handleTransactionUpdate.bind(this);
         this.onGuitarChange = this.onGuitarChange.bind(this);
         this.onClientChange = this.onClientChange.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
         this.fillTextFields();
         this.forceUpdate();
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     fillTextFields() {
@@ -80,7 +86,7 @@ class UpdateTransaction extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <TransactionsNavBar></TransactionsNavBar>
+                <TransactionsNavBar parent={this}></TransactionsNavBar>
                 <br/><br/>
                 <Container>
                     <GuitarsSelect parent={this} defaultGuitar={product}></GuitarsSelect>

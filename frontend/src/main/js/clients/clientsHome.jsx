@@ -4,10 +4,23 @@ import {Container} from "@mui/material";
 import ClientList from './clientList';
 
 class ClientsHome extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {parent: this.props.parent};
+    }
+
+    componentDidMount() {
+        this.getCurrentUser = this.getCurrentUser.bind(this);
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
+    }
+
     render() {
         return (
             <Container maxWidth={false}>
-                <ClientsNavBar></ClientsNavBar>
+                <ClientsNavBar parent={this}></ClientsNavBar>
                 <ClientList></ClientList>
             </Container>
         );

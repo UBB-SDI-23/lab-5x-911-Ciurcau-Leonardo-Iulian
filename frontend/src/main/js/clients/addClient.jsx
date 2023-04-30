@@ -17,28 +17,39 @@ class AddClient extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {name: "", email: "", phone: "", birthDate: "", address: "", dialogOpen: false, isLoading: true};
+        this.state = {parent: this.props.parent, 
+            name: "", email: "", phone: "", birthDate: "", address: "", dialogOpen: false, isLoading: true};
     }
 
     componentDidMount() {
-        this.handleClientAdd= this.handleClientAdd.bind(this);
+        this.handleClientAdd = this.handleClientAdd.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
     handleClientAdd(event) {
         const {name, email, phone, birthDate, address} = this.state;
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: name, email: email, 
-                telephoneNumber: phone, birthDate: birthDate, address: address
-            })
-        };
-        fetch(App.API_URL + '/api/clients', requestOptions)
-            .then(response => response.json())
-            .then(() => this.setState({dialogOpen: true}));
+        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+            .then(id => { return {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name, email: email, 
+                    telephoneNumber: phone, birthDate: birthDate, address: address,
+                    user: {id: id, isEnabled: true}
+                })
+            }})
+            .then(
+                requestOptions => 
+                fetch(App.API_URL + '/api/clients', requestOptions)
+                    .then(response => response.json())
+                    .then(() => this.setState({dialogOpen: true}))
+            );
+    }
+
+    getCurrentUser() {
+        return this.state.parent.getCurrentUser();
     }
 
     render() {
@@ -48,7 +59,7 @@ class AddClient extends Component {
         }
         return (
             <Container maxWidth={false}>
-                <ClientsNavBar></ClientsNavBar>
+                <ClientsNavBar parent={this}></ClientsNavBar>
                 <br/><br/>
                 <Container>
                     <TextField id="outlined-number" label="Name" variant="outlined"
