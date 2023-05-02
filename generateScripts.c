@@ -414,12 +414,12 @@ int main(int argc, char** argv)
 		char firstNameString[30] = { 0 };
 		char lastNameString[30] = { 0 };
 		char usernameString[65] = { 0 };
+		char insertIntoUsers[] = "INSERT INTO user_table(id,email,password,username,confirmation_code,is_enabled,confirmation_code_set_time) VALUES ";
+		fprintf(users_file, "%s",
+			insertIntoUsers);
+		char insertIntoProfiles[] = "INSERT INTO user_profile(id, user_id, telephone_number, first_name, last_name, birth_date, address) VALUES ";
 
-		fprintf(users_file, 
-			"INSERT INTO user_table(id,email,password,username,confirmation_code,is_enabled,confirmation_code_set_time) VALUES ");
-
-		fprintf(users_profiles_file, 
-			"INSERT INTO user_profile(id,user_id,telephone_number,first_name,last_name,birth_date,address) VALUES ");
+		fprintf(users_profiles_file, "%s", insertIntoProfiles);
 		for (int i = 1; i <= total_users; i++) {
 			generate_address(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
 			generate_birthDate(birthDate);
@@ -457,6 +457,11 @@ int main(int argc, char** argv)
 			);
 
 			fprintf(users_file, i % 1000 != 0 ? "," : ";\n");
+			fprintf(users_profiles_file, i % 1000 != 0 ? "," : ";\n");
+			if (i % 1000 == 0) {
+				fprintf(users_file, "%s", insertIntoUsers);
+				fprintf(users_profiles_file, "%s", insertIntoProfiles);
+			}
 		}
 	}
 
