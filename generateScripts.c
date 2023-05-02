@@ -14,6 +14,7 @@
 		return str;
 	}
 #endif
+#include <ctype.h>
 #define dataForGeneration() 	char* cities[] = {\
 "New York", "Los Angeles", "Washington", "Boston", "Detroit", "Miami",\
 "Chicago", "San Francisco", "Seattle", "Houston", "Dallas", "Atlanta",\
