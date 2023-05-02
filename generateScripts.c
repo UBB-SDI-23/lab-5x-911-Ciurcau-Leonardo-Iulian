@@ -2,6 +2,8 @@
 	#define _CRT_SECURE_NO_WARNINGS
 	#pragma warning(disable : 4996)
 #else 
+	#define tolower(p) (p) - 'A' + 'a'
+
 	char* strlwr(char* str)
 	{
 		unsigned char* p = (unsigned char*)str;
@@ -14,7 +16,6 @@
 		return str;
 	}
 #endif
-#include <ctype.h>
 #define dataForGeneration() 	char* cities[] = {\
 "New York", "Los Angeles", "Washington", "Boston", "Detroit", "Miami",\
 "Chicago", "San Francisco", "Seattle", "Houston", "Dallas", "Atlanta",\
