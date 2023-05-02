@@ -1,6 +1,18 @@
 #ifdef _WIN32
 	#define _CRT_SECURE_NO_WARNINGS
 	#pragma warning(disable : 4996)
+#else 
+	char* strlwr(char* str)
+	{
+		unsigned char* p = (unsigned char*)str;
+
+		while (*p) {
+			*p = tolower((unsigned char)*p);
+			p++;
+		}
+
+		return str;
+	}
 #endif
 #define dataForGeneration() 	char* cities[] = {\
 "New York", "Los Angeles", "Washington", "Boston", "Detroit", "Miami",\
