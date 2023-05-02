@@ -1,18 +1,111 @@
-#define _CRT_SECURE_NO_WARNINGS
-#define generateId(id, i, j, maxJ) (id) = (i) * (maxJ) + (j) + (1)
+#ifdef _WIN32
+	#define _CRT_SECURE_NO_WARNINGS
+	#pragma warning(disable : 4996)
+#endif
+#define dataForGeneration() 	char* cities[] = {\
+"New York", "Los Angeles", "Washington", "Boston", "Detroit", "Miami",\
+"Chicago", "San Francisco", "Seattle", "Houston", "Dallas", "Atlanta",\
+"Philadelphia", "Denver", "San Diego", "Phoenix", "Las Vegas", "New Orleans",\
+"Portland", "Nashville", "Minneapolis", "Charlotte", "Indianapolis", "Kansas City",\
+"Cleveland", "Memphis", "St. Louis", "Baltimore", "Salt Lake City", "Austin",\
+"San Antonio", "Orlando", "Tampa", "Sacramento", "Charlotte", "Columbus",\
+"Pittsburgh", "Oakland", "Albuquerque", "Omaha", "Honolulu", "Madison"\
+	};\
+\
+	char* streets[] = {\
+		"Main Street", "Broadway", "Wall Street", "Fifth Avenue", "Rodeo Drive", "Hollywood Boulevard",\
+		"Michigan Avenue", "Lombard Street", "Pike Place", "Beale Street", "Greenville Avenue", "Peachtree Street",\
+		"South Street", "Larimer Square", "Gaslamp Quarter", "Camelback Road", "The Strip", "Bourbon Street",\
+		"Hawthorne Boulevard", "Broadway", "Hennepin Avenue", "Trade Street", "Meridian Street", "Grand Boulevard",\
+		"Euclid Avenue", "Beale Street", "The Delmar Loop", "Charles Street", "Main Street", "Sixth Street",\
+		"State Street", "Sunset Boulevard", "Collins Avenue", "Pennsylvania Avenue", "Rush Street", "Pico Boulevard",\
+		"Market Street", "Elm Street", "Canal Street", "Church Street", "Santa Monica Boulevard", "Haight Street"\
+	};\
+\
+	char* firstName[] = {\
+		"Emily", "Olivia", "Emma", "Ava", "Sophia", "Isabella", "Mia", "Charlotte", "Amelia", "Harper",\
+		"Evelyn", "Abigail", "Ella", "Elizabeth", "Sofia", "Madison", "Avery", "Mila", "Aria", "Scarlett",\
+		"Grace", "Chloe", "Victoria", "Riley", "Aubrey", "Zoey", "Lily", "Hannah", "Samantha", "Layla",\
+		"Daniel", "David", "William", "Mason", "Ethan", "Michael", "Jacob", "Noah", "Liam", "Oliver",\
+		"Alexander", "Lucas", "Benjamin", "Elijah", "James", "Logan", "Aiden", "Caleb", "Caden", "Jackson",\
+		"Gabriel", "Nicholas", "John", "Samuel", "Matthew", "Luke", "Joseph", "Andrew", "Owen", "Max"\
+	};\
+\
+	char* lastName[] = {\
+		"Smith", "Johnson", "Williams", "Jones", "Brown", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",\
+		"Hernandez", "Lopez", "Gonzalez", "Perez", "Jackson", "Harris", "Clark", "Lewis", "Allen", "Young",\
+		"Walker", "Hall", "Green", "Baker", "Adams", "Nelson", "Carter", "Mitchell", "Parker", "Collins",\
+		"King", "Scott", "Wright", "Lee", "Turner", "Campbell", "Gomez", "Reed", "Phillips", "Morgan",\
+		"Cooper", "Peterson", "Perry", "Powell", "Long", "Bryant", "James", "Watson", "Evans", "Foster",\
+		"Gordon", "Ramos", "Washington", "Butler", "Simmons", "Frazier", "Murray", "Sanders", "Webb", "Hunter"\
+	};\
+\
+	char* companyFirstNames[] = {\
+		"Avalon", "Bluebird", "Catalyst", "Dreamscape", "Everest", "Frontier", "Galaxy", "Horizon", "Innovative", "Journey",\
+		"Kaleidoscope", "Legacy", "Momentum", "Nebula", "Odyssey", "Pinnacle", "Quest", "Radiance", "Summit", "Tranquility",\
+		"Uplift", "Velocity", "Wavelength", "Xenith", "Yellowstone", "Zenith", "Ascent", "Bridge", "Crescent", "Daybreak",\
+		"Elevate", "Foothills", "Gateway", "Harbor", "Island", "Junction", "Keystone", "Lighthouse", "Mirage", "Nexus"\
+	};\
+	\
+	char* companyLastNames[] = {\
+		"Enterprises", "Industries", "Corporation", "Group", "Holdings", "Limited", "Solutions", "International", "Services", "Inc",\
+		"Ventures", "Partners", "Consulting", "Logistics", "Commerce", "Development", "Technologies", "Management", "Associates", "Innovations",\
+		"Investments", "Capital", "Marketing", "Trading", "Global", "Network", "Alliance", "Resources", "Systems", "Strategy",\
+		"Enterprize", "Agency", "Association", "Federation", "Foundation", "Fund", "Institute", "Trust", "Union", "United"\
+	};\
+		\
+	char* guitarTypes[] = {\
+		"acoustic", "electric", "electro-acoustic", "classical"\
+	};\
+		\
+		\
+	char* emailProviders[] = {\
+		"gmail.com", "yahoo.com", "outlook.com", "hotmail.com"\
+	};\
+\
+	char* colors[] = {\
+		"red", "green", "blue", "yellow", "purple", "pink", "orange", "black", "white", "gray"\
+	};\
+\
+	char* guitarFirstNames[] = {\
+		"Stratocaster", "Telecaster", "Les Paul", "SG", "Explorer", "Flying V", "Firebird", "Jaguar", "Jazzmaster", "Duo-Sonic",\
+		"Mustang", "Rickenbacker", "Gibson", "Fender", "Epiphone"\
+	};\
+\
+	char* guitarLastNames[] = {\
+		"Standard", "Deluxe", "Custom", "Signature", "Artist", "Classic", "Vintage", "Modern", "Elite", "Plus",\
+		"Ultra", "Special", "Pro", "Original", "Limited"\
+	};\
+	int id = 0;\
+	char address[256] = { 0 };\
+	char birthDate[11] = { 0 };\
+	char email[65] = { 0 };\
+	char name[65] = { 0 };\
+	char telephoneNumber[11] = { 0 };\
+	char description[256] = { 0 };
+
+#define generate_id(id, i, j, maxJ) (id) = (i) * (maxJ) + (j) + (1)
 #define sizeofMatrix(m) (sizeof((m)) / sizeof((m[0])))
+#define openGenerationFile(type) FILE* type##_file = NULL;\
+								if (generate_##type) type##_file = \
+								fopen("generate_"#type".sql", "w")
+#define safeClose(type) if (type##_file) fclose(type##_file)
+#define defineBound(type) int type##First = inserts_no * batches_no * ((boundIndex)++), type##Last = type##First + batches_no 
+#define user_created_insert_into() fprintf(user_created_file, "INSERT INTO user_created(id,user_id) VALUES ")
+#define user_created_values(type) fprintf(user_created_file,"(%d,%d)",id, rand() % total_users + 1);\
+fprintf(user_created_file, j < type##Last - 1 ? "," : ";\n")
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
 
-void generateBirthDate(char* birthDate);
-void generateTelephoneNumber(char* telephoneNumber);
-void generateAddress(char* address, int citiesSize, char* cities[], int streetsSize, char* streets[]);
-void generateName(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[]);
-void generateEmail(char* email, char* name, int emailProvidersSize, char* emailProviders[]);
-void generateDescription(char* description, int matrixSize, char* matrix[]);
+void generate_birthDate(char* birthDate);
+void generate_telephoneNumber(char* telephoneNumber);
+void generate_address(char* address, int citiesSize, char* cities[], int streetsSize, char* streets[]);
+void generate_name(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[]);
+void generate_email(char* email, char* name, int emailProvidersSize, char* emailProviders[]);
+void generate_description(char* description, int matrixSize, char* matrix[]);
 
 int main(int argc, char** argv)
 {
@@ -20,13 +113,16 @@ int main(int argc, char** argv)
 
 	int inserts_no = 10;
 	int batches_no = 10;
+	int total_users = 10000;
 
-	char generateClients = 0;
-	char generateCouriers = 0;
-	char generateProducts = 0;
-	char generateShops = 0;
-	char generateShopsCouriers = 0;
-	char generateTransactions = 0;
+	char generate_clients = 0;
+	char generate_couriers = 0;
+	char generate_products = 0; 
+	char generate_guitars = 0; 
+	char generate_shops = 0;
+	char generate_shopsCouriers = 0;
+	char generate_transactions = 0;
+	char generate_users = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -56,320 +152,329 @@ int main(int argc, char** argv)
 		}
 		else if (strcmp(*argv, "--all") == 0)
 		{
-			generateClients = 1;
-			generateCouriers = 1;
-			generateProducts = 1;
-			generateShops = 1;
-			generateShopsCouriers = 1;
-			generateTransactions = 1;
+			generate_clients = 1;
+			generate_couriers = 1;
+			generate_guitars = 1;
+			generate_shops = 1;
+			generate_shopsCouriers = 1;
+			generate_transactions = 1;
+			generate_users = 1;
+			generate_products = 1;
 		}
 		else if (strcmp(*argv, "--clients") == 0)
 		{
-			generateClients = 1;
+			generate_clients = 1;
 		}
 		else if (strcmp(*argv, "--couriers") == 0)
 		{
-			generateCouriers = 1;
+			generate_couriers = 1;
 		}
-		else if (strcmp(*argv, "--products") == 0)
+		else if (strcmp(*argv, "--guitars") == 0)
 		{
-			generateProducts = 1;
+			generate_guitars = 1;
+			generate_products = 1;
 		}
 		else if (strcmp(*argv, "--shops") == 0)
 		{
-			generateShops = 1;
+			generate_shops = 1;
 		}
 		else if (strcmp(*argv, "--shops_couriers") == 0)
 		{
-			generateShopsCouriers = 1;
+			generate_shopsCouriers = 1;
 		}
 		else if (strcmp(*argv, "--transactions") == 0)
 		{
-			generateTransactions = 1;
+			generate_transactions = 1;
+		}
+		else if (strcmp(*argv, "--users") == 0)
+		{
+			generate_users = 1;
 		}
 		else
 		{
 		cleanup:
-			printf("usage: -i numberOfInserts -b numberOfBatches --all --clients --couriers --shops --products --shops_couriers --transactions\n");
+			printf("usage: -i numberOfInserts -b numberOfBatches --all --clients --couriers --shops --guitars --shops_couriers --transactions\n");
 			return -1;
 		}
 	}
 
 	int total_no = inserts_no * batches_no;
+	
 
-	char* cities[] = {
-		"New York", "Los Angeles", "Washington", "Boston", "Detroit", "Miami",
-		"Chicago", "San Francisco", "Seattle", "Houston", "Dallas", "Atlanta",
-		"Philadelphia", "Denver", "San Diego", "Phoenix", "Las Vegas", "New Orleans",
-		"Portland", "Nashville", "Minneapolis", "Charlotte", "Indianapolis", "Kansas City",
-		"Cleveland", "Memphis", "St. Louis", "Baltimore", "Salt Lake City", "Austin",
-		"San Antonio", "Orlando", "Tampa", "Sacramento", "Charlotte", "Columbus",
-		"Pittsburgh", "Oakland", "Albuquerque", "Omaha", "Honolulu", "Madison"
-	};
+	dataForGeneration();
 
-	char* streets[] = {
-		"Main Street", "Broadway", "Wall Street", "Fifth Avenue", "Rodeo Drive", "Hollywood Boulevard",
-		"Michigan Avenue", "Lombard Street", "Pike Place", "Beale Street", "Greenville Avenue", "Peachtree Street",
-		"South Street", "Larimer Square", "Gaslamp Quarter", "Camelback Road", "The Strip", "Bourbon Street",
-		"Hawthorne Boulevard", "Broadway", "Hennepin Avenue", "Trade Street", "Meridian Street", "Grand Boulevard",
-		"Euclid Avenue", "Beale Street", "The Delmar Loop", "Charles Street", "Main Street", "Sixth Street",
-		"State Street", "Sunset Boulevard", "Collins Avenue", "Pennsylvania Avenue", "Rush Street", "Pico Boulevard",
-		"Market Street", "Elm Street", "Canal Street", "Church Street", "Santa Monica Boulevard", "Haight Street"
-	};
+	openGenerationFile(clients);
+	openGenerationFile(couriers);
+	openGenerationFile(shops);
+	openGenerationFile(shopsCouriers);
+	openGenerationFile(transactions);
+	openGenerationFile(products);
+	openGenerationFile(guitars);
 
-	char* firstName[] = {
-		"Emily", "Olivia", "Emma", "Ava", "Sophia", "Isabella", "Mia", "Charlotte", "Amelia", "Harper",
-		"Evelyn", "Abigail", "Ella", "Elizabeth", "Sofia", "Madison", "Avery", "Mila", "Aria", "Scarlett",
-		"Grace", "Chloe", "Victoria", "Riley", "Aubrey", "Zoey", "Lily", "Hannah", "Samantha", "Layla",
-		"Daniel", "David", "William", "Mason", "Ethan", "Michael", "Jacob", "Noah", "Liam", "Oliver",
-		"Alexander", "Lucas", "Benjamin", "Elijah", "James", "Logan", "Aiden", "Caleb", "Caden", "Jackson",
-		"Gabriel", "Nicholas", "John", "Samuel", "Matthew", "Luke", "Joseph", "Andrew", "Owen", "Max"
-	};
+	FILE* users_file = NULL;
+	FILE* users_profiles_file = NULL;
+	FILE* user_created_file = NULL;
 
-	char* lastName[] = {
-		"Smith", "Johnson", "Williams", "Jones", "Brown", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
-		"Hernandez", "Lopez", "Gonzalez", "Perez", "Jackson", "Harris", "Clark", "Lewis", "Allen", "Young",
-		"Walker", "Hall", "Green", "Baker", "Adams", "Nelson", "Carter", "Mitchell", "Parker", "Collins",
-		"King", "Scott", "Wright", "Lee", "Turner", "Campbell", "Gomez", "Reed", "Phillips", "Morgan",
-		"Cooper", "Peterson", "Perry", "Powell", "Long", "Bryant", "James", "Watson", "Evans", "Foster",
-		"Gordon", "Ramos", "Washington", "Butler", "Simmons", "Frazier", "Murray", "Sanders", "Webb", "Hunter"
-	};
-
-	char* companyFirstNames[] = {
-		"Avalon", "Bluebird", "Catalyst", "Dreamscape", "Everest", "Frontier", "Galaxy", "Horizon", "Innovative", "Journey",
-		"Kaleidoscope", "Legacy", "Momentum", "Nebula", "Odyssey", "Pinnacle", "Quest", "Radiance", "Summit", "Tranquility",
-		"Uplift", "Velocity", "Wavelength", "Xenith", "Yellowstone", "Zenith", "Ascent", "Bridge", "Crescent", "Daybreak",
-		"Elevate", "Foothills", "Gateway", "Harbor", "Island", "Junction", "Keystone", "Lighthouse", "Mirage", "Nexus"
-	};
-
-	char* companyLastNames[] = {
-		"Enterprises", "Industries", "Corporation", "Group", "Holdings", "Limited", "Solutions", "International", "Services", "Inc",
-		"Ventures", "Partners", "Consulting", "Logistics", "Commerce", "Development", "Technologies", "Management", "Associates", "Innovations",
-		"Investments", "Capital", "Marketing", "Trading", "Global", "Network", "Alliance", "Resources", "Systems", "Strategy",
-		"Enterprize", "Agency", "Association", "Federation", "Foundation", "Fund", "Institute", "Trust", "Union", "United"
-	};
-
-	char* guitarTypes[] = {
-		"acoustic", "electric", "electro-acoustic", "classical"
-	};
+	if (generate_users)
+		users_file = fopen("generate_users.sql", "w"),
+		users_profiles_file = fopen("generate_users_profiles.sql", "w");
+	if (generate_clients || generate_couriers || generate_shops || generate_guitars ||
+		generate_shopsCouriers || generate_transactions)
+		user_created_file = fopen("generate_user_created.sql", "w");
 
 
-	char* emailProviders[] = {
-		"gmail.com", "yahoo.com", "outlook.com", "hotmail.com"
-	};
-
-	char* colors[] = {
-		"red", "green", "blue", "yellow", "purple", "pink", "orange", "black", "white", "gray"
-	};
-
-	char* guitarFirstNames[] = {
-		"Stratocaster", "Telecaster", "Les Paul", "SG", "Explorer", "Flying V", "Firebird", "Jaguar", "Jazzmaster", "Duo-Sonic",
-		"Mustang", "Rickenbacker", "Gibson", "Fender", "Epiphone"
-	};
-
-	char* guitarLastNames[] = {
-		"Standard", "Deluxe", "Custom", "Signature", "Artist", "Classic", "Vintage", "Modern", "Elite", "Plus",
-		"Ultra", "Special", "Pro", "Original", "Limited"
-	};
-
-
-	int id = 0;
-	char address[256] = { 0 };
-	char birthDate[11] = { 0 };
-	char email[65] = { 0 };
-	char name[65] = { 0 };
-	char telephoneNumber[11] = { 0 };
-	char description[256] = { 0 };
-
-	FILE* clients_file = NULL;
-	FILE* couriers_file = NULL;
-	FILE* products_file = NULL;
-	FILE* shops_file = NULL;
-	FILE* shops_couriers_file = NULL;
-	FILE* transactions_file = NULL;
-
-	if (generateClients)
-		clients_file = fopen("generate_clients.sql", "w");
-	if (generateCouriers)
-		couriers_file = fopen("generate_couriers.sql", "w");
-	if (generateShops)
-		shops_file = fopen("generate_shops.sql", "w");
-	if (generateProducts)
-		products_file = fopen("generate_products.sql", "w");
-	if (generateShopsCouriers)
-		shops_couriers_file = fopen("generate_shops_couriers.sql", "w");
-	if (generateTransactions)
-		transactions_file = fopen("generate_transactions.sql", "w");
+	int boundIndex = 0;
+	defineBound(clients);
+	defineBound(couriers);
+	defineBound(shops);
+	defineBound(transactions);
+	defineBound(guitars);
 
 	for (int i = 0; i < inserts_no; i++)
-	{
-		if (generateClients)
+	{	
+		if (generate_clients)
 		{
-			fprintf(clients_file,
+			user_created_insert_into();
+			fprintf(clients_file, 
 				"INSERT INTO client(id,address,birth_date,email,name,telephone_number) VALUES ");
-			for (int j = 0; j < batches_no; j++)
+			for (int j = clientsFirst; j < clientsLast; j++)
 			{
-				generateId(id, i, j, batches_no);
-				generateAddress(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
-				generateBirthDate(birthDate);
-				generateName(name, sizeofMatrix(firstName), firstName, sizeofMatrix(lastName), lastName);
-				generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
-				generateTelephoneNumber(telephoneNumber);
+				generate_id(id, i, j, batches_no);
+				generate_address(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
+				generate_birthDate(birthDate);
+				generate_name(name, sizeofMatrix(firstName), firstName, sizeofMatrix(lastName), lastName);
+				generate_email(email, name, sizeofMatrix(emailProviders), emailProviders);
+				generate_telephoneNumber(telephoneNumber);
 
 				fprintf(
 					clients_file,
 					"(%d,'%s','%s','%s','%s','%s')",
 					id, address, birthDate, email, name, telephoneNumber
 				);
-				fprintf(clients_file, j < batches_no - 1 ? "," : ";\n");
+				fprintf(clients_file, j < clientsLast - 1 ? "," : ";\n");
+
+				user_created_values(clients);
 			}
 		}
 
-		if (generateCouriers)
+		if (generate_couriers)
 		{
+			user_created_insert_into();
+
 			fprintf(couriers_file,
 				"INSERT INTO courier(id,address,delivery_price,email,name,telephone_number,description) VALUES ");
-			for (int j = 0; j < batches_no; j++)
+			for (int j = couriersFirst; j < couriersLast; j++)
 			{
-				generateId(id, i, j, batches_no);
-				generateAddress(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
-				generateName(name, sizeofMatrix(companyFirstNames),
+				generate_id(id, i, j, batches_no);
+				generate_address(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
+				generate_name(name, sizeofMatrix(companyFirstNames), 
 					companyFirstNames, sizeofMatrix(companyLastNames), companyLastNames);
-				generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
-				generateTelephoneNumber(telephoneNumber);
-				generateDescription(description, sizeofMatrix(cities), cities);
+				generate_email(email, name, sizeofMatrix(emailProviders), emailProviders);
+				generate_telephoneNumber(telephoneNumber);
+				generate_description(description, sizeofMatrix(cities), cities);
 
 				fprintf(
 					couriers_file,
 					"(%d,'%s',%d,'%s','%s','%s','%s')",
 					id, address, rand() % 200 + 30, email, name, telephoneNumber, description
 				);
-				fprintf(couriers_file, j < batches_no - 1 ? "," : ";\n");
+				fprintf(couriers_file, j < couriersLast - 1 ? "," : ";\n");
+
+				user_created_values(couriers);
 			}
 		}
 
-		if (generateShops)
+		if (generate_shops)
 		{
+			user_created_insert_into();
+
 			fprintf(shops_file,
 				"INSERT INTO shop(id,address,email,name,shipping_available,telephone_number) VALUES ");
-			for (int j = 0; j < batches_no; j++)
+			for (int j = shopsFirst; j < shopsLast; j++)
 			{
-				generateId(id, i, j, batches_no);
-				generateAddress(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
-				generateName(name, sizeofMatrix(companyFirstNames),
+				generate_id(id, i, j, batches_no);
+				generate_address(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
+				generate_name(name, sizeofMatrix(companyFirstNames),
 					companyFirstNames, sizeofMatrix(companyLastNames), companyLastNames);
-				generateEmail(email, name, sizeofMatrix(emailProviders), emailProviders);
-				generateTelephoneNumber(telephoneNumber);
+				generate_email(email, name, sizeofMatrix(emailProviders), emailProviders);
+				generate_telephoneNumber(telephoneNumber);
 
 				fprintf(
 					shops_file,
 					"(%d,'%s','%s','%s','%s','%s')",
 					id, address, email, name, rand() % 4 == 0 ? "f" : "t", telephoneNumber
 				);
-				fprintf(shops_file, j < batches_no - 1 ? "," : ";\n");
+				fprintf(shops_file, j < shopsLast - 1 ? "," : ";\n");
+
+				user_created_values(shops);
 			}
 		}
 
-		if (generateProducts)
+		if (generate_guitars)
 		{
-			fprintf(products_file,
-				"INSERT INTO product(dtype,id,price,color,creation_year,model,type,shop_id) VALUES ");
-			for (int j = 0; j < batches_no; j++)
+			user_created_insert_into();
+
+			fprintf(products_file, "INSERT INTO product(dtype,id,price,shop_id) VALUES ");
+
+			fprintf(guitars_file,
+				"INSERT INTO guitar(id,color,creation_year,model,type) VALUES ");
+			for (int j = guitarsFirst; j < guitarsLast; j++)
 			{
-				generateId(id, i, j, batches_no);
-				generateName(name, sizeofMatrix(guitarFirstNames),
+				generate_id(id, i, j, batches_no);
+				generate_name(name, sizeofMatrix(guitarFirstNames),
 					guitarFirstNames, sizeofMatrix(guitarLastNames), guitarLastNames);
 
 				fprintf(
-					products_file,
-					"('%s',%d,%d,'%s',%d,'%s','%s',%d)",
+					products_file, 
+					"('%s',%d,%d,%d)",
 					"Guitar",
 					id,
 					rand() % 3000 + 1000,
+					rand() % total_no + shopsFirst
+				);
+
+				fprintf(
+					guitars_file,
+					"(%d,'%s',%d,'%s','%s')",
+					id,
 					colors[rand() % sizeofMatrix(colors)],
 					rand() % 20 + 2000,
 					name,
-					guitarTypes[rand() % sizeofMatrix(guitarTypes)],
-					rand() % total_no + 1
+					guitarTypes[rand() % sizeofMatrix(guitarTypes)]
 				);
-				fprintf(products_file, j < batches_no - 1 ? "," : ";\n");
+
+				fprintf(products_file, j < guitarsLast - 1 ? "," : ";\n");
+				fprintf(guitars_file, j < guitarsLast - 1 ? "," : ";\n");
+
+				user_created_values(guitars);
 			}
 		}
 
-		if (generateShopsCouriers)
+		if (generate_shopsCouriers)
 		{
 			int total = total_no < 10 ? total_no : 10;
-			fprintf(shops_couriers_file, "INSERT INTO shop_courier(shop_id,courier_id) VALUES ");
-			for (int j = 0; j < batches_no; j++)
+			fprintf(shopsCouriers_file, "INSERT INTO shop_courier(shop_id,courier_id) VALUES ");
+			for (int j = shopsFirst; j < shopsLast; j++)
 			{
-				generateId(id, i, j, batches_no); // shop_id
+				generate_id(id, i, j, batches_no); // shop_id
 				for (int index = 1; index <= total; index++)
 				{
 					fprintf(
-						shops_couriers_file,
+						shopsCouriers_file,
 						"(%d,%d)",
 						id,
-						rand() % total_no + 1
+						rand() % total_no + couriersFirst
 					);
-					fprintf(shops_couriers_file, (j < batches_no - 1) || (index < total) ? "," : ";\n");
+					fprintf(shopsCouriers_file, (j < shopsLast - 1) || (index < total) ? "," : ";\n");
 				}
 			}
 		}
 
-		if (generateTransactions)
+		if (generate_transactions)
 		{
-			fprintf(transactions_file,
+			user_created_insert_into();
+
+			fprintf(transactions_file, 
 				"INSERT INTO transaction(id,date,is_cash_payment,client_id,product_id) VALUES ");
-			for (int j = 0; j < batches_no; j++)
+			for (int j = transactionsFirst; j < transactionsLast; j++)
 			{
-				generateId(id, i, j, batches_no); // product_id and id
-				generateBirthDate(birthDate);
+				generate_id(id, i, j, batches_no); 
+				generate_birthDate(birthDate);
 				fprintf(
 					transactions_file,
 					"(%d,'%s','%s',%d,%d)",
 					id,
 					birthDate,
 					rand() % 3 == 0 ? "t" : "f",
-					rand() % total_no + 1,
-					id
+					rand() % total_no + clientsFirst,
+					rand() % total_no + guitarsFirst
 				);
-				fprintf(transactions_file, j < batches_no - 1 ? "," : ";\n");
+				fprintf(transactions_file, j < transactionsLast - 1 ? "," : ";\n");
+
+				user_created_values(transactions);
 			}
 		}
 	}
 
-	if (generateClients)
-		fclose(clients_file);
-	if (generateCouriers)
-		fclose(couriers_file);
-	if (generateShops)
-		fclose(shops_file);
-	if (generateProducts)
-		fclose(products_file);
-	if (generateShopsCouriers)
-		fclose(shops_couriers_file);
-	if (generateTransactions)
-		fclose(transactions_file);
+	if (generate_users) {
+		char firstNameString[30] = { 0 };
+		char lastNameString[30] = { 0 };
+		char usernameString[65] = { 0 };
+
+		fprintf(users_file, 
+			"INSERT INTO user_table(id,email,password,username,confirmation_code,is_enabled,confirmation_code_set_time) VALUES ");
+
+		fprintf(users_profiles_file, 
+			"INSERT INTO user_profile(id,user_id,telephone_number,first_name,last_name,birth_date,address) VALUES ");
+		for (int i = 1; i <= total_users; i++) {
+			generate_address(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
+			generate_birthDate(birthDate);
+			generate_telephoneNumber(telephoneNumber);
+			strcpy(firstNameString, firstName[rand() % sizeofMatrix(firstName)]);
+			strcpy(lastNameString, lastName[rand() % sizeofMatrix(lastName)]);
+			sprintf(name, "%s %s", firstNameString, lastNameString);
+
+			fprintf(users_profiles_file,
+				"(%d,%d,'%s','%s','%s','%s','%s')",
+				i,
+				i,
+				telephoneNumber,
+				firstNameString,
+				lastNameString,
+				birthDate,
+				address
+			);
+
+			generate_email(email, name, sizeofMatrix(emailProviders), emailProviders);
+			strcpy(usernameString, strlwr(firstNameString));
+			strcat(usernameString, strlwr(lastNameString));
+
+			sprintf(usernameString + strlen(usernameString), "%d%d", rand() % 10, rand() % 10);
+
+			fprintf(users_file,
+				"(%d,'%s','%s','%s','%s','%s',%d)",
+				i,
+				email,
+				"$2a$10$Moqxwu.hmbLKzzwI5T14ge6Mp3K.KTEdXJJKRjZZMiJqt1V5mnFzK", // password='password'
+				usernameString,
+				"",
+				"t",
+				0
+			);
+		}
+	}
+
+	safeClose(clients);
+	safeClose(couriers);
+	safeClose(shops);
+	safeClose(products);
+	safeClose(guitars);
+	safeClose(shopsCouriers);
+	safeClose(transactions);
+	safeClose(users);
+	safeClose(users_profiles);
+	safeClose(user_created);
+
 	return 0;
 }
 
 
-void generateBirthDate(char* birthDate)
+void generate_birthDate(char* birthDate)
 {
 	sprintf(birthDate, "%02d-%02d-%d", rand() % 28 + 1, rand() % 12 + 1, rand() % 45 + 1960);
 }
 
-void generateTelephoneNumber(char* telephoneNumber)
+void generate_telephoneNumber(char* telephoneNumber)
 {
 	strcpy(telephoneNumber, "07");
 	for (int index = 2; index < 10; index++)
 		telephoneNumber[index] = (rand() % 10) + '0';
 }
 
-void generateAddress(char* address, int citiesSize, char* cities[], int streetsSize, char* streets[])
+void generate_address(char* address, int citiesSize, char* cities[], int streetsSize, char* streets[])
 {
 	sprintf(
-		address,
+		address, 
 		"%s, %s %d",
 		cities[rand() % citiesSize],
 		streets[rand() % streetsSize],
@@ -377,12 +482,12 @@ void generateAddress(char* address, int citiesSize, char* cities[], int streetsS
 	);
 }
 
-void generateName(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[])
+void generate_name(char* name, int firstNameSize, char* firstName[], int lastNameSize, char* lastName[])
 {
 	sprintf(name, "%s %s", firstName[rand() % firstNameSize], lastName[rand() % lastNameSize]);
 }
 
-void generateEmail(char* email, char* name, int emailProvidersSize, char* emailProviders[])
+void generate_email(char* email, char* name, int emailProvidersSize, char* emailProviders[])
 {
 	while (*name)
 	{
@@ -398,7 +503,7 @@ void generateEmail(char* email, char* name, int emailProvidersSize, char* emailP
 	strcat(email, emailProviders[rand() % emailProvidersSize]);
 }
 
-void generateDescription(char* description, int matrixSize, char* matrix[])
+void generate_description(char* description, int matrixSize, char* matrix[])
 {
 	strcpy(description, "");
 	for (int i = 0; i < 3; i++)
