@@ -456,7 +456,7 @@ int main(int argc, char** argv)
 				0
 			);
 
-			fprintf(users_file, i < total_users - 1 ? "," : ";\n");
+			fprintf(users_file, i % 1000 != 0 ? "," : ";\n");
 		}
 	}
 
