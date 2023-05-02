@@ -207,7 +207,7 @@ int main(int argc, char** argv)
 		else
 		{
 		cleanup:
-			printf("usage: -i numberOfInserts -b numberOfBatches --all --clients --couriers --shops --guitars --shops_couriers --transactions\n");
+			printf("usage: -i numberOfInserts -b numberOfBatches --all --clients --couriers --shops --guitars --shops_couriers --transactions --users\n");
 			return -1;
 		}
 	}
