@@ -4,8 +4,11 @@ import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.util.List;
 
@@ -26,6 +29,8 @@ public class Courier extends UserCreated implements IDTOConvertable, ISimpleDTOC
     @Column(name="address")
     private String address;
     @Column(name="email")
+    @Email
+    @NotBlank
     private String email;
     @Column(name="telephone_number")
     private String telephoneNumber;

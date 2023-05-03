@@ -9,6 +9,7 @@ import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.IUserService;
 import com.example.labsdi.service.exception.UserServiceException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class AuthController {
     }
 
     @GetMapping("/auth/register/confirm/{code}")
-    public ResponseEntity<?> confirmRegistration(@PathVariable("code") String code) {
+    public ResponseEntity<?> confirmRegistration(@PathVariable("code") @NotBlank String code) {
         if (userService.confirmRegistration(code))
             return ResponseEntity.ok().body("{\"message\": \"user registration confirmed\"}");
         else

@@ -3,6 +3,10 @@ package com.example.labsdi.domain;
 import com.example.labsdi.domain.dto.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
@@ -14,8 +18,10 @@ import lombok.*;
 @Builder
 public class Guitar extends Product {
     @Column(name="creation_year")
+    @PositiveOrZero
     private Integer creationYear;
     @Column(name="model")
+    @NotBlank
     private String model;
     @Column(name="type")
     private String type;

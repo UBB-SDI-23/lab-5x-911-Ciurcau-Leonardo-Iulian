@@ -4,6 +4,7 @@ import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -47,6 +48,7 @@ public class Shop extends UserCreated implements IDTOConvertable, ISimpleDTOConv
     private String address;
     @Column(name="email")
     @NotBlank(message = "Email is mandatory")
+    @Email
     private String email;
     @Column(name="telephone_number")
     private String telephoneNumber;

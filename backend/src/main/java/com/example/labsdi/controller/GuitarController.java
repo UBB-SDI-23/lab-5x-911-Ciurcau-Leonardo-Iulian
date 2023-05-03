@@ -9,6 +9,9 @@ import com.example.labsdi.domain.dto.SimpleGuitarDTO;
 import com.example.labsdi.service.IGuitarService;
 import com.example.labsdi.service.exception.GuitarServiceException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
 import org.springframework.validation.annotation.Validated;
@@ -37,57 +40,57 @@ public class GuitarController {
     }
 
     @GetMapping("/guitars/page/{page}")
-    public Slice<ProductDTO> getGuitarsPage(@PathVariable("page") Integer page) {
+    public Slice<ProductDTO> getGuitarsPage(@PathVariable("page") @NotNull Integer page) {
         return guitarService.getGuitarsPage(page)
                 .map(g -> (ProductDTO)g.toDTO());
     }
 
     @GetMapping("/guitars/simple/page/{page}")
-    public Slice<SimpleGuitarDTO> getGuitarsSimplePage(@PathVariable("page") Integer page) {
+    public Slice<SimpleGuitarDTO> getGuitarsSimplePage(@PathVariable("page") @NotNull Integer page) {
         return guitarService.getGuitarsPage(page)
                 .map(g -> (SimpleGuitarDTO)g.toSimpleDTO());
     }
 
     @GetMapping("/guitars/priceGreaterThan/{price}/all")
-    public List<ProductDTO> findByPriceGreaterThan(@PathVariable("price") Integer price) {
+    public List<ProductDTO> findByPriceGreaterThan(@PathVariable("price") @NotNull @PositiveOrZero Integer price) {
         return guitarService.findByPriceGreaterThan(price).stream()
                 .map(g -> (ProductDTO)g.toDTO())
                 .toList();
     }
 
     @GetMapping("/guitars/containsName/{name}/page/{page}")
-    public Slice<SimpleGuitarDTO> getGuitarContainsNamePage(@PathVariable("name") String name,
-                                                            @PathVariable("page") Integer page) {
+    public Slice<SimpleGuitarDTO> getGuitarContainsNamePage(@PathVariable("name") @NotBlank String name,
+                                                            @PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return guitarService.getGuitarContainsNamePage(name, page)
                 .map(g -> (SimpleGuitarDTO) g.toSimpleDTO());
     }
 
     @GetMapping("/guitars/priceGreaterThan/{price}")
-    public List<ProductDTO> findFirst100ByPriceGreaterThan(@PathVariable("price") Integer price) {
+    public List<ProductDTO> findFirst100ByPriceGreaterThan(@PathVariable("price") @NotNull @PositiveOrZero Integer price) {
         return guitarService.findFirst100ByPriceGreaterThan(price).stream()
                 .map(g -> (ProductDTO)g.toDTO())
                 .toList();
     }
 
     @GetMapping("/guitars/priceGreaterThan/{price}/page/{page}")
-    public Slice<ProductDTO> findByPriceGreaterThanPage(@PathVariable("price") Integer price,
-                                                       @PathVariable("page") Integer page) {
+    public Slice<ProductDTO> findByPriceGreaterThanPage(@PathVariable("price") @NotNull @PositiveOrZero Integer price,
+                                                       @PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return guitarService.findByPriceGreaterThanPage(price, page)
                 .map(g -> (ProductDTO)g.toDTO());
     }
 
     @GetMapping("/guitars/{id}")
-    public Guitar getGuitar(@PathVariable("id") Long id) throws GuitarServiceException {
+    public Guitar getGuitar(@PathVariable("id") @NotNull Long id) throws GuitarServiceException {
         return guitarService.getGuitar(id);
     }
 
     @GetMapping("/guitars/count/{username}")
-    public Count getCountByUsername(@PathVariable("username") String username) {
+    public Count getCountByUsername(@PathVariable("username") @NotBlank String username) {
         return new Count(guitarService.countGuitarsByUsername(username));
     }
 
     @GetMapping("/guitars/dto/{id}")
-    public GuitarDTO getGuitarDTO(@PathVariable("id") Long id) throws GuitarServiceException {
+    public GuitarDTO getGuitarDTO(@PathVariable("id") @NotNull Long id) throws GuitarServiceException {
         return (GuitarDTO) guitarService.getGuitar(id).toDTO();
     }
 
@@ -97,19 +100,19 @@ public class GuitarController {
     }
 
     @PostMapping("/shops/{id}/guitars")
-    public String addGuitarsToShop(@RequestBody List<Guitar> guitars, @PathVariable("id") Long id) throws GuitarServiceException {
+    public String addGuitarsToShop(@Valid @RequestBody List<Guitar> guitars, @PathVariable("id") @NotNull Long id) throws GuitarServiceException {
         guitarService.addGuitarsToShop(guitars, id);
         return "Updated successfully";
     }
 
     @PutMapping("/guitars/{id}")
     public Guitar
-    updateGuitar(@RequestBody Guitar guitar, @PathVariable("id") Long id) throws GuitarServiceException {
+    updateGuitar(@RequestBody @Valid Guitar guitar, @PathVariable("id") @NotNull Long id) throws GuitarServiceException {
         return guitarService.updateGuitar(guitar, id);
     }
 
     @DeleteMapping("/guitars/{id}")
-    public String removeGuitar(@PathVariable("id") Long id) throws GuitarServiceException {
+    public String removeGuitar(@PathVariable("id") @NotNull Long id) throws GuitarServiceException {
         guitarService.removeGuitar(id);
         return "Deleted Successfully";
     }

@@ -4,6 +4,9 @@ import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.domain.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,16 +30,21 @@ public class User implements UserDetails, IDTOConvertable {
     @SequenceGenerator(name = "user_table_generator", sequenceName = "user_table_seq")
     private Long id;
     @Column(name="username", nullable = false)
+    @NotBlank
     private String username;
     @Column(name="password", nullable = false)
+    @NotBlank
     private String password;
     @Column(name="email", nullable = false)
+    @NotBlank
+    @Email
     private String email;
     @Column(name="confirmation_code", length = 8)
     private String confirmationCode;
     @Column(name="confirmation_code_set_time")
     private Long confirmationCodeSetTime;
     @Column(name="isEnabled", nullable = false)
+    @NotNull
     private Boolean isEnabled;
 
     @Override

@@ -9,6 +9,9 @@ import com.example.labsdi.service.IClientService;
 import com.example.labsdi.service.exception.ClientServiceException;
 import io.swagger.v3.core.util.Json;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
 import org.springframework.validation.annotation.Validated;
@@ -38,13 +41,13 @@ public class ClientController {
     }
 
     @GetMapping("/clients/page/{page}")
-    public Slice<ClientDTO> getClientsPage(@PathVariable("page") Integer page) {
+    public Slice<ClientDTO> getClientsPage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return clientService.getClientsPage(page)
                 .map(c -> (ClientDTO) c.toDTO());
     }
 
     @GetMapping("/clients/simple/page/{page}")
-    public Slice<SimpleClientDTO> getClientsSimplePage(@PathVariable("page") Integer page) {
+    public Slice<SimpleClientDTO> getClientsSimplePage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return clientService.getClientsPage(page)
                 .map(c -> (SimpleClientDTO) c.toSimpleDTO());
     }
@@ -55,14 +58,14 @@ public class ClientController {
     }
 
     @GetMapping("/clients/count/{username}")
-    public Count getCountByUsername(@PathVariable("username") String username) {
+    public Count getCountByUsername(@PathVariable("username") @NotBlank String username) {
         return new Count(clientService.getCountByUsername(username));
     }
 
 
     @GetMapping("/clients/containsName/{name}/page/{page}")
-    public Slice<SimpleClientDTO> getClientContainsNamePage(@PathVariable("name") String name,
-                                                            @PathVariable("page") Integer page) {
+    public Slice<SimpleClientDTO> getClientContainsNamePage(@PathVariable("name") @NotBlank String name,
+                                                            @PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return clientService.getClientContainsNamePage(name, page)
                 .map(c -> (SimpleClientDTO) c.toSimpleDTO());
     }
@@ -80,7 +83,7 @@ public class ClientController {
     }
 
     @GetMapping("/clients/{id}")
-    public Client getClient(@PathVariable("id") Long id) throws ClientServiceException {
+    public Client getClient(@PathVariable("id") @NotNull Long id) throws ClientServiceException {
         return clientService.getClient(id);
     }
 }

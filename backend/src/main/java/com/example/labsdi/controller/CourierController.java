@@ -9,6 +9,9 @@ import com.example.labsdi.service.ICourierService;
 import com.example.labsdi.service.ICourierService;
 import com.example.labsdi.service.exception.CourierServiceException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
@@ -37,43 +40,43 @@ public class CourierController {
     }
 
     @GetMapping("/couriers/page/{page}")
-    public Slice<CourierDTO> getCouriersPage(@PathVariable("page") Integer page) {
+    public Slice<CourierDTO> getCouriersPage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return courierService.getCourierPage(page)
                 .map(c -> (CourierDTO)c.toDTO());
     }
 
     @GetMapping("/couriers/simple/page/{page}")
-    public Slice<SimpleCourierDTO> getSimpleCouriersPage(@PathVariable("page") Integer page) {
+    public Slice<SimpleCourierDTO> getSimpleCouriersPage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return courierService.getCourierPage(page)
                 .map(c -> (SimpleCourierDTO)c.toSimpleDTO());
     }
 
     @GetMapping("/couriers/containsName/{name}/page/{page}")
-    public Slice<SimpleCourierDTO> getCourierContainsNamePage(@PathVariable("name") String name,
-                                                              @PathVariable("page") Integer page) {
+    public Slice<SimpleCourierDTO> getCourierContainsNamePage(@PathVariable("name") @NotBlank String name,
+                                                              @PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return courierService.getCourierContainsNamePage(name, page)
                 .map(c -> (SimpleCourierDTO) c.toSimpleDTO());
     }
 
     @GetMapping("/couriers/count/{username}")
-    public Count getCountByUsername(@PathVariable("username") String username) {
+    public Count getCountByUsername(@PathVariable("username") @NotBlank String username) {
         return new Count(courierService.countByUsername(username));
     }
 
     @PutMapping("/couriers/{id}")
     public Courier
-    updateCourier(@RequestBody Courier courier, @PathVariable("id") Long id) throws CourierServiceException {
+    updateCourier(@RequestBody Courier courier, @PathVariable("id") @NotNull Long id) throws CourierServiceException {
         return courierService.updateCourier(courier, id);
     }
 
     @DeleteMapping("/couriers/{id}")
-    public String removeCourier(@PathVariable("id") Long id) throws CourierServiceException {
+    public String removeCourier(@PathVariable("id") @NotNull Long id) throws CourierServiceException {
         courierService.removeCourier(id);
         return "Deleted Successfully";
     }
 
     @GetMapping("/couriers/{id}")
-    public DTO getCourier(@PathVariable("id") Long id) throws CourierServiceException {
+    public DTO getCourier(@PathVariable("id") @NotNull Long id) throws CourierServiceException {
         return courierService.getCourier(id).toDTO();
     }
 }

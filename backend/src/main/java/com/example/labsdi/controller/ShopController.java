@@ -6,6 +6,9 @@ import com.example.labsdi.domain.dto.*;
 import com.example.labsdi.service.IShopService;
 import com.example.labsdi.service.exception.ShopServiceException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
@@ -31,20 +34,20 @@ public class ShopController {
     }
 
     @GetMapping("/shops/page/{page}")
-    public Slice<ShowAllShopDTO> getShopPage(@PathVariable("page") Integer page) {
+    public Slice<ShowAllShopDTO> getShopPage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return shopService.getShopsPage(page)
                 .map(s -> (ShowAllShopDTO) s.toShowAllDTO());
     }
 
     @GetMapping("/shops/simple/page/{page}")
-    public Slice<SimpleShopDTO> getSimpleShopPage(@PathVariable("page") Integer page) {
+    public Slice<SimpleShopDTO> getSimpleShopPage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return shopService.getShopsPage(page)
                 .map(s -> (SimpleShopDTO)s.toSimpleDTO());
     }
 
     @GetMapping("/shops/containsName/{name}/page/{page}")
-    public Slice<SimpleShopDTO> getShopContainsNamePage(@PathVariable("name") String name,
-                                                        @PathVariable("page") Integer page) {
+    public Slice<SimpleShopDTO> getShopContainsNamePage(@PathVariable("name") @NotBlank String name,
+                                                        @PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return shopService.getShopContainsNamePage(page, name)
                 .map(s -> (SimpleShopDTO) s.toSimpleDTO());
     }
@@ -58,34 +61,34 @@ public class ShopController {
 
     @PutMapping("/shops/{id}")
     public Shop
-    updateShop(@RequestBody Shop shop, @PathVariable("id") Long id) throws ShopServiceException {
+    updateShop(@RequestBody Shop shop, @PathVariable("id") @NotNull Long id) throws ShopServiceException {
         return shopService.updateShop(shop, id);
     }
 
     @PutMapping("/shops/{id}/addCourier")
-    public Shop addCourier(@RequestBody Courier courier, @PathVariable("id") Long id) throws ShopServiceException {
+    public Shop addCourier(@RequestBody Courier courier, @PathVariable("id") @NotNull Long id) throws ShopServiceException {
         return shopService.addCourier(courier, id);
     }
 
     @DeleteMapping("/shops/{shopId}/removeCourier/{courierId}")
-    public Shop removeCourier(@PathVariable("shopId") Long shopId,
-                                @PathVariable("courierId") Long courierId) throws ShopServiceException {
+    public Shop removeCourier(@PathVariable("shopId") @NotNull Long shopId,
+                                @PathVariable("courierId") @NotNull Long courierId) throws ShopServiceException {
         return shopService.removeCourier(shopId, courierId);
     }
 
     @DeleteMapping("/shops/{id}")
-    public String removeShop(@PathVariable("id") Long id) throws ShopServiceException {
+    public String removeShop(@PathVariable("id") @NotNull Long id) throws ShopServiceException {
         shopService.removeShop(id);
         return "Deleted Successfully";
     }
 
     @GetMapping("/shops/{id}")
-    public DTO getShop(@PathVariable("id") Long id) throws ShopServiceException {
+    public DTO getShop(@PathVariable("id") @NotNull Long id) throws ShopServiceException {
         return shopService.getShop(id).toDTO();
     }
 
     @GetMapping("/shops/count/{username}")
-    public Count countByUsername(@PathVariable("username") String username) {
+    public Count countByUsername(@PathVariable("username") @NotBlank String username) {
         return new Count(shopService.countByUsername(username));
     }
 
@@ -100,7 +103,7 @@ public class ShopController {
     }
 
     @GetMapping("/shops/orderByAveragePrice/page/{page}")
-    public Slice<ShopAveragePriceDTO> getShopsByAvgPricePage(@PathVariable("page") Integer page) {
+    public Slice<ShopAveragePriceDTO> getShopsByAvgPricePage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return shopService.getShopsByAveragePricePage(page);
     }
 }

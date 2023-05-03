@@ -9,6 +9,9 @@ import com.example.labsdi.domain.dto.TransactionDTO;
 import com.example.labsdi.service.ITransactionService;
 import com.example.labsdi.service.exception.TransactionServiceException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +38,7 @@ public class TransactionController {
     }
 
     @GetMapping("/transactions/page/{page}")
-    public Slice<TransactionDTO> getTransactionsPage(@PathVariable("page") Integer page) {
+    public Slice<TransactionDTO> getTransactionsPage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return transactionService.getTransactionsPage(page)
                 .map(t -> (TransactionDTO)t.toDTO());
     }
@@ -49,29 +52,29 @@ public class TransactionController {
 
     @PutMapping("/transactions/{id}")
     public Transaction
-    updateTransaction(@RequestBody Transaction transaction, @PathVariable("id") Long id)
+    updateTransaction(@RequestBody @Valid Transaction transaction, @PathVariable("id") @NotNull @PositiveOrZero Long id)
             throws TransactionServiceException {
         return transactionService.updateTransaction(transaction, id);
     }
 
     @DeleteMapping("/transactions/{id}")
-    public String removeTransaction(@PathVariable("id") Long id) throws TransactionServiceException {
+    public String removeTransaction(@PathVariable("id") @NotNull @PositiveOrZero Long id) throws TransactionServiceException {
         transactionService.removeTransaction(id);
         return "Deleted Successfully";
     }
 
     @GetMapping("/transactions/{id}")
-    public Transaction getTransaction(@PathVariable("id") Long id) throws TransactionServiceException {
+    public Transaction getTransaction(@PathVariable("id") @NotNull @PositiveOrZero Long id) throws TransactionServiceException {
         return transactionService.getTransaction(id);
     }
 
     @GetMapping("/transactions/count/{username}")
-    public Count countByUsername(@PathVariable("username") String username) {
+    public Count countByUsername(@PathVariable("username") @NotBlank String username) {
         return new Count(transactionService.countByUsername(username));
     }
 
     @GetMapping("/transactions/dto/{id}")
-    public TransactionDTO getTransactionDTO(@PathVariable("id") Long id) throws TransactionServiceException {
+    public TransactionDTO getTransactionDTO(@PathVariable("id") @NotNull @PositiveOrZero Long id) throws TransactionServiceException {
         return (TransactionDTO) transactionService.getTransaction(id).toDTO();
     }
 
