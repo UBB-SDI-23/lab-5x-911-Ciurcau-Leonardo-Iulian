@@ -344,7 +344,7 @@ int main(int argc, char** argv)
 					"Guitar",
 					id,
 					rand() % 3000 + 1000,
-					rand() % total_no + shopsFirst
+					rand() % total_no + shopsFirst + 1
 				);
 
 				fprintf(
@@ -377,7 +377,7 @@ int main(int argc, char** argv)
 						shopsCouriers_file,
 						"(%d,%d)",
 						id,
-						rand() % total_no + couriersFirst
+						rand() % total_no + couriersFirst + 1
 					);
 					fprintf(shopsCouriers_file, (j < shopsLast - 1) || (index < total) ? "," : ";\n");
 				}
@@ -400,8 +400,8 @@ int main(int argc, char** argv)
 					id,
 					birthDate,
 					rand() % 3 == 0 ? "t" : "f",
-					rand() % total_no + clientsFirst,
-					rand() % total_no + guitarsFirst
+					rand() % total_no + clientsFirst + 1,
+					rand() % total_no + guitarsFirst + 1
 				);
 				fprintf(transactions_file, j < transactionsLast - 1 ? "," : ";\n");
 
