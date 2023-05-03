@@ -18,7 +18,7 @@ public abstract class UserCreated {
     @Setter(AccessLevel.PUBLIC)
     protected Long id;
     @JoinColumn(name="user_id", nullable = false)
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Setter(AccessLevel.PUBLIC)
     @Getter(AccessLevel.PUBLIC)
