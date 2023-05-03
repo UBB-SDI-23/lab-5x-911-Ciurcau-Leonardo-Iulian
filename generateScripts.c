@@ -2,7 +2,7 @@
 	#define _CRT_SECURE_NO_WARNINGS
 	#pragma warning(disable : 4996)
 #else 
-	#define tolower(p) (p) - 'A' + 'a'
+	#define tolower(p) ((p) >= 'A' && (p) <= 'Z' ? (p) - 'A' + 'a' : (p))
 
 	char* strlwr(char* str)
 	{
