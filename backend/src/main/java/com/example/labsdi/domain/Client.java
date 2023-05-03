@@ -4,13 +4,11 @@ import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -33,6 +31,7 @@ public class Client extends UserCreated implements ISimpleDTOConvertable, IDTOCo
     @Email
     private String email;
     @Column(name="telephoneNumber")
+    @Pattern(regexp = "^\\+?\\d+$")
     private String telephoneNumber;
     @Column(name="birthDate")
     @JsonFormat(pattern = "dd-MM-yyyy")

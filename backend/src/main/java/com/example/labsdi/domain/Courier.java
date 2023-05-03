@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -33,6 +34,7 @@ public class Courier extends UserCreated implements IDTOConvertable, ISimpleDTOC
     @NotBlank
     private String email;
     @Column(name="telephone_number")
+    @Pattern(regexp = "^\\+?\\d+$")
     private String telephoneNumber;
     @Column(name="delivery_price")
     private Integer deliveryPrice;

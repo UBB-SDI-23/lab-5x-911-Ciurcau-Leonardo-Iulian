@@ -12,6 +12,7 @@ import {
     TextField
 } from "@mui/material";
 import App from "../app";
+import Validation from '../validation';
 
 class AddClient extends Component {
 
@@ -53,7 +54,10 @@ class AddClient extends Component {
     }
 
     render() {
-        const {dialogOpen, email, isLoading} = this.state
+        const {dialogOpen, email, phone,birthDate, isLoading} = this.state;
+        const emailValid = Validation.validEmail(email);
+        const phoneValid = Validation.validPhoneNumber(phone);
+        const birthDateValid = Validation.validDate(birthDate);
         if (isLoading) {
             return <p>Loading...</p>
         }
@@ -66,19 +70,26 @@ class AddClient extends Component {
                                onChange={(event)=>this.setState({name: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-number" label="Email" variant="outlined" 
-                                error={email === ''} helperText={email === '' ? "Email is mandatory" : ''}
+                                error={!emailValid}
+                                 helperText={!emailValid ? "Email is not valid" : ''}
                                 onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
+                                error={!phoneValid}
+                                helperText={!phoneValid ? "Phone number is not valid" : ''}
                                onChange={(event)=>this.setState({phone: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Birth Date" variant="outlined"
+                            error={!birthDateValid}
+                            helperText={!birthDateValid ? 
+                                "Date must be of format dd-MM-yyyy and valid" : ''}
                                onChange={(event)=>this.setState({birthDate: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Address" variant="outlined"
                                onChange={(event)=>this.setState({address: event.target.value})}/>
                     <br/><br/>
-                    <Button disabled={email === ''} onClick={this.handleClientAdd}>Add client</Button>
+                    <Button disabled={!emailValid || !phoneValid || !birthDateValid} 
+                    onClick={this.handleClientAdd}>Add client</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

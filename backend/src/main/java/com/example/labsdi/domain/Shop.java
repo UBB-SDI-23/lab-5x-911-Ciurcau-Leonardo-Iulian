@@ -7,11 +7,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,6 +53,7 @@ public class Shop extends UserCreated implements IDTOConvertable, ISimpleDTOConv
     @Email
     private String email;
     @Column(name="telephone_number")
+    @Pattern(regexp = "^\\+?\\d+$")
     private String telephoneNumber;
     @Column(name="shipping_available")
     private Boolean shippingAvailable;

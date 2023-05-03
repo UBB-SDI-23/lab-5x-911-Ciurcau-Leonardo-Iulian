@@ -26,7 +26,7 @@ public class ClientController {
     private IClientService clientService;
 
     @PostMapping("/clients")
-    public Client addClient(@Valid @RequestBody Client client) throws ClientServiceException {
+    public Client addClient(@RequestBody @Valid Client client) throws ClientServiceException {
         return clientService.addClient(client);
     }
 

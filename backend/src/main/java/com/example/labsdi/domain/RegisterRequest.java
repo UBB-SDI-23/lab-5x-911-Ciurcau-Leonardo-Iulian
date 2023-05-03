@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class RegisterRequest {
-    @NotNull
+    @NotBlank
     @Email
     private String email;
     @NotBlank
