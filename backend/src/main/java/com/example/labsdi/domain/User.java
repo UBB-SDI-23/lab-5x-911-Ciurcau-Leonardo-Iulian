@@ -23,7 +23,7 @@ import java.util.Date;
 @Table(name = "user_table", indexes = @Index(name = "user_username_index", columnList = "username"))
 public class User implements UserDetails, IDTOConvertable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name="username", nullable = false)
     private String username;

@@ -24,7 +24,7 @@ import java.util.Date;
 @Table(name="user_profile")
 public class UserProfile {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
     @JoinColumn(name="user_id", nullable = false)
