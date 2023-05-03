@@ -456,9 +456,9 @@ int main(int argc, char** argv)
 				0
 			);
 
-			fprintf(users_file, i % 1000 != 0 ? "," : ";\n");
-			fprintf(users_profiles_file, i % 1000 != 0 ? "," : ";\n");
-			if (i % 1000 == 0) {
+			fprintf(users_file, i < total_users && i % 1000 != 0 ? "," : ";\n");
+			fprintf(users_profiles_file, i < total_users && i % 1000 != 0 ? "," : ";\n");
+			if (i < total_users && i % 1000 == 0) {
 				fprintf(users_file, "%s", insertIntoUsers);
 				fprintf(users_profiles_file, "%s", insertIntoProfiles);
 			}
