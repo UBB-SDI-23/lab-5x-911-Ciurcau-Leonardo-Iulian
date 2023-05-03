@@ -24,7 +24,8 @@ import java.util.Date;
 @Table(name="user_profile")
 public class UserProfile {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_generator")
+    @SequenceGenerator(name = "user_profile_generator", sequenceName = "user_profile_seq")
     private Long id;
     @OneToOne
     @JoinColumn(name="user_id", nullable = false)

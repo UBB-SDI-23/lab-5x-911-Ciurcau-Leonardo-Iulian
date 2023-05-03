@@ -23,7 +23,8 @@ import java.util.Date;
 @Table(name = "user_table", indexes = @Index(name = "user_username_index", columnList = "username"))
 public class User implements UserDetails, IDTOConvertable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_table_generator")
+    @SequenceGenerator(name = "user_table_generator", sequenceName = "user_table_seq")
     private Long id;
     @Column(name="username", nullable = false)
     private String username;

@@ -13,7 +13,8 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name="user_created", indexes = {@Index(name="user_id_index", columnList = "user_id")})
 public abstract class UserCreated {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_created_generator")
+    @SequenceGenerator(name = "user_created_generator", sequenceName = "user_created_seq")
     @Getter(AccessLevel.PUBLIC)
     @Setter(AccessLevel.PUBLIC)
     protected Long id;
