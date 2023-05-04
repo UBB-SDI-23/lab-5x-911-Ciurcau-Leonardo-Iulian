@@ -32,7 +32,6 @@ public class UserProfile {
     @OneToOne
     @JoinColumn(name="user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull(message = "User is mandatory")
     private User user;
     @Column(name="first_name")
     @NotBlank
