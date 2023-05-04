@@ -39,6 +39,35 @@ class Validation {
         return true;
     }
 
+    static getPasswordStrength(password) {
+        if (!password || typeof(password) !== 'string')
+            return 'Very weak';
+
+        let points = 0;
+
+        if (password.length >= 12)
+            points += 2;
+        else if (password.length >= 8)
+            points += 1;
+
+        if (/[a-z]/g.test(password) && /[A-Z]/g.test(password))
+            points += 1;
+        if (/[0-9]/g.test(password))
+            points += 1;
+        if (/[^a-zA-Z0-9]/.test(password))
+            points += 2; 
+
+        if (points === 0)
+            return 'Very weak';
+        if (points <= 2)
+            return 'Weak';
+        if (points <= 4)
+            return 'Medium';
+        if (points <= 5)
+            return 'Strong';
+        return 'Very strong';
+    }
+
     static validDate(date) {
         if (!Validation.validDateFormat(date))
             return false;
