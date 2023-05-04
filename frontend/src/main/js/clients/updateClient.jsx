@@ -54,7 +54,8 @@ class UpdateClient extends Component {
         const {name, email, phone, birthDate, address} = this.state
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
             body: JSON.stringify({
                 name: name, email: email, 
                 telephoneNumber: phone, birthDate: birthDate, address: address

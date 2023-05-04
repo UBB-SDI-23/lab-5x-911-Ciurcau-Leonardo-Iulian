@@ -18,8 +18,7 @@ import org.springframework.stereotype.Component;
 public class JwtTokenUtil {
     private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
-    @Value("${app.jwt.secret}")
-    private String SECRET_KEY;
+    private static final String SECRET_KEY = "abcdefghijklmnOPQRSTUVWXYZ";
 
     public String generateAccessToken(User user) {
         Claims claims = Jwts.claims().setSubject(user.getUsername());
@@ -70,5 +69,17 @@ public class JwtTokenUtil {
                 .password("")
                 .roles(authorities)
                 .build();
+    }
+
+    public static String getUsernameFromAuthorizationHeader(String header) {
+        if (header == null || !header.startsWith("Bearer ")) {
+            return null;
+        }
+        String token = header.substring(7);
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 }

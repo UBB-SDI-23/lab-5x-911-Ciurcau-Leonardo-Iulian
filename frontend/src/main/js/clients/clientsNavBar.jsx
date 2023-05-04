@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {AppBar, Box, Button, Toolbar} from "@mui/material";
+import App from '../app';
 
 class ClientsNavBar extends Component {
     constructor(props) {
@@ -10,7 +11,7 @@ class ClientsNavBar extends Component {
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
+        
     }
 
     toggle() {
@@ -19,18 +20,21 @@ class ClientsNavBar extends Component {
         });
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
-    }
-
     render() {
+
+        const currentUser = App.getCurrentUserStatic();
+
         return <Box>
         <AppBar position="sticky">
             <Toolbar>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/clients">Clients</Button>
-                {   this.getCurrentUser().isAuthenticated() &&
+                {   currentUser.isAuthenticated() &&
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addClient">Add client</Button>
+                }
+                {
+                    currentUser.isAuthenticated() &&
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/ownClients">Own clients</Button>
                 }
             </Toolbar>
         </AppBar>

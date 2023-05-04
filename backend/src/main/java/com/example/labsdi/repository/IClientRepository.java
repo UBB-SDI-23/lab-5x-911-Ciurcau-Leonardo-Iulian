@@ -14,6 +14,7 @@ import java.util.List;
 public interface IClientRepository extends JpaRepository<Client, Long> {
     List<Client> findFirst100By();
     Slice<Client> findAllBy(Pageable pageable);
+    Slice<Client> findAllByUser_Username(Pageable pageable, String username);
     Slice<Client> findAllByNameContainingIgnoreCase(Pageable pageable, String name);
     Integer countAllBy();
     Integer countAllByUser_Username(String username);

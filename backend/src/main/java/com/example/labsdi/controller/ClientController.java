@@ -4,19 +4,26 @@ import com.example.labsdi.domain.Client;
 import com.example.labsdi.domain.dto.ClientDTO;
 import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.domain.dto.SimpleClientDTO;
+import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.ClientService;
 import com.example.labsdi.service.IClientService;
 import com.example.labsdi.service.exception.ClientServiceException;
+import io.jsonwebtoken.Jwts;
 import io.swagger.v3.core.util.Json;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpRequest;
 import java.util.List;
 
 @RestController
@@ -46,6 +53,15 @@ public class ClientController {
                 .map(c -> (ClientDTO) c.toDTO());
     }
 
+    @GetMapping("/clients/page/{page}/{username}")
+    public Slice<ClientDTO> getClientsPageByUsername(
+            @PathVariable("page") @NotNull @PositiveOrZero Integer page,
+            @PathVariable("username") @NotBlank String username
+    ) {
+        return clientService.getClientsPageByUsername(page, username)
+                .map(c -> (ClientDTO) c.toDTO());
+    }
+
     @GetMapping("/clients/simple/page/{page}")
     public Slice<SimpleClientDTO> getClientsSimplePage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return clientService.getClientsPage(page)
@@ -71,15 +87,31 @@ public class ClientController {
     }
 
     @PutMapping("/clients/{id}")
-    public Client
-    updateClient(@RequestBody Client client, @PathVariable("id") Long id) throws ClientServiceException {
-        return clientService.updateClient(client, id);
+    public ResponseEntity<?>
+    updateClient(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+            @RequestBody Client client,
+                 @PathVariable("id") Long id) throws ClientServiceException {
+
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(header);
+        Client retrievedClient = clientService.getClient(id);
+        if (retrievedClient.getUser().getUsername().equals(username))
+            return ResponseEntity.ok().body(clientService.updateClient(client, id));
+        else
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @DeleteMapping("/clients/{id}")
-    public String removeClient(@PathVariable("id") Long id) throws ClientServiceException {
-        clientService.removeClient(id);
-        return "Deleted Successfully";
+    public ResponseEntity<?> removeClient(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
+                               @PathVariable("id") Long id) throws ClientServiceException {
+
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(header);
+        Client retrievedClient = clientService.getClient(id);
+        if (retrievedClient.getUser().getUsername().equals(username)) {
+            clientService.removeClient(id);
+            return ResponseEntity.ok().body("Deleted Successfully");
+        }
+        else
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @GetMapping("/clients/{id}")

@@ -32,6 +32,7 @@ import CurrentUser from './user/currentUser';
 import UserRegister from './user/userRegister';
 import UpdateUserProfile from './user/updateUserProfile';
 import SeeUserProfile from './user/seeUserProfile';
+import OwnClients from './clients/ownClients';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -113,6 +114,7 @@ class App extends React.Component {
                     <Route path='/register' element={<UserRegister parent={this}/>}/>
                     <Route path='/updateProfile/:username' element={<UpdateUserProfile parent={this}/>}/>
                     <Route path='/seeProfile/:username' element={<SeeUserProfile parent={this}/>}/>
+                    <Route path='/ownClients' element={<OwnClients parent={this}/>}/>
                 </Routes>
             </BrowserRouter>
         );

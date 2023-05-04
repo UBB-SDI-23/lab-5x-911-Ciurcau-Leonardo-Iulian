@@ -63,6 +63,11 @@ public class ClientService implements IClientService {
     }
 
     @Override
+    public Slice<Client> getClientsPageByUsername(Integer page, String username) {
+        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+    }
+
+    @Override
     public Slice<Client> getClientContainsNamePage(String name, Integer page) {
         return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, 10), name);
     }

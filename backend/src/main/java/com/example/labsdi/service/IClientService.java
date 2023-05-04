@@ -16,6 +16,7 @@ public interface IClientService {
     Integer getCountByUsername(String username);
     List<Client> getFirst100Clients();
     Slice<Client> getClientsPage(Integer page);
+    Slice<Client> getClientsPageByUsername(Integer page, String username);
     Slice<Client> getClientContainsNamePage(String name, Integer page);
     void removeClient(Long id) throws ClientServiceException;
     Client updateClient(Client client, Long id) throws ClientServiceException;

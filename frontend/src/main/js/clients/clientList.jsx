@@ -20,20 +20,23 @@ import {blue, red, grey} from "@mui/material/colors";
 import {Link} from "react-router-dom";
 import ComplexPagination from "../complexPagination";
 
+
+
 class ClientList extends Component {
     constructor(props) {
         super(props);
-        this.state = {clients: [], operationItemId: -1, page: 0, lastPage: true, dialogOpen: false, totalCount: 0};
+        this.state = {clients: [], operationItemId: -1, page: 0, lastPage: true, dialogOpen: false, totalCount: 0, 
+        isLoading: true};
     }
 
     componentDidMount() {
-        this.getClientsCall = this.props.parent ? this.props.parent.getClients : this.getClients.bind(this);
+        this.getClientsCall = this.props.parent ? () => {this.props.parent.getClients(); this.setState({isLoading: false})}
+         : this.getClients.bind(this);
         this.clientsCountCall = this.props.parent ? this.props.parent.getCount : this.getCount.bind(this);
         this.handleDeleteItem = this.handleDeleteItem.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.clientsCountCall();
-        if (!this.props.parent)
-            this.getClientsCall();
+        this.getClientsCall();
         
         this.forceUpdate();
     }
@@ -48,7 +51,7 @@ class ClientList extends Component {
         const {page} = this.state;
         fetch(App.API_URL + '/api/clients/page/' + page)
             .then(response => response.json())
-            .then(data => this.setState({clients: data.content, lastPage: data.last}));
+            .then(data => this.setState({clients: data.content, lastPage: data.last}, this.setState({isLoading: false})));
     }
 
     handleDeleteItem(event) {
@@ -65,7 +68,11 @@ class ClientList extends Component {
     }
 
     deleteItem(event) {
-        fetch(App.API_URL + `/api/clients/` + this.state.operationItemId, { method: 'DELETE' })
+        fetch(App.API_URL + `/api/clients/` + this.state.operationItemId, 
+        { method: 'DELETE',
+        headers: { 'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() } 
+    })
             .then(() => {
                 this.getClientsCall();
                 this.clientsCountCall();
@@ -93,7 +100,8 @@ class ClientList extends Component {
         const {clients, page, lastPage} =
             this.props.parent ? this.props.parent.state : this.state;
         let {dialogOpen, totalCount, isLoading} = this.state;
-        if (isLoading) {
+
+        if (isLoading || !clients) {
             return <p>Loading...</p>;
         }
 
@@ -115,11 +123,11 @@ class ClientList extends Component {
                     <Button component={Link} to={"/seeClient/"+client.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
-                    { currentUser.isAuthenticated() &&
+                    { currentUser.isAuthenticated() && currentUser.getUsername() === client.user.username &&
                     <Button component={Link} to={"/updateClient/"+client.id}>
                         <SvgIcon component={EditIcon} sx={{ color: grey[500] }}></SvgIcon>
                     </Button>}
-                    { currentUser.isAuthenticated() &&
+                    { currentUser.isAuthenticated() && currentUser.getUsername() === client.user.username &&
                     <Button currentid={client.id} onClick={this.handleDeleteItem}>
                         <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
                     </Button>
