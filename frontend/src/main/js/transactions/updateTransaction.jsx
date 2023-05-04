@@ -17,6 +17,7 @@ import ClientsSelect from "../clients/clientsSelect";
 import SimpleGuitar from "../guitars/simpleGuitar";
 import SimpleClient from "../clients/simpleClient";
 import App from "../app";
+import Validation from '../validation';
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -84,6 +85,9 @@ class UpdateTransaction extends Component {
         if (isLoading) {
             return <p>Loading...</p>
         }
+
+        const dateValid = Validation.validDate(date);
+
         return (
             <Container maxWidth={false}>
                 <TransactionsNavBar parent={this}></TransactionsNavBar>
@@ -93,12 +97,15 @@ class UpdateTransaction extends Component {
                     <ClientsSelect parent={this} defaultClient={client}></ClientsSelect>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Date" variant="outlined" defaultValue={date}
+                        error={!dateValid}
+                        helperText={!dateValid? "Date must be of format dd-MM-yyyy and valid" : ""}
                                onChange={(event)=>this.setState({date: event.target.value})}/>
                     <br/><br/>
                     <FormControlLabel control={<Checkbox checked={isCashPayment} />} label="Cash payment"
                                 onChange={(event)=>this.setState({isCashPayment: event.target.checked})} />
                     <br/><br/>
-                    <Button disabled={!client || !product} onClick={this.handleTransactionUpdate}>Update Transaction</Button>
+                    <Button disabled={!client || !product || !dateValid}
+                     onClick={this.handleTransactionUpdate}>Update Transaction</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

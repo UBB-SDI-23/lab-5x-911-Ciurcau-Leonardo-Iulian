@@ -5,6 +5,7 @@ import TransactionsNavBar from "./transactionsNavBar";
 import GuitarsSelect from "../guitars/guitarsSelect";
 import ClientsSelect from "../clients/clientsSelect";
 import App from "../app";
+import Validation from "../validation";
 
 class AddTransaction extends Component {
     constructor(props) {
@@ -53,10 +54,13 @@ class AddTransaction extends Component {
     }
 
     render() {
-        const {dialogOpen, client, product, isCashPayment, isLoading} = this.state;
+        const {dialogOpen, client, date, product, isCashPayment, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
+
+        const dateValid = Validation.validDate(date);
+
         return (
             <Container maxWidth={false}>
                 <TransactionsNavBar parent={this}></TransactionsNavBar>
@@ -66,12 +70,14 @@ class AddTransaction extends Component {
                     <ClientsSelect parent={this}></ClientsSelect>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Date" variant="outlined"
+                                error={!dateValid}
+                                helperText={!dateValid? "Date must be of format dd-MM-yyyy and valid" : ""}
                                onChange={(event)=>this.setState({date: event.target.value})}/>
                     <br/><br/>
                     <FormControlLabel control={<Checkbox checked={isCashPayment} />} label="Cash payment"
                                 onChange={(event)=>this.setState({isCashPayment: event.target.checked})} />
                     <br/><br/>
-                    <Button disabled={!client || !product} onClick={this.handleTransactionAdd}>Add transaction</Button>
+                    <Button disabled={!client || !product || !dateValid} onClick={this.handleTransactionAdd}>Add transaction</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}
