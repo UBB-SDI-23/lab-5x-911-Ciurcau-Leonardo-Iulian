@@ -29,11 +29,11 @@ class ClientsNavBar extends Component {
             <Toolbar>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/clients">Clients</Button>
-                {   currentUser.isAuthenticated() &&
+                {   currentUser.isAuthenticated() && currentUser.hasRole("REGULAR") &&
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addClient">Add client</Button>
                 }
                 {
-                    currentUser.isAuthenticated() &&
+                    currentUser.isAuthenticated() && currentUser.hasRole("REGULAR") &&
                     <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/ownClients">Own clients</Button>
                 }
             </Toolbar>

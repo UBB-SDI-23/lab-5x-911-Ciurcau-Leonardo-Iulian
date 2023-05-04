@@ -50,6 +50,10 @@ class CurrentUser {
         return this.#roles;
     }
 
+    hasRole(role) {
+        return this.#roles.includes(role);
+    }
+
     static getInstance() {
         if (CurrentUser.#instance === null) {
             CurrentUser.#constructorAccess = true;
