@@ -104,6 +104,8 @@ class GuitarList extends Component {
             return <p>Loading...</p>;
         }
 
+        let currentUser = App.getCurrentUserStatic();
+
         const guitarList = guitars.map((guitar, index) => {
             return <TableRow key={guitar.id}>
                 <TableCell>{page * 10 + index + 1}</TableCell>
@@ -121,12 +123,14 @@ class GuitarList extends Component {
                     <Button component={Link} to={"/seeGuitar/"+guitar.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
-                    <Button component={Link} to={"/updateGuitar/"+guitar.id}>
+                    {   currentUser.isAuthenticated() &&
+                        <Button component={Link} to={"/updateGuitar/"+guitar.id}>
                         <SvgIcon component={EditIcon} sx={{ color: grey[500] }}></SvgIcon>
-                    </Button>
-                    <Button currentid={guitar.id} onClick={this.handleDeleteItem}>
+                    </Button>}
+                    {   currentUser.isAuthenticated() &&
+                        <Button currentid={guitar.id} onClick={this.handleDeleteItem}>
                         <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
-                    </Button>
+                    </Button>}
                 </TableCell>
             </TableRow>
         });

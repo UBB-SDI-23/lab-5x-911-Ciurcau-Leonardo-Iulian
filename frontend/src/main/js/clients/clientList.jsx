@@ -97,6 +97,8 @@ class ClientList extends Component {
             return <p>Loading...</p>;
         }
 
+        let currentUser = App.getCurrentUserStatic();
+
         const clientList = clients.map((client, index) => {
             return <TableRow key={client.id}>
                 <TableCell>{page * 10 + index + 1}</TableCell>
@@ -113,12 +115,15 @@ class ClientList extends Component {
                     <Button component={Link} to={"/seeClient/"+client.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
+                    { currentUser.isAuthenticated() &&
                     <Button component={Link} to={"/updateClient/"+client.id}>
                         <SvgIcon component={EditIcon} sx={{ color: grey[500] }}></SvgIcon>
-                    </Button>
+                    </Button>}
+                    { currentUser.isAuthenticated() &&
                     <Button currentid={client.id} onClick={this.handleDeleteItem}>
                         <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
                     </Button>
+                    }
                 </TableCell>
             </TableRow>
         });

@@ -76,6 +76,8 @@ class CourierList extends Component {
         if (isLoading)
             return <p>Loading...</p>;
         
+        let currentUser = App.getCurrentUserStatic();
+
         const courierList = couriers.map((courier, index) => {
             return <TableRow key={courier.id}>
                 <TableCell>{page * 10 + index + 1}</TableCell>
@@ -92,12 +94,15 @@ class CourierList extends Component {
                     <Button component={Link} to={"/seeCourier/"+courier.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
+                    { currentUser.isAuthenticated() &&
                     <Button component={Link} to={"/updateCourier/"+courier.id}>
                         <SvgIcon component={EditIcon} sx={{ color: grey[500] }}></SvgIcon>
                     </Button>
+                    }
+                    {currentUser.isAuthenticated() &&
                     <Button currentid={courier.id} onClick={this.handleDeleteItem}>
                         <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
-                    </Button>
+                    </Button>}
                 </TableCell>
             </TableRow>
         });

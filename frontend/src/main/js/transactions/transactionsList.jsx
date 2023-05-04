@@ -84,6 +84,8 @@ class TransactionsList extends Component {
             return <p>Loading...</p>;
         }
 
+        let currentUser = App.getCurrentUserStatic();
+
         const transactionList = transactions.map((transaction, index) => {
             return <TableRow key={transaction.id}>
             <TableCell>{page * 10 + index + 1}</TableCell>
@@ -99,12 +101,14 @@ class TransactionsList extends Component {
                 <Button component={Link} to={"/seeTransaction/"+transaction.id}>
                     <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                 </Button>
-                <Button component={Link} to={"/updateTransaction/"+transaction.id}>
+                {   currentUser.isAuthenticated() &&
+                    <Button component={Link} to={"/updateTransaction/"+transaction.id}>
                     <SvgIcon component={EditIcon} sx={{ color: grey[500] }}></SvgIcon>
-                </Button>
-                <Button currentid={transaction.id} onClick={this.handleDeleteItem}>
+                </Button>}
+                {   currentUser.isAuthenticated() &&
+                    <Button currentid={transaction.id} onClick={this.handleDeleteItem}>
                     <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
-                </Button>
+                </Button>}
             </TableCell>
         </TableRow>
         });

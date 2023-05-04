@@ -38,7 +38,7 @@ const ReactDOM = require('react-dom');
 
 class App extends React.Component {
 
-    static API_URL = 'https://13.50.252.205';
+    static API_URL = '';
     constructor(props) {
         super(props);
         this.state = {currentUser: CurrentUser.getInstance()};
@@ -65,6 +65,21 @@ class App extends React.Component {
             this.state.currentUser.setAccessToken(null);
         }
         return this.state.currentUser;
+    }
+
+    static getCurrentUserStatic() {
+        let userStorage = JSON.parse(localStorage.getItem('currentUser'));
+        let currentUser = CurrentUser.getInstance();
+        if (userStorage) {
+            currentUser.setUsername(userStorage.username);
+            currentUser.setAccessToken(userStorage.accessToken);
+        }
+        else {
+            currentUser.setUsername(null);
+            currentUser.setAccessToken(null);
+        }
+        
+        return currentUser;
     }
 
     render() {

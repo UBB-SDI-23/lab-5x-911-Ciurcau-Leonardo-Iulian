@@ -88,6 +88,8 @@ class ShopList extends Component {
             return <p>Loading...</p>;
         }
 
+        let currentUser = App.getCurrentUserStatic();
+
         const shopList = shops.map((shop, index) => {
             return <TableRow key={shop.id}>
                 <TableCell>{page * 10 + index + 1}</TableCell>
@@ -107,12 +109,14 @@ class ShopList extends Component {
                     <Button component={Link} to={"/seeShop/"+shop.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
-                    <Button component={Link} to={"/updateShop/"+shop.id}>
+                    {   currentUser.isAuthenticated() &&
+                        <Button component={Link} to={"/updateShop/"+shop.id}>
                         <SvgIcon component={EditIcon} sx={{ color: grey[500] }}></SvgIcon>
-                    </Button>
-                    <Button currentid={shop.id} onClick={this.handleDeleteItem}>
+                    </Button>}
+                    {   currentUser.isAuthenticated() &&
+                        <Button currentid={shop.id} onClick={this.handleDeleteItem}>
                         <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
-                    </Button>
+                    </Button>}
                 </TableCell>
             </TableRow>
         });
