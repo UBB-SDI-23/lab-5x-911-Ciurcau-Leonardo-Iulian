@@ -1,5 +1,7 @@
 package com.example.labsdi.config;
 
+import com.example.labsdi.jwt.JwtAuthenticationFilter;
+import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -20,6 +23,8 @@ public class SecurityConfig {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    JwtTokenUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,8 +32,13 @@ public class SecurityConfig {
                 .userDetailsService(userService)
                 .authorizeHttpRequests()
                     .requestMatchers(HttpMethod.GET,"/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll().and()
+                    .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/**").hasAuthority("REGULAR")
+                    .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.cors();
         return http.build();
     }
 

@@ -1,6 +1,7 @@
 package com.example.labsdi.service;
 
 import com.example.labsdi.config.SecurityConfig;
+import com.example.labsdi.domain.Authority;
 import com.example.labsdi.domain.RegisterRequest;
 import com.example.labsdi.domain.User;
 import com.example.labsdi.domain.UserProfile;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -73,7 +75,8 @@ public class UserService implements IUserService {
 
         else {
             User newUser = new User(null, username, password, email,
-                    generateVerificationCode(), System.currentTimeMillis(), false);
+                    generateVerificationCode(), System.currentTimeMillis(), false,
+                    List.of(new Authority(null, null, "REGULAR")));
 
             return userRepository.save(newUser);
         }

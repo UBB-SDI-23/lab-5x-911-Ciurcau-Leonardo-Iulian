@@ -34,7 +34,8 @@ class AddClient extends Component {
         new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
             .then(id => { return {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 
+                'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
                 body: JSON.stringify({
                     name: name, email: email, 
                     telephoneNumber: phone, birthDate: birthDate, address: address,

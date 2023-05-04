@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
@@ -46,10 +47,22 @@ public class User implements UserDetails, IDTOConvertable {
     @Column(name="isEnabled", nullable = false)
     @NotNull
     private Boolean isEnabled;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            foreignKey = @ForeignKey(name="fk_authority_id",
+                    foreignKeyDefinition = "FOREIGN KEY (authority_id) REFERENCES authority(id) ON DELETE CASCADE"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"),
+            inverseForeignKey = @ForeignKey(name="fk_user_id",
+                    foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES user_table(id) ON DELETE CASCADE"),
+            indexes = {@Index(name = "user_id_user_authority_index", columnList = "user_id")}
+    )
+    private List<Authority> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
