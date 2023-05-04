@@ -3,6 +3,7 @@ import {Button, Container, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle, TextField, FormControlLabel, Checkbox} from "@mui/material";
 import ShopsNavBar from "./shopsNavBar";
 import App from "../app";
+import Validation from "../validation";
 
 class AddShop extends Component {
     constructor(props) {
@@ -42,10 +43,14 @@ class AddShop extends Component {
     }
 
     render() {
-        const {shippingAvailable, email, dialogOpen, isLoading} = this.state;
+        const {shippingAvailable, email, telephoneNumber, dialogOpen, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
+
+        const emailValid = Validation.validEmail(email);
+        const phoneValid = Validation.validPhoneNumber(telephoneNumber);
+
         return (
             <Container maxWidth={false}>
                 <ShopsNavBar parent={this}></ShopsNavBar>
@@ -55,10 +60,11 @@ class AddShop extends Component {
                                onChange={(event)=>this.setState({name: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-number" label="Email" variant="outlined"
-                                error={email === ''} helperText={email === '' ? "Email is mandatory" : ''}
+                                error={!emailValid} helperText={!emailValid ? "Email is not valid" : ''}
                                onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
+                        error={!phoneValid} helperText={!phoneValid ? "Phone is not valid" : ''}
                                onChange={(event)=>this.setState({telephoneNumber: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Address" variant="outlined"
@@ -68,7 +74,7 @@ class AddShop extends Component {
                             onChange={(event)=>this.setState({shippingAvailable: event.target.checked})} />} 
                             label="Shipping available" />
                     <br/><br/>
-                    <Button disabled={email === ''} onClick={this.handleShopAdd}>Add shop</Button>
+                    <Button disabled={!emailValid || !phoneValid} onClick={this.handleShopAdd}>Add shop</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

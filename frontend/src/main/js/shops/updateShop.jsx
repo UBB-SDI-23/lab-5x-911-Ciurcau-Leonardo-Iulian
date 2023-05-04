@@ -6,6 +6,7 @@ import {Dialog, Select,Box,List,ListItem,ListItemText,DialogActions, DialogConte
     FormControlLabel,Container,InputLabel,MenuItem,ListItemButton, Checkbox} from "@mui/material";
 import CouriersSelect from "../couriers/couriersSelect";
 import App from "../app";
+import Validation from "../validation";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -104,6 +105,9 @@ class UpdateShop extends Component {
             );
         });
 
+        const emailValid = Validation.validEmail(email);
+        const phoneValid = Validation.validPhoneNumber(telephoneNumber);
+
         return (
             <Container maxWidth={false}>
                 <ShopsNavBar parent={this}></ShopsNavBar>
@@ -115,11 +119,12 @@ class UpdateShop extends Component {
                     <br/><br/>
                     <TextField id="outlined-basic" label="Email" variant="outlined"
                                 defaultValue={email}
-                                error={email === ''} helperText={email === '' ? "Email is mandatory" : ''}
+                                error={!emailValid} helperText={!emailValid ? "Email is not valid" : ''}
                                 onChange={e => this.setState({email: e.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
                                 defaultValue={telephoneNumber}
+                                error={!phoneValid} helperText={!phoneValid ? "Phone is not valid" : ''}
                                 onChange={e => this.setState({telephoneNumber: e.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Address" variant="outlined"
@@ -129,7 +134,7 @@ class UpdateShop extends Component {
                     <FormControlLabel control={<Checkbox checked={shippingAvailable} />} label="Shipping available"
                                 onChange={(event)=>this.setState({shippingAvailable: event.target.checked})} />
                     <br/><br/>
-                    <Button disabled={email === ''} onClick={this.handleShopUpdate}>Update shop</Button>
+                    <Button disabled={!emailValid || !phoneValid} onClick={this.handleShopUpdate}>Update shop</Button>
                     <br></br>
                     <CouriersSelect parent={this}/>
                     <Button onClick={this.handleCourierAdd}>Add courier</Button>
