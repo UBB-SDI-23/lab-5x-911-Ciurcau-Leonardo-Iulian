@@ -49,7 +49,7 @@ class AddCourier extends Component {
 
         const emailValid = Validation.validEmail(email);
         const phoneValid = Validation.validPhoneNumber(telephoneNumber);
-        const priceValid = Validation.validPrice(deliveryPrice);
+        const priceValid = Validation.validPositiveOrZero(deliveryPrice);
 
         return (
             <Container maxWidth={false}>

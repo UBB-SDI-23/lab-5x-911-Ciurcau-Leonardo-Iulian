@@ -15,6 +15,7 @@ import {useParams} from "react-router-dom";
 import ShopsSelect from '../shops/shopsSelect';
 import SimpleShop from '../shops/simpleShop';
 import App from "../app";
+import Validation from '../validation';
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -82,22 +83,28 @@ class UpdateGuitar extends Component {
         if (isLoading) {
             return <p>Loading...</p>
         }
+        const yearValid = Validation.validPositiveOrZero(creationYear);
+        const modelValid = Validation.validStringNotBlank(model);
+        const priceValid = Validation.validPositiveOrZero(price);
+
         return (
             <Container maxWidth={false}>
                 <GuitarsNavBar parent={this}></GuitarsNavBar>
                 <br/><br/>
                 <Container>
-                    <TextField id="outlined-number" label="Creation year" variant="outlined" type="number"
+                    <TextField id="outlined-number" label="Creation year" variant="outlined"
                                 defaultValue={creationYear}
+                                error={!yearValid} helperText={!yearValid ? "Year is not valid" : ''}
                                onChange={(event)=>this.setState({creationYear: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-number" label="Price" variant="outlined" type="number"
+                    <TextField id="outlined-number" label="Price" variant="outlined"
                                defaultValue={price}
-                               error={price <= 0} helperText={price < 0 ? "Price must be positive" : ""}
+                               error={!priceValid} helperText={!priceValid ? "Price is not valid" : ''}
                                onChange={(event)=>this.setState({price: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Model" variant="outlined"
                                defaultValue={model}
+                               error={!modelValid} helperText={!modelValid ? "Model cannot be empty" : ''}
                                onChange={(event)=>this.setState({model: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Type" variant="outlined"
@@ -110,7 +117,8 @@ class UpdateGuitar extends Component {
                     <br/><br/>
                     <ShopsSelect parent={this} defaultShop={shop}></ShopsSelect>
                     <br/><br/>
-                    <Button disabled={price < 0 || !shop} onClick={this.handleGuitarUpdate}>Update Guitar</Button>
+                    <Button disabled={!yearValid || !priceValid || !modelValid}
+                     onClick={this.handleGuitarUpdate}>Update Guitar</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

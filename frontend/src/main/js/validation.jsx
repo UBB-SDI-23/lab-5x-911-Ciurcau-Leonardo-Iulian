@@ -21,14 +21,21 @@ class Validation {
         return /^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$/.test(date);
     }
 
-    static validPrice(price) {
-        if (!price || (typeof(price) === 'string' && price === ''))
+    static validPositiveOrZero(num) {
+        if (!num || (typeof(num) === 'string' && num === ''))
             return true;
 
-        if (Number.isNaN(Number(price)))
+        if (Number.isNaN(Number(num)))
             return false;
-        if (price < 0)
+        if (num < 0)
             return false;
+        return true;
+    }
+
+    static validStringNotBlank(str) {
+        if (!str || typeof(str) !== 'string' || str.length <= 0) {
+            return false;
+        }
         return true;
     }
 

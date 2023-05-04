@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import ShopsSelect from '../shops/shopsSelect';
 import App from "../app";
+import Validation from '../validation';
 
 class AddGuitar extends Component {
 
@@ -62,23 +63,30 @@ class AddGuitar extends Component {
     }
 
     render() {
-        const {dialogOpen, shop, price, isLoading} = this.state;
+        const {dialogOpen, model, creationYear, shop, price, isLoading} = this.state;
         if (isLoading) {
             return <p>Loading...</p>
         }
+        
+        const yearValid = Validation.validPositiveOrZero(creationYear);
+        const modelValid = Validation.validStringNotBlank(model);
+        const priceValid = Validation.validPositiveOrZero(price);
+
         return (
             <Container maxWidth={false}>
                 <GuitarsNavBar parent={this}></GuitarsNavBar>
                 <br/><br/>
                 <Container>
-                <TextField id="outlined-number" label="Creation year" variant="outlined" type="number"
+                <TextField id="outlined-number" label="Creation year" variant="outlined"
+                    error={!yearValid} helperText={!yearValid ? "Year is not valid" : ''}
                            onChange={(event)=>this.setState({creationYear: event.target.value})}/>
                 <br/><br/>
-                    <TextField id="outlined-number" label="Price" variant="outlined" type="number"
-                                error={price < 0} helperText={price < 0 ? "Price must be positive" : ''}
+                    <TextField id="outlined-number" label="Price" variant="outlined"
+                                error={!priceValid} helperText={!priceValid ? "Price is not valid" : ''}
                                onChange={(event)=>this.setState({price: event.target.value})}/>
                     <br/><br/>
                 <TextField id="outlined-basic" label="Model" variant="outlined"
+                    error={!modelValid} helperText={!modelValid ? "Model cannot be empty" : ''}
                            onChange={(event)=>this.setState({model: event.target.value})}/>
                 <br/><br/>
                 <TextField id="outlined-basic" label="Type" variant="outlined"
@@ -89,7 +97,8 @@ class AddGuitar extends Component {
                 <br/><br/>
                 <ShopsSelect parent={this}></ShopsSelect>
                 <br/><br/>
-                <Button disabled={price < 0 || !shop} onClick={this.handleGuitarAdd}>Add Guitar</Button>
+                <Button disabled={!yearValid || !priceValid || !modelValid}
+                 onClick={this.handleGuitarAdd}>Add Guitar</Button>
             </Container>
                 <Dialog
                     open={dialogOpen}
