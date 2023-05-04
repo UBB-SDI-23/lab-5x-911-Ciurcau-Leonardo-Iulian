@@ -21,6 +21,17 @@ class Validation {
         return /^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$/.test(date);
     }
 
+    static validPrice(price) {
+        if (!price || (typeof(price) === 'string' && price === ''))
+            return true;
+
+        if (Number.isNaN(Number(price)))
+            return false;
+        if (price < 0)
+            return false;
+        return true;
+    }
+
     static validDate(date) {
         if (!Validation.validDateFormat(date))
             return false;

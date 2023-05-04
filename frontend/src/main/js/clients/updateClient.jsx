@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import {useParams} from "react-router-dom";
 import App from "../app";
+import Validation from '../validation';
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -69,6 +70,9 @@ class UpdateClient extends Component {
         if (isLoading) {
             return <p>Loading...</p>
         }
+        const emailValid = Validation.validEmail(email);
+        const phoneValid = Validation.validPhoneNumber(phone);
+        const birthDateValid = Validation.validDate(birthDate);
         return (
             <Container maxWidth={false}>
                 <ClientsNavBar parent={this}></ClientsNavBar>
@@ -79,23 +83,30 @@ class UpdateClient extends Component {
                                onChange={(event)=>this.setState({name: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Email" variant="outlined"
-                               defaultValue={email}
-                               error={email === ''} helperText={email === '' ? "Email is mandatory" : ''}
+                                defaultValue={email}
+                               error={!emailValid}
+                               helperText={!emailValid ? "Email is not valid" : ''}
                                onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
                                defaultValue={phone}
+                               error={!phoneValid}
+                                helperText={!phoneValid ? "Phone number is not valid" : ''}
                                onChange={(event)=>this.setState({phone: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Birth Date" variant="outlined"
                                defaultValue={birthDate}
+                               error={!birthDateValid}
+                                 helperText={!birthDateValid ? 
+                                "Date must be of format dd-MM-yyyy and valid" : ''}
                                onChange={(event)=>this.setState({birthDate: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Address" variant="outlined"
                                defaultValue={address}
                                onChange={(event)=>this.setState({address: event.target.value})}/>
                     <br/><br/>
-                    <Button disabled={email === ''} onClick={this.handleClientUpdate}>Update client</Button>
+                    <Button disabled={!emailValid || !phoneValid || !birthDateValid} 
+                    onClick={this.handleClientUpdate}>Update client</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}

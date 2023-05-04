@@ -4,10 +4,7 @@ import com.example.labsdi.domain.dto.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -37,6 +34,7 @@ public class Courier extends UserCreated implements IDTOConvertable, ISimpleDTOC
     @Pattern(regexp = "^\\+?\\d+$")
     private String telephoneNumber;
     @Column(name="delivery_price")
+    @PositiveOrZero
     private Integer deliveryPrice;
     @Column(name="description")
     private String description;

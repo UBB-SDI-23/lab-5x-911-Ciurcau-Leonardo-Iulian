@@ -4,6 +4,7 @@ import { Container, TextField, Button } from "@mui/material";
 import CouriersNavBar from "./couriersNavBar";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import App from "../app";
+import Validation from "../validation";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -62,6 +63,10 @@ class UpdateCourier extends Component {
             return <p>Loading...</p>;
         } 
 
+        const emailValid = Validation.validEmail(email);
+        const phoneValid = Validation.validPhoneNumber(telephoneNumber);
+        const priceValid = Validation.validPrice(deliveryPrice);
+
         return (
             <Container maxWidth={false}>
                 <CouriersNavBar parent={this}></CouriersNavBar>
@@ -73,14 +78,20 @@ class UpdateCourier extends Component {
                     <br/><br/>
                     <TextField id="outlined-basic" label="Email" variant="outlined"
                                 defaultValue={email}
+                                error={!emailValid}
+                                helperText={!emailValid ? "Email is not valid" : ''}
                                 onChange={e => this.setState({email: e.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined"
                                 defaultValue={telephoneNumber}
+                                error={!phoneValid}
+                            helperText={!phoneValid ? "Phone number is not valid" : ''}
                                 onChange={e => this.setState({telephoneNumber: e.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-number" label="Delivery Price" variant="outlined"
                                 defaultValue={deliveryPrice}
+                                error={!priceValid}
+                            helperText={!priceValid ? "Delivery price is not valid" : ''}
                                 onChange={e => this.setState({deliveryPrice: e.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Address" variant="outlined"
@@ -91,7 +102,8 @@ class UpdateCourier extends Component {
                                 defaultValue={description}
                                 onChange={e => this.setState({description: e.target.value})}/>
                     <br/><br/>
-                    <Button onClick={this.handleCourierUpdate}>Update courier</Button>
+                    <Button disabled={!emailValid || !phoneValid || !priceValid}
+                    onClick={this.handleCourierUpdate}>Update courier</Button>
                 </Container>
                 <Dialog
                     open={dialogOpen}
