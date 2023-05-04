@@ -124,10 +124,12 @@ class ClientList extends Component {
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
                     { currentUser.isAuthenticated() && currentUser.getUsername() === client.user.username &&
+                        currentUser.getRoles().includes("REGULAR") &&
                     <Button component={Link} to={"/updateClient/"+client.id}>
                         <SvgIcon component={EditIcon} sx={{ color: grey[500] }}></SvgIcon>
                     </Button>}
                     { currentUser.isAuthenticated() && currentUser.getUsername() === client.user.username &&
+                    currentUser.getRoles().includes("REGULAR") &&
                     <Button currentid={client.id} onClick={this.handleDeleteItem}>
                         <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
                     </Button>

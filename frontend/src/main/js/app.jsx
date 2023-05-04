@@ -60,10 +60,12 @@ class App extends React.Component {
         if (userStorage) {
             this.state.currentUser.setUsername(userStorage.username);
             this.state.currentUser.setAccessToken(userStorage.accessToken);
+            this.state.currentUser.setRoles(userStorage.roles);
         }
         else {
             this.state.currentUser.setUsername(null);
             this.state.currentUser.setAccessToken(null);
+            this.state.currentUser.setRoles([]);
         }
         return this.state.currentUser;
     }
@@ -74,10 +76,12 @@ class App extends React.Component {
         if (userStorage) {
             currentUser.setUsername(userStorage.username);
             currentUser.setAccessToken(userStorage.accessToken);
+            currentUser.setRoles(userStorage.roles);
         }
         else {
             currentUser.setUsername(null);
             currentUser.setAccessToken(null);
+            currentUser.setRoles([]);
         }
         
         return currentUser;

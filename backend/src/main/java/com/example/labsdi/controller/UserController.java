@@ -6,6 +6,7 @@ import com.example.labsdi.service.IUserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,18 @@ public class UserController {
     private Object getUserIdByUsername(@PathVariable("username") @NotBlank String username) {
         return new Object() {
             public Long getId() {return ((User)userService.loadUserByUsername(username)).getId();}
+        };
+    }
+
+    @GetMapping("/users/{username}/roles")
+    private Object getUserRolesByUsername(@PathVariable("username") @NotBlank String username) {
+        return new Object() {
+            public String getRoles() {
+                return userService.loadUserByUsername(username).getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .reduce("[", (a, b) -> a + "," + b)
+                        .concat("]");
+            }
         };
     }
 

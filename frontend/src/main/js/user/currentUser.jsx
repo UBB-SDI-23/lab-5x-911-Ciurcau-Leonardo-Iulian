@@ -5,6 +5,7 @@ class CurrentUser {
     static #constructorAccess = false;
     #username = null;
     #accessToken = null;
+    #roles = [];
 
     constructor() {
         if (!CurrentUser.#constructorAccess) {
@@ -39,6 +40,14 @@ class CurrentUser {
         return await fetch(App.API_URL + '/api/users/' + this.#username + '/id')
                 .then(response => response.json())
                 .then(data => data.id);
+    }
+
+    setRoles(roles) {
+        this.#roles = roles;
+    }
+
+    getRoles() {
+        return this.#roles;
     }
 
     static getInstance() {
