@@ -12,6 +12,7 @@ import {
     TextField
 } from "@mui/material";
 import App from "../app";
+import Validation from '../validation';
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()}/>;
@@ -107,6 +108,11 @@ class UpdateUserProfile extends Component {
         if (isLoading) 
             return <p>Loading...</p>;
 
+        const firstNameValid = Validation.validStringNotBlank(firstName);
+        const lastNameValid = Validation.validStringNotBlank(lastName);
+        const phoneValid = Validation.validPhoneNumber(telephoneNumber);
+        const dateValid = Validation.validDate(birthDate);
+
         return (
             <Container maxWidth={false}>
                 <AppNavBar parent={this}/>
@@ -131,21 +137,25 @@ class UpdateUserProfile extends Component {
                                InputProps={{readOnly: true,}} defaultValue={shopCount}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="First name" variant="outlined" defaultValue={firstName}
+                    error={!firstNameValid} helperText={!firstNameValid ? "First name cannot be empty" : ""}
                                onChange={(event)=>this.setState({firstName: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Last name" variant="outlined" defaultValue={lastName}
+                    error={!lastNameValid} helperText={!lastNameValid ? "Last name cannot be empty" : ""}
                                onChange={(event)=>this.setState({lastName: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Address" variant="outlined" defaultValue={address}
                                onChange={(event)=>this.setState({address: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Phone" variant="outlined" defaultValue={telephoneNumber}
+                    error={!phoneValid} helperText={!phoneValid ? "Phone is not valid" : ""}
                                onChange={(event)=>this.setState({telephoneNumber: event.target.value})}/>
                     <br/><br/>
                     <TextField id="outlined-basic" label="Birth Date" variant="outlined" defaultValue={birthDate}
+                    error={!dateValid} helperText={!dateValid ? "Date must be of format dd-MM-yyyy and valid" : ""}
                                onChange={(event)=>this.setState({birthDate: event.target.value})}/>
                     <br/><br/>
-                    <Button disabled={!firstName || !lastName} 
+                    <Button disabled={!firstNameValid || !lastNameValid || !phoneValid || !dateValid} 
                         onClick={this.handleUserProfileUpdate}>Update profile</Button>
                 </Container>
                 <Dialog
