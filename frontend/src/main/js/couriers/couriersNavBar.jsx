@@ -6,22 +6,7 @@ import App from '../app';
 class CouriersNavBar extends Component {
     constructor (props) {
         super(props);
-        this.state = {parent: this.props.parent, isOpen: false};
-        this.toggle = this.toggle.bind(this);
-    }
-
-    componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
-    }
-
-    toggle () {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
+        this.state = {parent: this.props.parent};
     }
 
     render() {

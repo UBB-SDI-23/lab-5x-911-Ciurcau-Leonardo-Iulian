@@ -6,19 +6,9 @@ import App from "../app";
 class TransactionsNavBar extends Component {
     constructor(props) {
         super(props);
-        this.state = {parent: this.props.parent, isOpen: false};
+        this.state = {parent: this.props.parent};
     }
 
-    componentDidMount() {
-        this.toggle = this.toggle.bind(this);
-    }
-
-
-    toggle() {
-        this.setState({
-            isOpen: !this.state.isOpen,
-        });
-    }
 
     render() {
         let currentUser = App.getCurrentUserStatic();

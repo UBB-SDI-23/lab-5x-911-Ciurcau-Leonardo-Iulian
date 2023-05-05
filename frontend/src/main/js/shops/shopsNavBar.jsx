@@ -6,17 +6,7 @@ import App from '../app';
 class ShopsNavBar extends Component {
     constructor(props) {
         super(props);
-        this.state = {parent: this.props.parent, isOpen: false};
-    }
-
-    componentDidMount() {
-        this.toggle = this.toggle.bind(this);
-    }
-
-    toggle() {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
+        this.state = {parent: this.props.parent};
     }
 
     render() {
