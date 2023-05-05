@@ -7,11 +7,10 @@ class ClientsNavBar extends Component {
     constructor(props) {
         super(props);
         this.state = {isOpen: false, parent: this.props.parent};
-        this.toggle = this.toggle.bind(this);
     }
 
     componentDidMount() {
-        
+        this.toggle = this.toggle.bind(this);
     }
 
     toggle() {
@@ -21,7 +20,6 @@ class ClientsNavBar extends Component {
     }
 
     render() {
-
         const currentUser = App.getCurrentUserStatic();
 
         return <Box>

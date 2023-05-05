@@ -42,32 +42,10 @@ class App extends React.Component {
     static API_URL = '';
     constructor(props) {
         super(props);
-        this.state = {currentUser: CurrentUser.getInstance()};
     }
 
      componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
-        this.getCurrentUserLocalStorage = this.getCurrentUserLocalStorage.bind(this);
         this.forceUpdate();
-    }
-
-    getCurrentUserLocalStorage() {
-        return JSON.parse(localStorage.getItem('currentUser'));
-    }
-
-    getCurrentUser() {
-        let userStorage = this.getCurrentUserLocalStorage();
-        if (userStorage) {
-            this.state.currentUser.setUsername(userStorage.username);
-            this.state.currentUser.setAccessToken(userStorage.accessToken);
-            this.state.currentUser.setRoles(userStorage.roles);
-        }
-        else {
-            this.state.currentUser.setUsername(null);
-            this.state.currentUser.setAccessToken(null);
-            this.state.currentUser.setRoles([]);
-        }
-        return this.state.currentUser;
     }
 
     static getCurrentUserStatic() {

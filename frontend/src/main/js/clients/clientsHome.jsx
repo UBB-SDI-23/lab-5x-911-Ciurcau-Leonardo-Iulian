@@ -17,7 +17,6 @@ class ClientsHome extends Component {
     componentDidMount() {
         this.getEntityFieldsCells = this.getEntityFieldsCells.bind(this);
         this.getTableHeaderCells = this.getTableHeaderCells.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
     }
 
@@ -41,10 +40,6 @@ class ClientsHome extends Component {
                 <TableCell>Birth Date</TableCell>
             </React.Fragment>
         );
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     render() {

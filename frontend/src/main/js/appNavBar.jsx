@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {AppBar, Box, Button, Container, Toolbar} from "@mui/material";
 import { useParams } from 'react-router-dom';
+import App from './app';
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -11,11 +12,10 @@ class AppNavbar extends Component {
     constructor(props) {
         super(props);
         this.state = {parent: this.props.parent, isOpen: false, isLoading: true};
-        this.toggle = this.toggle.bind(this);
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
+        this.toggle = this.toggle.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.forceUpdate();
         this.setState({isLoading: false});
@@ -25,10 +25,6 @@ class AppNavbar extends Component {
         this.setState({
             isOpen: !this.state.isOpen
         });
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     handleLogout() {
@@ -41,7 +37,7 @@ class AppNavbar extends Component {
         if (isLoading)
             return <p>Loading...</p>;
 
-        const currentUser = this.getCurrentUser();
+        const currentUser = App.getCurrentUserStatic();
 
         return <Box>
         <AppBar position="sticky">

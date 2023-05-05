@@ -15,13 +15,8 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
         this.setState({isLoading: false});
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     render() {

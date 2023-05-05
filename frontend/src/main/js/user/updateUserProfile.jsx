@@ -38,7 +38,6 @@ class UpdateUserProfile extends Component {
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
         this.handleUserProfileUpdate = this.handleUserProfileUpdate.bind(this);
         this.fillTextFields();
@@ -94,10 +93,6 @@ class UpdateUserProfile extends Component {
         fetch(App.API_URL + '/api/users/profile/' + username, requestOptions)
             .then(response => response.json())
             .then(this.setState({dialogOpen: true}));
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     render() {

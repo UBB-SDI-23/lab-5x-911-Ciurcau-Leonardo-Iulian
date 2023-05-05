@@ -37,7 +37,6 @@ class UpdateUserProfile extends Component {
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
         this.fillTextFields();
         this.forceUpdate();
@@ -76,10 +75,6 @@ class UpdateUserProfile extends Component {
                             ))))
                 );
             });
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     render() {

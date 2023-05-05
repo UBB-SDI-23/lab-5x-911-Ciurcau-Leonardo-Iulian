@@ -26,10 +26,6 @@ class UserRegister extends Component {
         this.setState({isLoading: false});
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
-    }
-
     handleUserRegister() {
         const {email, username, password} = this.state;
         const requestOptions = {

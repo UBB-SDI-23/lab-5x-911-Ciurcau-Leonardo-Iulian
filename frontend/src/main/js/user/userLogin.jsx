@@ -16,14 +16,9 @@ class UserLogin extends Component {
     }
 
     componentDidMount() {      
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.handleUserLogin = this.handleUserLogin.bind(this);
         this.forceUpdate();
         this.setState({isLoading: false});
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     handleUserLogin() {
