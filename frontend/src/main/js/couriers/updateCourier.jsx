@@ -45,7 +45,8 @@ class UpdateCourier extends Component {
         const {name, email, telephoneNumber, address, description, deliveryPrice} = this.state;
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
             body: JSON.stringify({
                 name: name, email: email,
                 telephoneNumber: telephoneNumber, deliveryPrice: deliveryPrice,

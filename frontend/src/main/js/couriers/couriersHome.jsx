@@ -1,27 +1,51 @@
 import React, { Component } from 'react';
 import CouriersNavBar from './couriersNavBar';
-import {Container} from "@mui/material";
-import CourierList from "./courierList";
+import {Container, TableCell} from "@mui/material";
+import EntityList from '../entityList';
+import App from '../app';
 
 class CourierHome extends Component {
     constructor(props) {
         super(props);
         this.state = {parent: this.props.parent};
+
+        this.seeEntityString = "/seeCourier/";
+        this.updateEntityString = "/updateCourier/";
+        this.apiEntityString = App.API_URL + '/api/couriers/';
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
+        this.getEntityFieldsCells = this.getEntityFieldsCells.bind(this);
+        this.getTableHeaderCells = this.getTableHeaderCells.bind(this);
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
+    getEntityFieldsCells(courier) {
+        return (
+            <React.Fragment>
+                <TableCell>{courier.name}</TableCell>
+                <TableCell>{courier.email}</TableCell>
+                <TableCell>{courier.telephoneNumber}</TableCell>
+                <TableCell>{courier.deliveryPrice}</TableCell>
+            </React.Fragment>
+        );
+    }
+
+    getTableHeaderCells() {
+        return (
+            <React.Fragment>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Delivery price</TableCell>
+            </React.Fragment>
+        );
     }
 
     render() {
         return (
             <Container maxWidth={false}>
                 <CouriersNavBar parent={this}></CouriersNavBar>
-                <CourierList></CourierList>
+                <EntityList parent={this}/>
             </Container>
         );
     }

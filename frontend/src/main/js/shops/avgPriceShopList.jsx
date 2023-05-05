@@ -1,53 +1,55 @@
 import React, {Component} from "react";
 import App from "../app";
-import ShopList from "./shopList";
-import {Button, Container, FormControl, Input, InputLabel} from "@mui/material";
+import {Container, TableCell} from "@mui/material";
 import ShopsNavBar from './shopsNavBar';
+import EntityList from "../entityList";
 
 class AvgPriceShopList extends Component {
     constructor(props) {
         super(props);
-        this.state = {parent: this.props.parent, shops: [], page: 0, lastPage: true};
+        this.state = {parent: this.props.parent};
+
+        this.seeEntityString = "/seeShop/";
+        this.updateEntityString = "/updateShop/";
+        this.apiEntityString = App.API_URL + '/api/shops/orderByAveragePrice/';
     }
 
     componentDidMount() {
-        this.getShops = this.getShops.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
-        this.getShops();
+        this.getEntityFieldsCells = this.getEntityFieldsCells.bind(this);
+        this.getTableHeaderCells = this.getTableHeaderCells.bind(this);
         this.forceUpdate();
     }
 
-    getShops(event) {
-        if (event)
-            event.preventDefault();
-        const {page} = this.state;
-        fetch(App.API_URL + '/api/shops/orderByAveragePrice/page/' + page)
-            .then(response => response.json())
-            .then((data) => this.setState({shops: data.content, lastPage: data.last}));
+    getEntityFieldsCells(shop) {
+        return (
+            <React.Fragment>
+                <TableCell>{shop.name}</TableCell>
+                <TableCell>{shop.email}</TableCell>
+                <TableCell>{shop.telephoneNumber}</TableCell>
+                <TableCell>{shop.products}</TableCell>
+                <TableCell>{shop.couriers}</TableCell>
+                <TableCell>{shop.averageProductPrice}</TableCell>
+            </React.Fragment>
+        );
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
-    }
-
-    getPage() {
-        return this.state.page;
-    }
-
-    setPage(page, callback) {
-        this.setState({page: page}, callback);
-    }
-
-    getLastPage() {
-        return this.state.lastPage;
+    getTableHeaderCells() {
+        return (
+            <React.Fragment>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Products</TableCell>
+                <TableCell>Couriers</TableCell>
+                <TableCell>Average product price</TableCell>
+            </React.Fragment>
+        );
     }
 
     render() {
         return (<Container maxWidth={false}>
                     <ShopsNavBar parent={this}></ShopsNavBar>
-                    <Container className="avgPriceShops tableContainer">
-                        <ShopList parent={this}></ShopList>
-                    </Container>
+                    <EntityList parent={this}/>
                 </Container>
         );
     }

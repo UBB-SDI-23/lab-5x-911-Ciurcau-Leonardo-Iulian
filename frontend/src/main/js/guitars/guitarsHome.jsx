@@ -1,28 +1,54 @@
 import React, { Component } from 'react';
 import GuitarsNavBar from './guitarsNavBar';
-import {Container} from "@mui/material";
-import GuitarList from "./guitarList";
+import {Container, TableCell} from "@mui/material";
+import EntityList from '../entityList';
+import App from '../app';
 
 class GuitarsHome extends Component {
     constructor(props) {
         super(props);
         this.state = {parent: this.props.parent};
+        
+        this.seeEntityString = "/seeGuitar/";
+        this.updateEntityString = "/updateGuitar/";
+        this.apiEntityString = App.API_URL + '/api/guitars/';
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
+        this.getEntityFieldsCells = this.getEntityFieldsCells.bind(this);
+        this.getTableHeaderCells = this.getTableHeaderCells.bind(this);
         this.forceUpdate();
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
+    getEntityFieldsCells(guitar) {
+        return (
+            <React.Fragment>
+                <TableCell>{guitar.price}</TableCell>
+                <TableCell>{guitar.model}</TableCell>
+                <TableCell>{guitar.type}</TableCell>
+                <TableCell>{guitar.color}</TableCell>
+                <TableCell>{guitar.creationYear}</TableCell>
+            </React.Fragment>
+        );
+    }
+
+    getTableHeaderCells() {
+        return (
+            <React.Fragment>
+                <TableCell>Price</TableCell>
+                <TableCell>Model</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Color</TableCell>
+                <TableCell>Creation year</TableCell>
+            </React.Fragment>
+        );
     }
 
     render() {
         return (
             <Container maxWidth={false}>
                 <GuitarsNavBar parent={this}></GuitarsNavBar>
-                <GuitarList></GuitarList>
+                <EntityList parent={this}/>
             </Container>
         );
     }

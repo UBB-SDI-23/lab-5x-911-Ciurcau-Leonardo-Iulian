@@ -1,20 +1,24 @@
 import React, {Component} from "react";
 import App from "../app";
-import GuitarList from "./guitarList";
-import {Button, Container, FormControl, Input, InputLabel} from "@mui/material";
+import {Button, Container, FormControl, Input, InputLabel, TableCell} from "@mui/material";
 import GuitarsNavBar from './guitarsNavBar';
+import EntityList from "../entityList";
 
 class FilteredGuitarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {parent: this.props.parent, 
-            guitars: [], showPriceSVG: false, page: 0, lastPage: true, filteredGuitarsPrice: 0};
+        this.state = {parent: this.props.parent, filteredGuitarsPrice: 0};
+
+        this.seeEntityString = "/seeGuitar/";
+        this.updateEntityString = "/updateGuitar/";
+        this.apiEntityString = App.API_URL + '/api/guitars/priceGreaterThan/' + this.state.filteredGuitarsPrice + '/';
     }
 
     componentDidMount() {
         this.handleFilteredGuitarsChange = this.handleFilteredGuitarsChange.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
-        this.getGuitars = this.getGuitars.bind(this);
+        this.handleFilterPriceSubmit = this.handleFilterPriceSubmit.bind(this);
+        this.getEntityFieldsCells = this.getEntityFieldsCells.bind(this);
+        this.getTableHeaderCells = this.getTableHeaderCells.bind(this);
         this.forceUpdate();
     }
 
@@ -24,29 +28,34 @@ class FilteredGuitarList extends Component {
         this.setState({filteredGuitarsPrice: value});
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
+    handleFilterPriceSubmit() {
+        const {filteredGuitarsPrice} = this.state;
+        this.apiEntityString = App.API_URL + '/api/guitars/priceGreaterThan/' + filteredGuitarsPrice + '/';
+        this.setState({filteredGuitarsPrice: filteredGuitarsPrice});
     }
 
-    getGuitars(event) {
-        if (event)
-            event.preventDefault();
-        const {filteredGuitarsPrice, page} = this.state;
-        fetch(App.API_URL + `/api/guitars/priceGreaterThan/` + filteredGuitarsPrice + '/page/' + page)
-            .then(response => response.json())
-            .then((data) => this.setState({guitars: data.content, lastPage: data.last, showPriceSVG: false}));
+    getEntityFieldsCells(guitar) {
+        return (
+            <React.Fragment>
+                <TableCell>{guitar.price}</TableCell>
+                <TableCell>{guitar.model}</TableCell>
+                <TableCell>{guitar.type}</TableCell>
+                <TableCell>{guitar.color}</TableCell>
+                <TableCell>{guitar.creationYear}</TableCell>
+            </React.Fragment>
+        );
     }
 
-    getPage() {
-        return this.state.page;
-    }
-
-    setPage(page, callback) {
-        this.setState({page: page}, callback);
-    }
-
-    getLastPage() {
-        return this.state.lastPage;
+    getTableHeaderCells() {
+        return (
+            <React.Fragment>
+                <TableCell>Price</TableCell>
+                <TableCell>Model</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Color</TableCell>
+                <TableCell>Creation year</TableCell>
+            </React.Fragment>
+        );
     }
 
     render() {
@@ -58,9 +67,9 @@ class FilteredGuitarList extends Component {
                             <InputLabel htmlFor="price">Show guitars with price greater than: </InputLabel>
                             <Input type="text" id="price" value={filteredGuitarsPrice}
                                    onChange={this.handleFilteredGuitarsChange}/>
-                            <Button onClick={this.getGuitars} className="submitButton">Submit</Button>
+                            <Button onClick={this.handleFilterPriceSubmit} className="submitButton">Submit</Button>
                         </FormControl>
-                            <GuitarList parent={this}></GuitarList>
+                            <EntityList parent={this}></EntityList>
                     </Container>
                 </Container>
         );

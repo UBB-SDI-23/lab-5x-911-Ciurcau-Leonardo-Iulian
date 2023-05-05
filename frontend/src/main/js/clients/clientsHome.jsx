@@ -1,17 +1,46 @@
 import React, { Component } from 'react';
 import ClientsNavBar from './clientsNavBar';
-import {Container} from "@mui/material";
-import ClientList from './clientList';
+import {Box, Container, Tab, TableCell} from "@mui/material";
+import EntityList from '../entityList';
+import App from '../app';
 
 class ClientsHome extends Component {
     constructor(props) {
         super(props);
         this.state = {parent: this.props.parent};
+
+        this.seeEntityString = "/seeClient/";
+        this.updateEntityString = "/updateClient/";
+        this.apiEntityString = App.API_URL + '/api/clients/';
     }
 
     componentDidMount() {
+        this.getEntityFieldsCells = this.getEntityFieldsCells.bind(this);
+        this.getTableHeaderCells = this.getTableHeaderCells.bind(this);
         this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
+    }
+
+    getEntityFieldsCells(client) {
+        return (
+            <React.Fragment>
+                <TableCell>{client.name}</TableCell>
+                <TableCell>{client.email}</TableCell>
+                <TableCell>{client.telephoneNumber}</TableCell>
+                <TableCell>{client.birthDate}</TableCell>
+            </React.Fragment>
+        );
+    }
+
+    getTableHeaderCells() {
+        return (
+            <React.Fragment>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Birth Date</TableCell>
+            </React.Fragment>
+        );
     }
 
     getCurrentUser() {
@@ -22,7 +51,7 @@ class ClientsHome extends Component {
         return (
             <Container maxWidth={false}>
                 <ClientsNavBar parent={this}></ClientsNavBar>
-                <ClientList></ClientList>
+                <EntityList parent={this}/>
             </Container>
         );
     }

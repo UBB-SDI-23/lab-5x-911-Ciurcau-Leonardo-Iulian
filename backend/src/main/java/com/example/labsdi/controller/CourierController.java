@@ -5,6 +5,7 @@ import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.domain.dto.CourierDTO;
 import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.domain.dto.SimpleCourierDTO;
+import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.ICourierService;
 import com.example.labsdi.service.ICourierService;
 import com.example.labsdi.service.exception.CourierServiceException;
@@ -14,6 +15,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,15 +67,34 @@ public class CourierController {
     }
 
     @PutMapping("/couriers/{id}")
-    public Courier
-    updateCourier(@RequestBody Courier courier, @PathVariable("id") @NotNull Long id) throws CourierServiceException {
-        return courierService.updateCourier(courier, id);
+    public ResponseEntity<?>
+    updateCourier(
+            @RequestHeader("Authorization") @NotBlank String authorization,
+            @RequestBody Courier courier,
+            @PathVariable("id") @NotNull Long id) throws CourierServiceException {
+
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Courier retrievedCourier = courierService.getCourier(id);
+
+        if (retrievedCourier.getUser().getUsername().equals(username)) {
+            return ResponseEntity.ok().body(courierService.updateCourier(courier, id));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @DeleteMapping("/couriers/{id}")
-    public String removeCourier(@PathVariable("id") @NotNull Long id) throws CourierServiceException {
-        courierService.removeCourier(id);
-        return "Deleted Successfully";
+    public ResponseEntity<?> removeCourier(
+            @RequestHeader("Authorization") @NotBlank String authorization,
+            @PathVariable("id") @NotNull Long id) throws CourierServiceException {
+
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Courier retrievedCourier = courierService.getCourier(id);
+
+        if (retrievedCourier.getUser().getUsername().equals(username)) {
+            courierService.removeCourier(id);
+            return ResponseEntity.ok().body("Deleted Successfully");
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @GetMapping("/couriers/{id}")
