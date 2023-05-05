@@ -1,11 +1,11 @@
 import App from "../app";
-import CourierHome from "./couriersHome";
+import TransactionsHome from "./transactionsHome";
 
-class OwnCouriers extends CourierHome {
+class OwnTransactions extends TransactionsHome {
     constructor(props) {
         super(props);
         this.apiAfterPageString = '/' + App.getCurrentUserStatic().getUsername();
     }
 }
 
-export default OwnCouriers;
+export default OwnTransactions;

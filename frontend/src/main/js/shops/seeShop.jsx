@@ -18,7 +18,6 @@ class SeeShop extends Component {
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
     }
 
@@ -31,10 +30,6 @@ class SeeShop extends Component {
                     address: shop.address, shippingAvailable: shop.shippingAvailable, couriers: shop.couriers})
             )
             .then(() => this.setState({isLoading: false}));
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     render() {

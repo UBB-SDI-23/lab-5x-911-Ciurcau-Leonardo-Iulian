@@ -18,12 +18,7 @@ class SeeTransaction extends Component {
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     fillTextFields() {

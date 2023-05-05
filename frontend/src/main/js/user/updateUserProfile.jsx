@@ -101,6 +101,8 @@ class UpdateUserProfile extends Component {
             clientCount, courierCount, guitarCount, transactionCount, shopCount,
             isLoading} = this.state;
 
+        let currentUser = App.getCurrentUserStatic();
+
         if (isLoading) 
             return <p>Loading...</p>;
 
@@ -114,6 +116,14 @@ class UpdateUserProfile extends Component {
                 <AppNavBar parent={this}/>
                 <br/><br/><br/><br/>
                 <Container maxWidth={false}>
+                {
+                    currentUser.hasRole("MODERATOR") && currentUser.getUsername() === username &&
+                    <React.Fragment>
+                    <TextField id="outlined-basic" label="Roles" variant="filled"
+                            InputProps={{readOnly: true,}} defaultValue={currentUser.getRoles()}/>
+                    &nbsp;
+                    </React.Fragment>
+                    }
                     <TextField id="outlined-basic" label="Username" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={username}/>
                     &nbsp;

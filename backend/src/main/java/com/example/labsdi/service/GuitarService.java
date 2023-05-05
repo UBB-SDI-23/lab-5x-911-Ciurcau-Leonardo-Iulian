@@ -84,6 +84,11 @@ public class GuitarService implements IGuitarService {
     }
 
     @Override
+    public Slice<Guitar> getGuitarsPageByUsername(Integer page, String username) {
+        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+    }
+
+    @Override
     public Slice<Guitar> getGuitarContainsNamePage(String name, Integer page) {
         return repository.findAllByModelContainsIgnoreCase(PageRequest.of(page, 10), name);
     }

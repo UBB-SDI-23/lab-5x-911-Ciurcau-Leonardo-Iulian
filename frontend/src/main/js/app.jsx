@@ -33,6 +33,10 @@ import UserRegister from './user/userRegister';
 import UpdateUserProfile from './user/updateUserProfile';
 import SeeUserProfile from './user/seeUserProfile';
 import OwnClients from './clients/ownClients';
+import OwnCouriers from './couriers/ownCouriers';
+import OwnGuitars from './guitars/ownGuitars';
+import OwnTransactions from './transactions/ownTransactions';
+import OwnShops from './shops/ownShops';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -97,6 +101,10 @@ class App extends React.Component {
                     <Route path='/updateProfile/:username' element={<UpdateUserProfile parent={this}/>}/>
                     <Route path='/seeProfile/:username' element={<SeeUserProfile parent={this}/>}/>
                     <Route path='/ownClients' element={<OwnClients parent={this}/>}/>
+                    <Route path='/ownCouriers' element={<OwnCouriers parent={this}/>}/>
+                    <Route path='/ownGuitars' element={<OwnGuitars parent={this}/>}/>
+                    <Route path='/ownTransactions' element={<OwnTransactions parent={this}/>}/>
+                    <Route path='/ownShops' element={<OwnShops parent={this}/>}/>
                 </Routes>
             </BrowserRouter>
         );

@@ -12,6 +12,7 @@ public interface ICourierService {
     Courier getCourier(Long id) throws CourierServiceException;
     List<Courier> getFirst100Couriers();
     Slice<Courier> getCourierPage(Integer page);
+    Slice<Courier> getCouriersPageByUsername(Integer page, String username);
     Slice<Courier> getCourierContainsNamePage(String name, Integer page);
     void removeCourier(Long id) throws CourierServiceException;
     Courier updateCourier(Courier courier, Long id) throws CourierServiceException;

@@ -14,22 +14,18 @@ class AddShop extends Component {
 
     componentDidMount() {
         this.handleShopAdd = this.handleShopAdd.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
-    }
-
     handleShopAdd(event) {
+        const currentUser = App.getCurrentUserStatic();
         const {name, email, telephoneNumber, address, shippingAvailable} = this.state
-        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+        new Promise((resolve, reject) => resolve(currentUser.getId()))
             .then(id => {return { 
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
+                'Authorization': 'Bearer ' + currentUser.getAccessToken() },
                 body: JSON.stringify({
                     name: name, email: email, telephoneNumber: telephoneNumber,
                     address: address, shippingAvailable: shippingAvailable,

@@ -15,6 +15,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,14 @@ public class TransactionController {
                 .map(t -> (TransactionDTO)t.toDTO());
     }
 
+    @GetMapping("/transactions/page/{page}/{username}")
+    public Slice<TransactionDTO> getTransactionsPageByUsername(
+            @PathVariable("page") @NotNull @PositiveOrZero Integer page,
+            @PathVariable("username") @NotBlank String username) {
+        return transactionService.getTransactionsPageByUsername(page, username)
+                .map(t -> (TransactionDTO) t.toDTO());
+    }
+
     @GetMapping("/transactions")
     public List<DTO> getFirst100Transactions() {
         return transactionService.getFirst100Transactions().stream()
@@ -64,7 +73,8 @@ public class TransactionController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Transaction retrievedTransaction = transactionService.getTransaction(id);
 
-        if (retrievedTransaction.getUser().getUsername().equals(username)) {
+        if (retrievedTransaction.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             return ResponseEntity.ok(transactionService.updateTransaction(transaction, id));
         }
 
@@ -79,7 +89,8 @@ public class TransactionController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Transaction retrievedTransaction = transactionService.getTransaction(id);
 
-        if (retrievedTransaction.getUser().getUsername().equals(username)) {
+        if (retrievedTransaction.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             transactionService.removeTransaction(id);
             return ResponseEntity.ok("Deleted Successfully");
         }

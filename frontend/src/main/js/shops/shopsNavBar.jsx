@@ -17,10 +17,14 @@ class ShopsNavBar extends Component {
             <Toolbar>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/shops">Shops</Button>
-                {currentUser.isAuthenticated() &&
+                {currentUser.hasAddAuthorization() &&
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addShop">Add shop</Button>
                 }
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/averagePriceShops">Shops sorted by average price</Button>
+                {
+                    currentUser.isAuthenticated() &&
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/ownShops">Own shops</Button>
+                }
             </Toolbar>
         </AppBar>
         </Box>;

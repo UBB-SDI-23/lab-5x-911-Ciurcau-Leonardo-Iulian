@@ -19,8 +19,12 @@ class GuitarsNavBar extends Component {
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/guitars">Guitars</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/filteredGuitars">Search by price</Button>
-                { currentUser.isAuthenticated() &&
+                { currentUser.hasAddAuthorization() &&
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addGuitar">Add guitar</Button>
+                }
+                {
+                    currentUser.isAuthenticated() &&
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/ownGuitars">Own guitars</Button>
                 }
             </Toolbar>
         </AppBar>

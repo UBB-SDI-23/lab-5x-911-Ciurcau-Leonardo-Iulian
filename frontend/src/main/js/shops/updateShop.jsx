@@ -25,7 +25,6 @@ class UpdateShop extends Component {
         this.handleShopUpdate = this.handleShopUpdate.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
         this.handleCourierAdd = this.handleCourierAdd.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.handleCourierRemove = this.handleCourierRemove.bind(this);
         this.fillTextFields();
         this.forceUpdate();
@@ -41,10 +40,6 @@ class UpdateShop extends Component {
                      shippingAvailable: shop.shippingAvailable, couriers: shop.couriers})
             )
             .then(() => this.setState({isLoading: false}));
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     handleShopUpdate() {

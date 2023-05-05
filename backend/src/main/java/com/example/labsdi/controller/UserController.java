@@ -54,7 +54,8 @@ public class UserController {
             @RequestBody @Valid UserProfile userProfile,
             @PathVariable("username") @NotBlank String username) {
         String requestUsername = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
-        if (requestUsername.equals(username)) {
+        if (requestUsername.equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             return ResponseEntity.ok(userService.updateUserProfile(userProfile, username));
         }
 

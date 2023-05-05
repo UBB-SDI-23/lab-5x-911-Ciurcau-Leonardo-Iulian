@@ -49,6 +49,13 @@ public class GuitarController {
                 .map(g -> (ProductDTO)g.toDTO());
     }
 
+    @GetMapping("/guitars/page/{page}/{username}")
+    public Slice<ProductDTO> getGuitarsPageByUsername(@PathVariable("page") @NotNull Integer page,
+                                                      @PathVariable("username") @NotBlank String username) {
+        return guitarService.getGuitarsPageByUsername(page, username)
+                .map(g -> (ProductDTO) g.toDTO());
+    }
+
     @GetMapping("/guitars/simple/page/{page}")
     public Slice<SimpleGuitarDTO> getGuitarsSimplePage(@PathVariable("page") @NotNull Integer page) {
         return guitarService.getGuitarsPage(page)
@@ -111,7 +118,9 @@ public class GuitarController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Guitar retrievedGuitar = guitarService.getGuitar(id);
 
-        if (retrievedGuitar.getUser().getUsername().equals(username)) {
+        if (retrievedGuitar.getUser().getUsername().equals(username)
+                ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             guitarService.addGuitarsToShop(guitars, id);
             return ResponseEntity.ok("Updated successfully");
         }
@@ -128,7 +137,8 @@ public class GuitarController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Guitar retrievedGuitar = guitarService.getGuitar(id);
 
-        if (retrievedGuitar.getUser().getUsername().equals(username)) {
+        if (retrievedGuitar.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             return ResponseEntity.ok(guitarService.updateGuitar(guitar, id));
         }
 
@@ -142,7 +152,8 @@ public class GuitarController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Guitar retrievedGuitar = guitarService.getGuitar(id);
 
-        if (retrievedGuitar.getUser().getUsername().equals(username)) {
+        if (retrievedGuitar.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             guitarService.removeGuitar(id);
             return ResponseEntity.ok().body("Deleted successfully");
         }

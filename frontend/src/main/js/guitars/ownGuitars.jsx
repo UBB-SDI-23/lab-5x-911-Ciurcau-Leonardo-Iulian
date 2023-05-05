@@ -1,11 +1,11 @@
 import App from "../app";
-import CourierHome from "./couriersHome";
+import GuitarsHome from "./guitarsHome";
 
-class OwnCouriers extends CourierHome {
+class OwnGuitars extends GuitarsHome {
     constructor(props) {
         super(props);
         this.apiAfterPageString = '/' + App.getCurrentUserStatic().getUsername();
     }
 }
 
-export default OwnCouriers;
+export default OwnGuitars;

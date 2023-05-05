@@ -54,6 +54,16 @@ class CurrentUser {
         return this.#roles.includes(role);
     }
 
+    hasAddAuthorization() {
+        return this.isAuthenticated() && this.hasRole("REGULAR");
+    }
+
+    hasEditAuthorization(entityUsername) {
+        return this.isAuthenticated() && 
+        (this.hasRole("MODERATOR") || 
+        (this.hasRole("REGULAR") && this.getUsername() === entityUsername));
+    }
+
     static getInstance() {
         if (CurrentUser.#instance === null) {
             CurrentUser.#constructorAccess = true;

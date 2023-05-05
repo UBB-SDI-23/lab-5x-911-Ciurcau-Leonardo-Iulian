@@ -13,22 +13,18 @@ class AddCourier extends Component {
 
     componentDidMount() {
         this.handleCourierAdd = this.handleCourierAdd.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
-    }
-
     handleCourierAdd(event) {
         const {name, email, telephoneNumber, deliveryPrice, address, description} = this.state;
-        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+        const currentUser = App.getCurrentUserStatic();
+        new Promise((resolve, reject) => resolve(currentUser.getId()))
             .then(id => {return {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
+                'Authorization': 'Bearer ' + currentUser.getAccessToken() },
                 body: JSON.stringify({
                     name: name, email: email, telephoneNumber: telephoneNumber,
                     deliveryPrice: deliveryPrice, address: address, description: description,

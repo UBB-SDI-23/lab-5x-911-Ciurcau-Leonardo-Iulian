@@ -24,18 +24,18 @@ class AddClient extends Component {
 
     componentDidMount() {
         this.handleClientAdd = this.handleClientAdd.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
     handleClientAdd(event) {
+        const currentUser = App.getCurrentUserStatic();
         const {name, email, phone, birthDate, address} = this.state;
-        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+        new Promise((resolve, reject) => resolve(currentUser.getId()))
             .then(id => { return {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 
-                'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
+                'Authorization': 'Bearer ' + currentUser.getAccessToken() },
                 body: JSON.stringify({
                     name: name, email: email, 
                     telephoneNumber: phone, birthDate: birthDate, address: address,
@@ -48,10 +48,6 @@ class AddClient extends Component {
                     .then(response => response.json())
                     .then(() => this.setState({dialogOpen: true}))
             );
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     render() {

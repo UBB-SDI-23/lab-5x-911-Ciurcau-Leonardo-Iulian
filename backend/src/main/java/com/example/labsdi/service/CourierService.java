@@ -53,6 +53,11 @@ public class CourierService implements ICourierService {
     }
 
     @Override
+    public Slice<Courier> getCouriersPageByUsername(Integer page, String username) {
+        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+    }
+
+    @Override
     public Slice<Courier> getCourierContainsNamePage(String name, Integer page) {
         return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, 10), name);
     }

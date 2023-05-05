@@ -16,6 +16,8 @@ public interface ITransactionService {
     Transaction updateTransaction(Transaction transaction, Long id) throws TransactionServiceException;
     List<Transaction> getAllTransactions();
     Slice<Transaction> getTransactionsPage(Integer page);
+    Slice<Transaction> getTransactionsPageByUsername(Integer page, String username);
+
     boolean containsProduct(Product product);
     Integer countByUsername(String username);
     List<SortedShopDTO> getAllShopsSorted(); // sorted by the number of other shops their clients bought from

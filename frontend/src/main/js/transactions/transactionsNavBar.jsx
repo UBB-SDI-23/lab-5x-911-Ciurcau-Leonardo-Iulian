@@ -18,8 +18,12 @@ class TransactionsNavBar extends Component {
                 <Toolbar>
                     <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
                     <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/transactions">Transactions</Button>
-                    { currentUser.isAuthenticated() &&
+                    { currentUser.hasAddAuthorization() &&
                     <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addTransaction">Add transaction</Button>
+                    }
+                    {
+                        currentUser.isAuthenticated() &&
+                        <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/ownTransactions">Own transactions</Button>
                     }
                 </Toolbar>
             </AppBar>

@@ -90,6 +90,11 @@ public class ShopService implements IShopService {
     }
 
     @Override
+    public Slice<Shop> getShopsPageByUsername(Integer page, String username) {
+        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+    }
+
+    @Override
     public Slice<Shop> getShopContainsNamePage(Integer page, String name) {
         return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, 10), name);
     }

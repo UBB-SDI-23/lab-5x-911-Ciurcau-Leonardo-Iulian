@@ -21,7 +21,6 @@ class SeeClient extends Component {
     }
 
     componentDidMount() {
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.forceUpdate();
     }
 
@@ -33,10 +32,6 @@ class SeeClient extends Component {
                     phone: client.telephoneNumber, birthDate: client.birthDate, address: client.address})
             )
             .then(() => this.setState({isLoading: false}));
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     render() {

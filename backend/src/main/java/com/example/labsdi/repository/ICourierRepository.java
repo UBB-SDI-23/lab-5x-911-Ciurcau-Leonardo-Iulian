@@ -13,6 +13,7 @@ import java.util.List;
 public interface ICourierRepository extends JpaRepository<Courier, Long> {
     List<Courier> findFirst100By();
     Slice<Courier> findAllBy(Pageable pageable);
+    Slice<Courier> findAllByUser_Username(Pageable pageable, String username);
     Slice<Courier> findAllByNameContainingIgnoreCase(Pageable pageable, String name);
     Integer countAllByUser_Username(String username);
 }

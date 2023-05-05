@@ -82,4 +82,16 @@ public class JwtTokenUtil {
                 .getBody()
                 .getSubject();
     }
+
+    public static List<String> getRolesFromAuthorizationHeader(String header) {
+        if (header == null || !header.startsWith("Bearer ")) {
+            return null;
+        }
+        String token = header.substring(7);
+        return (List<String>)Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody()
+                .get("authorities");
+    }
 }

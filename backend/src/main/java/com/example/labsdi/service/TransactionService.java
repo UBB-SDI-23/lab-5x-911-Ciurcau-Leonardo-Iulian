@@ -87,6 +87,11 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
+    public Slice<Transaction> getTransactionsPageByUsername(Integer page, String username) {
+        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+    }
+
+    @Override
     public boolean containsProduct(Product product) {
         return getAllTransactions().stream()
                 .anyMatch(t -> t.getProduct().getClass().equals(product.getClass())

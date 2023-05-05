@@ -26,22 +26,18 @@ class AddGuitar extends Component {
     componentDidMount() {
         this.handleGuitarAdd = this.handleGuitarAdd.bind(this);
         this.onShopChange = this.onShopChange.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
-    }
-
     handleGuitarAdd(event) {
+        const currentUser = App.getCurrentUserStatic();
         const {shop, price, creationYear, model, type, color} = this.state;
-        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+        new Promise((resolve, reject) => resolve(currentUser.getId()))
             .then(id => {return {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
+                'Authorization': 'Bearer ' + currentUser.getAccessToken() },
                 body: JSON.stringify({
                     productType:"guitar",
                     shop:{"id": shop.id},

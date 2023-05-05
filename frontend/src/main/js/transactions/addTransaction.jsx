@@ -16,23 +16,19 @@ class AddTransaction extends Component {
 
     componentDidMount() {
         this.handleTransactionAdd = this.handleTransactionAdd.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.setState({isLoading: false});
         this.forceUpdate();
     }
 
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
-    }
-
     handleTransactionAdd(event) {
+        const currentUser = App.getCurrentUserStatic();
         const {product, client, date, isCashPayment} = this.state;
         product["productType"] = "guitar";
-        new Promise((resolve, reject) => resolve(this.getCurrentUser().getId()))
+        new Promise((resolve, reject) => resolve(currentUser.getId()))
         .then(id => {return { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
+            'Authorization': 'Bearer ' + currentUser.getAccessToken() },
             body: JSON.stringify({
                 product: product, client: client, 
                 date: date, isCashPayment: isCashPayment,

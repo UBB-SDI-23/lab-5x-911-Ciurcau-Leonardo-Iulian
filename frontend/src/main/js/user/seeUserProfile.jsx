@@ -82,6 +82,7 @@ class UpdateUserProfile extends Component {
             clientCount, courierCount, guitarCount, transactionCount, shopCount,
             isLoading} = this.state;
 
+        let currentUser = App.getCurrentUserStatic();
         if (isLoading) 
             return <p>Loading...</p>;
 

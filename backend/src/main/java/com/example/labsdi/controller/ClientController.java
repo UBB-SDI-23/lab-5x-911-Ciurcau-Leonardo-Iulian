@@ -94,7 +94,8 @@ public class ClientController {
 
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(header);
         Client retrievedClient = clientService.getClient(id);
-        if (retrievedClient.getUser().getUsername().equals(username))
+        if (retrievedClient.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(header).contains("MODERATOR"))
             return ResponseEntity.ok().body(clientService.updateClient(client, id));
         else
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
@@ -106,7 +107,8 @@ public class ClientController {
 
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(header);
         Client retrievedClient = clientService.getClient(id);
-        if (retrievedClient.getUser().getUsername().equals(username)) {
+        if (retrievedClient.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(header).contains("MODERATOR")) {
             clientService.removeClient(id);
             return ResponseEntity.ok().body("Deleted Successfully");
         }

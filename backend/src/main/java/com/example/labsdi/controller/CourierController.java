@@ -1,10 +1,9 @@
 package com.example.labsdi.controller;
 
+import com.example.labsdi.domain.Authority;
 import com.example.labsdi.domain.Courier;
-import com.example.labsdi.domain.dto.Count;
-import com.example.labsdi.domain.dto.CourierDTO;
-import com.example.labsdi.domain.dto.DTO;
-import com.example.labsdi.domain.dto.SimpleCourierDTO;
+import com.example.labsdi.domain.User;
+import com.example.labsdi.domain.dto.*;
 import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.ICourierService;
 import com.example.labsdi.service.ICourierService;
@@ -75,8 +74,9 @@ public class CourierController {
 
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Courier retrievedCourier = courierService.getCourier(id);
-
-        if (retrievedCourier.getUser().getUsername().equals(username)) {
+        User user = retrievedCourier.getUser();
+        if (user.getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             return ResponseEntity.ok().body(courierService.updateCourier(courier, id));
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
@@ -90,11 +90,21 @@ public class CourierController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Courier retrievedCourier = courierService.getCourier(id);
 
-        if (retrievedCourier.getUser().getUsername().equals(username)) {
+        if (retrievedCourier.getUser().getUsername().equals(username)
+        || JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             courierService.removeCourier(id);
             return ResponseEntity.ok().body("Deleted Successfully");
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+    }
+
+    @GetMapping("/couriers/page/{page}/{username}")
+    public Slice<CourierDTO> getCouriersPageByUsername(
+            @PathVariable("page") @NotNull @PositiveOrZero Integer page,
+            @PathVariable("username") @NotBlank String username
+    ) {
+        return courierService.getCouriersPageByUsername(page, username)
+                .map(c -> (CourierDTO) c.toDTO());
     }
 
     @GetMapping("/couriers/{id}")

@@ -36,14 +36,9 @@ class UpdateTransaction extends Component {
         this.handleTransactionUpdate = this.handleTransactionUpdate.bind(this);
         this.onGuitarChange = this.onGuitarChange.bind(this);
         this.onClientChange = this.onClientChange.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
         this.fillTextFields();
         this.forceUpdate();
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     fillTextFields() {

@@ -119,14 +119,12 @@ class EntityList extends Component {
                     <Button component={Link} to={this.seeEntityString + entity.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
-                    { currentUser.isAuthenticated() && currentUser.getUsername() === entity.user.username &&
-                        currentUser.hasRole("REGULAR") &&
+                    { currentUser.hasEditAuthorization(entity.user.username) &&              
                     <Button component={Link} to={this.updateEntityString + entity.id}>
                         <SvgIcon component={EditIcon} sx={{ color: grey[500] }}></SvgIcon>
                     </Button>
                     }
-                    {currentUser.isAuthenticated() && currentUser.getUsername() === entity.user.username &&
-                        currentUser.hasRole("REGULAR") &&
+                    { currentUser.hasEditAuthorization(entity.user.username) &&   
                     <Button currentid={entity.id} onClick={this.handleDeleteItem}>
                         <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
                     </Button>}

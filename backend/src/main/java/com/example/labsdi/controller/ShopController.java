@@ -43,6 +43,15 @@ public class ShopController {
                 .map(s -> (ShowAllShopDTO) s.toShowAllDTO());
     }
 
+    @GetMapping("/shops/page/{page}/{username}")
+    public Slice<ShowAllShopDTO> getShopPageByUsername(
+            @PathVariable("page") @NotNull @PositiveOrZero Integer page,
+            @PathVariable("username") @NotBlank String username
+            ) {
+        return shopService.getShopsPageByUsername(page, username)
+                .map(s -> (ShowAllShopDTO) s.toShowAllDTO());
+    }
+
     @GetMapping("/shops/simple/page/{page}")
     public Slice<SimpleShopDTO> getSimpleShopPage(@PathVariable("page") @NotNull @PositiveOrZero Integer page) {
         return shopService.getShopsPage(page)
@@ -73,7 +82,8 @@ public class ShopController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Shop retrievedShop = shopService.getShop(id);
 
-        if (retrievedShop.getUser().getUsername().equals(username)) {
+        if (retrievedShop.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             return ResponseEntity.ok(shopService.updateShop(shop, id));
         }
 
@@ -87,7 +97,8 @@ public class ShopController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Shop retrievedShop = shopService.getShop(id);
 
-        if (retrievedShop.getUser().getUsername().equals(username)) {
+        if (retrievedShop.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             return ResponseEntity.ok(shopService.addCourier(courier, id));
         }
 
@@ -103,7 +114,8 @@ public class ShopController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Shop retrievedShop = shopService.getShop(shopId);
 
-        if (retrievedShop.getUser().getUsername().equals(username)) {
+        if (retrievedShop.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             return ResponseEntity.ok(shopService.removeCourier(shopId, courierId));
         }
 
@@ -118,7 +130,8 @@ public class ShopController {
         String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
         Shop retrievedShop = shopService.getShop(id);
 
-        if (retrievedShop.getUser().getUsername().equals(username)) {
+        if (retrievedShop.getUser().getUsername().equals(username) ||
+                JwtTokenUtil.getRolesFromAuthorizationHeader(authorization).contains("MODERATOR")) {
             shopService.removeShop(id);
             return ResponseEntity.ok("Deleted Successfully");
         }

@@ -31,7 +31,6 @@ class UpdateClient extends Component {
     componentDidMount() {
         this.handleClientUpdate = this.handleClientUpdate.bind(this);
         this.fillTextFields = this.fillTextFields.bind(this);
-        this.getCurrentUser = this.getCurrentUser.bind(this);
         this.fillTextFields();
         this.forceUpdate();
     }
@@ -44,10 +43,6 @@ class UpdateClient extends Component {
                     phone: client.telephoneNumber, birthDate: client.birthDate, address: client.address})
             )
             .then(() => this.setState({isLoading: false}));
-    }
-
-    getCurrentUser() {
-        return this.state.parent.getCurrentUser();
     }
 
     handleClientUpdate(event) {
