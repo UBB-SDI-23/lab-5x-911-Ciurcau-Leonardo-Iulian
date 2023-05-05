@@ -1,8 +1,10 @@
 package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.Courier;
+import com.example.labsdi.domain.Guitar;
 import com.example.labsdi.domain.Shop;
 import com.example.labsdi.domain.dto.*;
+import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.IShopService;
 import com.example.labsdi.service.exception.ShopServiceException;
 import jakarta.validation.Valid;
@@ -11,6 +13,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,26 +64,66 @@ public class ShopController {
     }
 
     @PutMapping("/shops/{id}")
-    public Shop
-    updateShop(@RequestBody Shop shop, @PathVariable("id") @NotNull Long id) throws ShopServiceException {
-        return shopService.updateShop(shop, id);
+    public ResponseEntity<?>
+    updateShop(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody Shop shop,
+            @PathVariable("id") @NotNull Long id) throws ShopServiceException {
+
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Shop retrievedShop = shopService.getShop(id);
+
+        if (retrievedShop.getUser().getUsername().equals(username)) {
+            return ResponseEntity.ok(shopService.updateShop(shop, id));
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @PutMapping("/shops/{id}/addCourier")
-    public Shop addCourier(@RequestBody Courier courier, @PathVariable("id") @NotNull Long id) throws ShopServiceException {
-        return shopService.addCourier(courier, id);
+    public ResponseEntity<?> addCourier(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody Courier courier, @PathVariable("id") @NotNull Long id) throws ShopServiceException {
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Shop retrievedShop = shopService.getShop(id);
+
+        if (retrievedShop.getUser().getUsername().equals(username)) {
+            return ResponseEntity.ok(shopService.addCourier(courier, id));
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @DeleteMapping("/shops/{shopId}/removeCourier/{courierId}")
-    public Shop removeCourier(@PathVariable("shopId") @NotNull Long shopId,
-                                @PathVariable("courierId") @NotNull Long courierId) throws ShopServiceException {
-        return shopService.removeCourier(shopId, courierId);
+    public ResponseEntity<?> removeCourier(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable("shopId") @NotNull Long shopId,
+            @PathVariable("courierId") @NotNull Long courierId) throws ShopServiceException {
+
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Shop retrievedShop = shopService.getShop(shopId);
+
+        if (retrievedShop.getUser().getUsername().equals(username)) {
+            return ResponseEntity.ok(shopService.removeCourier(shopId, courierId));
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @DeleteMapping("/shops/{id}")
-    public String removeShop(@PathVariable("id") @NotNull Long id) throws ShopServiceException {
-        shopService.removeShop(id);
-        return "Deleted Successfully";
+    public ResponseEntity<?> removeShop(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable("id") @NotNull Long id) throws ShopServiceException {
+
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Shop retrievedShop = shopService.getShop(id);
+
+        if (retrievedShop.getUser().getUsername().equals(username)) {
+            shopService.removeShop(id);
+            return ResponseEntity.ok("Deleted Successfully");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @GetMapping("/shops/{id}")

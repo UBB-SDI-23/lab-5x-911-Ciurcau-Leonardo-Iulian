@@ -51,7 +51,8 @@ class UpdateShop extends Component {
         const {name, email, telephoneNumber, address, shippingAvailable} = this.state;
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
             body: JSON.stringify({
                 name: name, email: email,
                 telephoneNumber: telephoneNumber,
@@ -67,7 +68,8 @@ class UpdateShop extends Component {
         const {courier} = this.state;
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
             body: JSON.stringify({
                 id: courier.id
             })
@@ -81,7 +83,8 @@ class UpdateShop extends Component {
         const {deleteCourier} = this.state;
         const requestOptions = {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() }
         };
         fetch('/api/shops/' + this.id + '/removeCourier/' + deleteCourier.id, requestOptions)
             .then(response => response.json())

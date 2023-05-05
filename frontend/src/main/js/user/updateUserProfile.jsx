@@ -83,7 +83,8 @@ class UpdateUserProfile extends Component {
         const {username, firstName, lastName, address, telephoneNumber, birthDate} = this.state;
         const requestOptions = {
             method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
             body: JSON.stringify({
                 firstName: firstName, lastName: lastName, address: address, telephoneNumber: telephoneNumber, 
                 birthDate: birthDate

@@ -6,14 +6,18 @@ import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.domain.dto.GuitarDTO;
 import com.example.labsdi.domain.dto.ProductDTO;
 import com.example.labsdi.domain.dto.SimpleGuitarDTO;
+import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.IGuitarService;
 import com.example.labsdi.service.exception.GuitarServiceException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -100,20 +104,49 @@ public class GuitarController {
     }
 
     @PostMapping("/shops/{id}/guitars")
-    public String addGuitarsToShop(@Valid @RequestBody List<Guitar> guitars, @PathVariable("id") @NotNull Long id) throws GuitarServiceException {
-        guitarService.addGuitarsToShop(guitars, id);
-        return "Updated successfully";
+    public ResponseEntity<?> addGuitarsToShop(
+            @RequestHeader("Authorization") @NotBlank String authorization,
+            @Valid @RequestBody List<Guitar> guitars,
+            @PathVariable("id") @NotNull Long id) throws GuitarServiceException {
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Guitar retrievedGuitar = guitarService.getGuitar(id);
+
+        if (retrievedGuitar.getUser().getUsername().equals(username)) {
+            guitarService.addGuitarsToShop(guitars, id);
+            return ResponseEntity.ok("Updated successfully");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @PutMapping("/guitars/{id}")
-    public Guitar
-    updateGuitar(@RequestBody @Valid Guitar guitar, @PathVariable("id") @NotNull Long id) throws GuitarServiceException {
-        return guitarService.updateGuitar(guitar, id);
+    public ResponseEntity<?>
+    updateGuitar(
+            @RequestHeader("Authorization") @NotBlank String authorization,
+            @RequestBody @Valid Guitar guitar,
+            @PathVariable("id") @NotNull Long id) throws GuitarServiceException {
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Guitar retrievedGuitar = guitarService.getGuitar(id);
+
+        if (retrievedGuitar.getUser().getUsername().equals(username)) {
+            return ResponseEntity.ok(guitarService.updateGuitar(guitar, id));
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @DeleteMapping("/guitars/{id}")
-    public String removeGuitar(@PathVariable("id") @NotNull Long id) throws GuitarServiceException {
-        guitarService.removeGuitar(id);
-        return "Deleted Successfully";
+    public ResponseEntity<?> removeGuitar(
+            @RequestHeader("Authorization") @NotBlank String authorization,
+            @PathVariable("id") @NotNull Long id) throws GuitarServiceException {
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Guitar retrievedGuitar = guitarService.getGuitar(id);
+
+        if (retrievedGuitar.getUser().getUsername().equals(username)) {
+            guitarService.removeGuitar(id);
+            return ResponseEntity.ok().body("Deleted successfully");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 }

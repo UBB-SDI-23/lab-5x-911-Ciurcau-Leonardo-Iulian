@@ -58,7 +58,8 @@ class UpdateGuitar extends Component {
         const {price, creationYear, model, type, color, shop} = this.state;
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
             body: JSON.stringify({
                 productType:"guitar",
                 shop:{"id": shop.id},

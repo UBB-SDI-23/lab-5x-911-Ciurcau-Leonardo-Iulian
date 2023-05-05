@@ -6,14 +6,18 @@ import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.domain.dto.DTO;
 import com.example.labsdi.domain.dto.SortedShopDTO;
 import com.example.labsdi.domain.dto.TransactionDTO;
+import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.ITransactionService;
 import com.example.labsdi.service.exception.TransactionServiceException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
@@ -51,16 +55,36 @@ public class TransactionController {
     }
 
     @PutMapping("/transactions/{id}")
-    public Transaction
-    updateTransaction(@RequestBody @Valid Transaction transaction, @PathVariable("id") @NotNull @PositiveOrZero Long id)
+    public ResponseEntity<?>
+    updateTransaction(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody @Valid Transaction transaction, @PathVariable("id") @NotNull @PositiveOrZero Long id)
             throws TransactionServiceException {
-        return transactionService.updateTransaction(transaction, id);
+
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Transaction retrievedTransaction = transactionService.getTransaction(id);
+
+        if (retrievedTransaction.getUser().getUsername().equals(username)) {
+            return ResponseEntity.ok(transactionService.updateTransaction(transaction, id));
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @DeleteMapping("/transactions/{id}")
-    public String removeTransaction(@PathVariable("id") @NotNull @PositiveOrZero Long id) throws TransactionServiceException {
-        transactionService.removeTransaction(id);
-        return "Deleted Successfully";
+    public ResponseEntity<?> removeTransaction(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable("id") @NotNull @PositiveOrZero Long id) throws TransactionServiceException {
+
+        String username = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        Transaction retrievedTransaction = transactionService.getTransaction(id);
+
+        if (retrievedTransaction.getUser().getUsername().equals(username)) {
+            transactionService.removeTransaction(id);
+            return ResponseEntity.ok("Deleted Successfully");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
     @GetMapping("/transactions/{id}")

@@ -2,10 +2,13 @@ package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.User;
 import com.example.labsdi.domain.UserProfile;
+import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.IUserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +49,15 @@ public class UserController {
     }
 
     @PutMapping("/users/profile/{username}")
-    private UserProfile updateUserProfile(@RequestBody @Valid UserProfile userProfile,
-                                          @PathVariable("username") @NotBlank String username) {
-        return userService.updateUserProfile(userProfile, username);
+    private ResponseEntity<?> updateUserProfile(
+            @RequestHeader("Authorization") @NotBlank String authorization,
+            @RequestBody @Valid UserProfile userProfile,
+            @PathVariable("username") @NotBlank String username) {
+        String requestUsername = JwtTokenUtil.getUsernameFromAuthorizationHeader(authorization);
+        if (requestUsername.equals(username)) {
+            return ResponseEntity.ok(userService.updateUserProfile(userProfile, username));
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 }

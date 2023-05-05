@@ -61,7 +61,8 @@ class UpdateTransaction extends Component {
         product["productType"] = "guitar";
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
             body: JSON.stringify({
                 product: product, client: client, 
                 date: date, isCashPayment: isCashPayment
