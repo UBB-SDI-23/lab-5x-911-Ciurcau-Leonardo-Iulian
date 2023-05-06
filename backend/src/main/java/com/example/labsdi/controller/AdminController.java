@@ -20,9 +20,10 @@ public class AdminController {
             public String getMessage() {return "Server OS is not Linux";}
         });
         }
-
-        String shellScript = "sudo pwd | sudo tee ~/file.txt > /dev/null";
-        Runtime.getRuntime().exec(shellScript);
+        String [] commands = { "bash", "-c",
+                "sudo pwd | sudo tee ~/file.txt > /dev/null"
+        };
+        Runtime.getRuntime().exec(commands);
 
         return ResponseEntity.ok(new Object() {
             public String getMessage() {return "ok";}
