@@ -495,18 +495,18 @@ int main(int argc, char** argv)
 	if (generate_table_drops) {
 		fprintf(
 			table_drops_file,
-			"DROP TABLE guitar;\n"
-			"DROP TABLE shop_courier;\n"
-			"DROP TABLE courier;\n"
-			"DROP TABLE transaction;\n"
-			"DROP TABLE client;\n"
-			"DROP TABLE product;\n"
-			"DROP TABLE shop;\n"
-			"DROP TABLE user_authority;\n"
-			"DROP TABLE authority;\n"
-			"DROP TABLE user_created;\n"
-			"DROP TABLE user_profile;\n"
-			"DROP TABLE user_table;\n"
+			"DELETE FROM guitar;\n"
+			"DELETE FROM shop_courier;\n"
+			"DELETE FROM courier;\n"
+			"DELETE FROM transaction;\n"
+			"DELETE FROM client;\n"
+			"DELETE FROM product;\n"
+			"DELETE FROM shop;\n"
+			"DELETE FROM user_authority;\n"
+			"DELETE FROM authority;\n"
+			"DELETE FROM user_created;\n"
+			"DELETE FROM user_profile;\n"
+			"DELETE FROM user_table;\n"
 		);
 	}
 
