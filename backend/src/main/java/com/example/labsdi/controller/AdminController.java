@@ -24,20 +24,23 @@ public class AdminController {
         try {
             String command = "psql -d mydb -U dbuser -W -c 'INSERT INTO user_created(id,user_id) VALUES (987654321,1);'";
 
-            ProcessBuilder builder = new ProcessBuilder("bash", "-c", command);
-            builder.redirectInput(ProcessBuilder.Redirect.from(new File("/dev/null")));
-            builder.redirectOutput(ProcessBuilder.Redirect.to(new File("/dev/null")));
-            builder.redirectError(ProcessBuilder.Redirect.to(new File("/dev/null")));
-            Process process = builder.start();
+            ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", command);
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
 
             OutputStream stdin = process.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
-            writer.write("1234" + "\n");
-            writer.flush();
-            writer.close();
+            stdin.write("1234".getBytes());
+            stdin.write("\n".getBytes());
+            stdin.flush();
+            stdin.close();
 
-            int exitCode = process.waitFor();
-            System.out.println("Command exited with code " + exitCode);
+            InputStream stdout = process.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            reader.close();
 
             return ResponseEntity.ok(new Object() {
                 public String getMessage() {return "ok";}
