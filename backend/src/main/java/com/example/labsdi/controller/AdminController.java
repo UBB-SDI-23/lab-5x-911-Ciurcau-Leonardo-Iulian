@@ -24,12 +24,18 @@ public class AdminController {
         }
 
         try {
-            String command = "echo 'Hello World'";
+            String command = "pwd";
             ProcessBuilder builder = new ProcessBuilder("bash", "-c", command);
             Process process = builder.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
             int exitCode = process.waitFor();
             System.out.println("Command exited with code " + exitCode);
-            
             return ResponseEntity.ok(new Object() {
                 public String getMessage() {return "ok";}
             });
