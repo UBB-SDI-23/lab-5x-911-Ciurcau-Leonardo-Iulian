@@ -137,6 +137,7 @@ int main(int argc, char** argv)
 	char generate_shopsCouriers = 0;
 	char generate_transactions = 0;
 	char generate_users = 0;
+	char generate_table_drops = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -174,6 +175,7 @@ int main(int argc, char** argv)
 			generate_transactions = 1;
 			generate_users = 1;
 			generate_products = 1;
+			generate_table_drops = 1;
 		}
 		else if (strcmp(*argv, "--clients") == 0)
 		{
@@ -204,10 +206,13 @@ int main(int argc, char** argv)
 		{
 			generate_users = 1;
 		}
+		else if (strcmp(*argv, "--drops") == 0) {
+			generate_table_drops = 1;
+		}
 		else
 		{
 		cleanup:
-			printf("usage: -i numberOfInserts -b numberOfBatches --all --clients --couriers --shops --guitars --shops_couriers --transactions --users\n");
+			printf("usage: -i numberOfInserts -b numberOfBatches --all --clients --couriers --shops --guitars --shops_couriers --transactions --users --drops\n");
 			return -1;
 		}
 	}
@@ -224,6 +229,7 @@ int main(int argc, char** argv)
 	openGenerationFile(transactions);
 	openGenerationFile(products);
 	openGenerationFile(guitars);
+	openGenerationFile(table_drops);
 
 	FILE* users_file = NULL;
 	FILE* users_profiles_file = NULL;
@@ -486,6 +492,24 @@ int main(int argc, char** argv)
 		}
 	}
 
+	if (generate_table_drops) {
+		fprintf(
+			table_drops_file,
+			"DROP TABLE guitar;\n"
+			"DROP TABLE shop_courier;\n"
+			"DROP TABLE courier;\n"
+			"DROP TABLE transaction;\n"
+			"DROP TABLE client;\n"
+			"DROP TABLE product;\n"
+			"DROP TABLE shop;\n"
+			"DROP TABLE user_authority;\n"
+			"DROP TABLE authority;\n"
+			"DROP TABLE user_created;\n"
+			"DROP TABLE user_profile;\n"
+			"DROP TABLE user_table;\n"
+		);
+	}
+
 	safeClose(clients);
 	safeClose(couriers);
 	safeClose(shops);
@@ -497,6 +521,7 @@ int main(int argc, char** argv)
 	safeClose(users_profiles);
 	safeClose(user_created);
 	safeClose(authorities);
+	safeClose(table_drops);
 
 	return 0;
 }
