@@ -24,7 +24,7 @@ public class AdminController {
         }
 
         try {
-            String command = "cat 'Hello!!!' > hello.txt";
+            String command = "echo 'Hello!!!' > hello.txt";
             ProcessBuilder builder = new ProcessBuilder("bash", "-c", command);
             Process process = builder.start();
 
