@@ -32,7 +32,7 @@ public class AdminController {
 
             OutputStream stdin = process.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
-            writer.write(password + "\n");
+            writer.write("1234" + "\n");
             writer.flush(); // flush the output stream after writing
 
             int exitCode = process.waitFor();
