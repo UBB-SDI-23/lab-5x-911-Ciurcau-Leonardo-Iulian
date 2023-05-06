@@ -24,7 +24,7 @@ public class AdminController {
         try {
             String homeDirectory = System.getProperty("user.home");
             String fileName = homeDirectory + "/hello.txt";
-            String command = "sudo pwd | sudo tee " + fileName + " > /dev/null";
+            String command = "sudo echo `pwd` | sudo tee " + fileName + " > /dev/null";
             Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", command});
             process.waitFor();
             return ResponseEntity.ok(new Object() {
