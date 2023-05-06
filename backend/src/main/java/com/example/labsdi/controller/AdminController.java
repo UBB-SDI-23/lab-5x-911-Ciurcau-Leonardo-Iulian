@@ -22,20 +22,21 @@ public class AdminController {
         }
 
         try {
-            String command = "psql -d mydb -U dbuser -c 'INSERT INTO user_created(id,user_id) VALUES (987654321,1);'";
+            String database = "mydb";
+            String user = "dbuser";
+            String password = "1234";
+            String sqlCommand = "\"INSERT INTO user_created(id,user_id) VALUES (987654321,1);\"";
+            String command = String.format(
+                    "expect -c 'spawn psql -d %s -U %s -c %s; "+
+                            "expect \"Password for user %s:\"; send \"%s\\r\"; interact'",
+                    database, user, password, user, sqlCommand);
 
             ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", command);
             pb.redirectErrorStream(true);
             Process process = pb.start();
 
-            OutputStream stdin = process.getOutputStream();
-            stdin.write("1234".getBytes());
-            stdin.write("\n".getBytes());
-            stdin.flush();
-            stdin.close();
-
-            InputStream nullInput = new FileInputStream(FileDescriptor.in);
-            process.getInputStream().transferTo(System.out);
+            int exitCode = process.waitFor();
+            System.out.println("Process exited with code " + exitCode);
 
             return ResponseEntity.ok(new Object() {
                 public String getMessage() {return "ok";}
