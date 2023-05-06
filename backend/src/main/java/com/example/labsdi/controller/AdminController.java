@@ -22,21 +22,18 @@ public class AdminController {
         }
 
         try {
-            String command = "psql -d mydb -U dbuser -W -c 'INSERT INTO couriers(id) VALUES (987654321);'";
+            String command = "psql -d mydb -U dbuser -W -c 'INSERT INTO courier(id) VALUES (987654321);'";
 
             ProcessBuilder builder = new ProcessBuilder("bash", "-c", command);
+            builder.redirectInput(ProcessBuilder.Redirect.from(new File("/dev/null")));
+            builder.redirectOutput(ProcessBuilder.Redirect.to(new File("/dev/null")));
+            builder.redirectError(ProcessBuilder.Redirect.to(new File("/dev/null")));
             Process process = builder.start();
 
             OutputStream stdin = process.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
             writer.write("1234" + "\n");
             writer.flush();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
 
             int exitCode = process.waitFor();
             System.out.println("Command exited with code " + exitCode);
