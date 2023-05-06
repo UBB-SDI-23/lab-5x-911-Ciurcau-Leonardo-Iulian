@@ -14,19 +14,26 @@ import java.io.IOException;
 public class AdminController {
 
     @GetMapping("/admin/test")
-    public ResponseEntity<?> test() throws IOException {
+    public ResponseEntity<?> test() {
         if (!SystemUtils.IS_OS_LINUX) {
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new Object() {
             public String getMessage() {return "Server OS is not Linux";}
         });
         }
-        String [] commands = { "bash", "-c",
-                "'sudo pwd | sudo tee ~/file.txt > /dev/null'"
-        };
-        Runtime.getRuntime().exec(commands);
 
-        return ResponseEntity.ok(new Object() {
-            public String getMessage() {return "ok";}
-        });
+        try {
+            String homeDirectory = System.getProperty("user.home");
+            String fileName = homeDirectory + "/hello.txt";
+            String command = "sudo pwd | sudo tee " + fileName + " > /dev/null";
+            Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", command});
+            process.waitFor();
+            return ResponseEntity.ok(new Object() {
+                public String getMessage() {return "ok";}
+            });
+        } catch (IOException | InterruptedException e) {
+         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new Object() {
+             public String getMessage() {return "OS related error";}
+         });
+        }
     }
 }
