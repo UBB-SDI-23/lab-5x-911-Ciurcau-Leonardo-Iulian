@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 @RestController
 @RequestMapping("/api")
@@ -22,11 +24,18 @@ public class AdminController {
         }
 
         try {
-            String homeDirectory = System.getProperty("user.home");
-            String fileName = homeDirectory + "/hello.txt";
-            String command = "sudo echo `pwd` | sudo tee " + fileName + " > /dev/null";
-            Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", command});
-            process.waitFor();
+            String command = "echo 'Hello World'";
+            ProcessBuilder builder = new ProcessBuilder("bash", "-c", command);
+            Process process = builder.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            int exitCode = process.waitFor();
+            System.out.println("Command exited with code " + exitCode);
             return ResponseEntity.ok(new Object() {
                 public String getMessage() {return "ok";}
             });
