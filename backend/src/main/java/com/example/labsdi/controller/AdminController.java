@@ -22,7 +22,7 @@ public class AdminController {
         }
 
         try {
-            String command = "psql -d mydb -U dbuser -W -c 'INSERT INTO user_created(id,user_id) VALUES (987654321,1);'";
+            String command = "psql -d mydb -U dbuser -c 'INSERT INTO user_created(id,user_id) VALUES (987654321,1);'";
 
             ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", command);
             pb.redirectErrorStream(true);
