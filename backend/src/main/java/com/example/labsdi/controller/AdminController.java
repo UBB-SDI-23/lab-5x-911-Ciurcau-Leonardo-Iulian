@@ -21,7 +21,7 @@ public class AdminController {
         });
         }
         String [] commands = { "bash", "-c",
-                "sudo pwd | sudo tee ~/file.txt > /dev/null"
+                "'sudo pwd | sudo tee ~/file.txt > /dev/null'"
         };
         Runtime.getRuntime().exec(commands);
 
