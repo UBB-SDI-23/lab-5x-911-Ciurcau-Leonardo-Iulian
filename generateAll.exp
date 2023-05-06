@@ -1,0 +1,12 @@
+#!/usr/bin/expect
+
+set timeout -1
+set dbuser "dbuser"
+set dbpass "1234"
+set dbname "mydb"
+set sqlcommand "SELECT * FROM pg_catalog.pg_tables LIMIT 3;"
+
+spawn psql -d $dbname -U $dbuser -c $sqlcommand
+expect "Password for user $dbuser:"
+send "$dbpass\r"
+interact
