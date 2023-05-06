@@ -41,7 +41,8 @@ public class AdminController {
             return ResponseEntity.ok(new Object() {
                 public String getMessage() {return "ok";}
             });
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
          return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new Object() {
              public String getMessage() {return "OS related error";}
          });
