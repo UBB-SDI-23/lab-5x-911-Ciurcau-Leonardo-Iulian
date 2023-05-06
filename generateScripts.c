@@ -137,7 +137,6 @@ int main(int argc, char** argv)
 	char generate_shopsCouriers = 0;
 	char generate_transactions = 0;
 	char generate_users = 0;
-	char generate_roles = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -174,7 +173,6 @@ int main(int argc, char** argv)
 			generate_shopsCouriers = 1;
 			generate_transactions = 1;
 			generate_users = 1;
-			generate_roles = 1;
 			generate_products = 1;
 		}
 		else if (strcmp(*argv, "--clients") == 0)
@@ -205,7 +203,6 @@ int main(int argc, char** argv)
 		else if (strcmp(*argv, "--users") == 0)
 		{
 			generate_users = 1;
-			generate_roles = 1;
 		}
 		else
 		{
@@ -470,8 +467,11 @@ int main(int argc, char** argv)
 			);
 
 			int maxAuthority = rand() % 3 + 1;
+			char* format_auth = "(%d,%d),";
 			for (int auth_i = 1; auth_i <= maxAuthority; auth_i++) {
-				char format_auth[] = { (auth_i == maxAuthority ? "(%d,%d)" : "(%d,%d),") };
+				if (auth_i == maxAuthority) {
+					format_auth[strlen(format_auth) - 1] = '\0';
+				}
 				fprintf(authorities_file,
 					format_auth,
 					i,
