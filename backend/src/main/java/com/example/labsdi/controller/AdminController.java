@@ -21,7 +21,7 @@ public class AdminController {
         });
         }
 
-        String shellScript = "echo Hello world";
+        String shellScript = "mkdir testdir";
         Runtime.getRuntime().exec(shellScript);
 
         return ResponseEntity.ok(new Object() {
