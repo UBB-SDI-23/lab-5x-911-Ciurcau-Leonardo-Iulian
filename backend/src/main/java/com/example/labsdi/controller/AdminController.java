@@ -28,9 +28,8 @@ public class AdminController {
             String sqlCommand = "\"INSERT INTO user_created(id,user_id) VALUES (987654321,1);\"";
             String command = String.format(
                     "expect -c 'spawn psql -d %s -U %s -c %s; "+
-                            "expect \"Password for user %s:\"; send \"%s\\r\"; interact'",
-                    database, user, password, user, sqlCommand);
-
+                            "expect \"Password for user %s:\"; send \"%s\\n\"; interact'",
+                    database, user, sqlCommand, user, password);
             ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", command);
             pb.redirectErrorStream(true);
             Process process = pb.start();
