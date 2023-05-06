@@ -33,7 +33,8 @@ public class AdminController {
             OutputStream stdin = process.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
             writer.write("1234" + "\n");
-            writer.flush(); // flush the output stream after writing
+            writer.flush();
+            writer.close();
 
             int exitCode = process.waitFor();
             System.out.println("Command exited with code " + exitCode);
