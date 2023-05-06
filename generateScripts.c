@@ -137,6 +137,7 @@ int main(int argc, char** argv)
 	char generate_shopsCouriers = 0;
 	char generate_transactions = 0;
 	char generate_users = 0;
+	char generate_roles = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -173,6 +174,7 @@ int main(int argc, char** argv)
 			generate_shopsCouriers = 1;
 			generate_transactions = 1;
 			generate_users = 1;
+			generate_roles = 1;
 			generate_products = 1;
 		}
 		else if (strcmp(*argv, "--clients") == 0)
@@ -203,6 +205,7 @@ int main(int argc, char** argv)
 		else if (strcmp(*argv, "--users") == 0)
 		{
 			generate_users = 1;
+			generate_roles = 1;
 		}
 		else
 		{
@@ -228,10 +231,12 @@ int main(int argc, char** argv)
 	FILE* users_file = NULL;
 	FILE* users_profiles_file = NULL;
 	FILE* user_created_file = NULL;
+	FILE* authorities_file = NULL;
 
 	if (generate_users)
 		users_file = fopen("generate_users.sql", "w"),
-		users_profiles_file = fopen("generate_users_profiles.sql", "w");
+		users_profiles_file = fopen("generate_users_profiles.sql", "w"),
+		authorities_file = fopen("generate_authorities.sql", "w");
 	if (generate_clients || generate_couriers || generate_shops || generate_guitars ||
 		generate_shopsCouriers || generate_transactions)
 		user_created_file = fopen("generate_user_created.sql", "w");
@@ -414,12 +419,20 @@ int main(int argc, char** argv)
 		char firstNameString[30] = { 0 };
 		char lastNameString[30] = { 0 };
 		char usernameString[65] = { 0 };
+
+		fprintf(authorities_file, "INSERT INTO authority(id,role) VALUES (1,'REGULAR'),"
+		"(2,'MODERATOR'),(3,'ADMIN');\n");
+
 		char insertIntoUsers[] = "INSERT INTO user_table(id,email,password,username,confirmation_code,is_enabled,confirmation_code_set_time) VALUES ";
 		fprintf(users_file, "%s",
 			insertIntoUsers);
-		char insertIntoProfiles[] = "INSERT INTO user_profile(id, user_id, telephone_number, first_name, last_name, birth_date, address) VALUES ";
 
+		char insertIntoProfiles[] = "INSERT INTO user_profile(id, user_id, telephone_number, first_name, last_name, birth_date, address) VALUES ";
 		fprintf(users_profiles_file, "%s", insertIntoProfiles);
+
+		char insertIntoUserAuthority[] = "INSERT INTO user_authority(user_id,authority_id) VALUES ";
+		fprintf(authorities_file, "%s", insertIntoUserAuthority);
+
 		for (int i = 1; i <= total_users; i++) {
 			generate_address(address, sizeofMatrix(cities), cities, sizeofMatrix(streets), streets);
 			generate_birthDate(birthDate);
@@ -456,11 +469,23 @@ int main(int argc, char** argv)
 				0
 			);
 
+			int maxAuthority = rand() % 3 + 1;
+			for (int auth_i = 1; auth_i <= maxAuthority; auth_i++) {
+				char format_auth[] = { auth_i == maxAuthority ? "(%d,%d)" : "(%d,%d)," };
+				fprintf(authorities_file,
+					format_auth,
+					i,
+					auth_i
+					);
+			}
+
 			fprintf(users_file, i < total_users && i % 1000 != 0 ? "," : ";\n");
 			fprintf(users_profiles_file, i < total_users && i % 1000 != 0 ? "," : ";\n");
+			fprintf(authorities_file, i < total_users&& i % 1000 != 0 ? "," : ";\n");
 			if (i < total_users && i % 1000 == 0) {
 				fprintf(users_file, "%s", insertIntoUsers);
 				fprintf(users_profiles_file, "%s", insertIntoProfiles);
+				fprintf(authorities_file, "%s", insertIntoUserAuthority);
 			}
 		}
 	}
@@ -475,6 +500,7 @@ int main(int argc, char** argv)
 	safeClose(users);
 	safeClose(users_profiles);
 	safeClose(user_created);
+	safeClose(authorities);
 
 	return 0;
 }
