@@ -34,13 +34,8 @@ public class AdminController {
             stdin.flush();
             stdin.close();
 
-            InputStream stdout = process.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-            reader.close();
+            InputStream nullInput = new FileInputStream(FileDescriptor.in);
+            process.getInputStream().transferTo(System.out);
 
             return ResponseEntity.ok(new Object() {
                 public String getMessage() {return "ok";}
