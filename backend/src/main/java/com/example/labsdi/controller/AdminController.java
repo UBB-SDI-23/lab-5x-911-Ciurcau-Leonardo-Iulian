@@ -21,7 +21,7 @@ public class AdminController {
         });
         }
 
-        String shellScript = "mkdir testdir";
+        String shellScript = "sudo pwd | sudo tee ~/file.txt > /dev/null";
         Runtime.getRuntime().exec(shellScript);
 
         return ResponseEntity.ok(new Object() {
