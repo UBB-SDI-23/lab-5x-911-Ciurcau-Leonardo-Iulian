@@ -1,7 +1,9 @@
 package com.example.labsdi.domain;
 
 import com.example.labsdi.domain.dto.DTO;
+import com.example.labsdi.domain.dto.SimpleDTO;
 import com.example.labsdi.domain.dto.UserDTO;
+import com.example.labsdi.domain.dto.UserWithRolesDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -25,7 +27,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "user_table", indexes = @Index(name = "user_username_index", columnList = "username"))
-public class User implements UserDetails, IDTOConvertable {
+public class User implements UserDetails, IDTOConvertable, ISimpleDTOConvertable
+{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_table_generator")
     @SequenceGenerator(name = "user_table_generator", sequenceName = "user_table_seq")
@@ -87,6 +90,14 @@ public class User implements UserDetails, IDTOConvertable {
 
     @Override
     public DTO toDTO() {
+        return new UserWithRolesDTO(
+                username,
+                roles.stream().map(Authority::getAuthority).toList()
+        );
+    }
+
+    @Override
+    public SimpleDTO toSimpleDTO() {
         return new UserDTO(username);
     }
 }

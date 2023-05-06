@@ -42,7 +42,7 @@ public class Transaction extends UserCreated implements IDTOConvertable {
         tdto.setClient((SimpleClientDTO) client.toSimpleDTO());
         tdto.setDate(date);
         tdto.setIsCashPayment(isCashPayment);
-        tdto.setUser((UserDTO) user.toDTO());
+        tdto.setUser((UserDTO) user.toSimpleDTO());
         return tdto;
     }
 }

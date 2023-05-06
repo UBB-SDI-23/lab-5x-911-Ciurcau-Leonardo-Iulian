@@ -50,7 +50,13 @@ class AppNavbar extends Component {
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/shops">Shops</Button>
                 {
                     currentUser.isAuthenticated() &&
-                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to={"/updateProfile/"+currentUser.getUsername()}>Profile</Button>
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link}
+                     to={"/updateProfile/"+currentUser.getUsername()}>Profile</Button>
+                }
+                {
+                    currentUser.hasRole("ADMIN") &&
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link}
+                     to={"/usersRoles/"}>Users roles</Button>
                 }
                 {   !currentUser.isAuthenticated() ?
                     <Button color="inherit" component={Link} to="/login">Login</Button> : 

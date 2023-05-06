@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import AppNavBar from '../appNavBar';
 import {
     Button,
@@ -22,6 +22,7 @@ class UpdateUserProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {parent: this.props.parent, username: this.props.params.username, 
+            roles: [],
             firstName: null,
             lastName: null,
             address: null,
@@ -49,7 +50,8 @@ class UpdateUserProfile extends Component {
             .then(response => response.json())
             .then(profile =>{
                 this.setState(
-                    { firstName: profile.firstName,
+                    {   roles: profile.user.roles.map(r => r.role),
+                        firstName: profile.firstName,
                     lastName: profile.lastName,
                     address: profile.address,
                     telephoneNumber: profile.telephoneNumber,
@@ -79,7 +81,7 @@ class UpdateUserProfile extends Component {
 
     render() {
         const {username, firstName, lastName, address, telephoneNumber, birthDate, 
-            clientCount, courierCount, guitarCount, transactionCount, shopCount,
+            clientCount, courierCount, guitarCount, transactionCount, shopCount, roles,
             isLoading} = this.state;
 
         let currentUser = App.getCurrentUserStatic();
@@ -91,6 +93,15 @@ class UpdateUserProfile extends Component {
                 <AppNavBar parent={this}/>
                 <br/><br/><br/><br/>
                 <Container maxWidth={false}>
+                    {   
+                        currentUser.hasSeeRoleAuthorization(username) &&
+                        <React.Fragment>
+                        <TextField id="outlined-basic" label="Roles" variant="filled" multiline
+                                InputProps={{readOnly: true,}} defaultValue={String(roles).replace(/,/g, '\n')}/>
+                        &nbsp;
+                        &nbsp;
+                        </React.Fragment>
+                    }
                     <TextField id="outlined-basic" label="Username" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={username}/>
                     &nbsp;
@@ -124,6 +135,10 @@ class UpdateUserProfile extends Component {
                     <TextField id="outlined-basic" label="Birth Date" variant="filled" defaultValue={birthDate}
                                InputProps={{readOnly: true,}}/>
                     <br/><br/>
+                    {   currentUser.hasEditAuthorization(username) &&
+                    <Button sx={{flexGrow: 1}} component={Link} 
+                    to={"/updateProfile/"+ username}>Update profile</Button>
+                }
                 </Container>
             </Container>
         );

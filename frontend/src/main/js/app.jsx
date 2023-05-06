@@ -37,6 +37,7 @@ import OwnCouriers from './couriers/ownCouriers';
 import OwnGuitars from './guitars/ownGuitars';
 import OwnTransactions from './transactions/ownTransactions';
 import OwnShops from './shops/ownShops';
+import UserRolesList from './user/userRolesList';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -105,6 +106,7 @@ class App extends React.Component {
                     <Route path='/ownGuitars' element={<OwnGuitars parent={this}/>}/>
                     <Route path='/ownTransactions' element={<OwnTransactions parent={this}/>}/>
                     <Route path='/ownShops' element={<OwnShops parent={this}/>}/>
+                    <Route path='/usersRoles' element={<UserRolesList parent={this}/>}/>
                 </Routes>
             </BrowserRouter>
         );

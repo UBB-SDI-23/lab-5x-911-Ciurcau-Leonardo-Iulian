@@ -51,7 +51,8 @@ class UpdateUserProfile extends Component {
             .then(response => response.json())
             .then(profile =>{
                 this.setState(
-                    { firstName: profile.firstName,
+                    { roles: profile.user.roles.map(r => r.role),
+                        firstName: profile.firstName,
                     lastName: profile.lastName,
                     address: profile.address,
                     telephoneNumber: profile.telephoneNumber,
@@ -98,7 +99,7 @@ class UpdateUserProfile extends Component {
 
     render() {
         const {username, firstName, lastName, address, telephoneNumber, birthDate, dialogOpen, 
-            clientCount, courierCount, guitarCount, transactionCount, shopCount,
+            clientCount, courierCount, guitarCount, transactionCount, shopCount,roles,
             isLoading} = this.state;
 
         let currentUser = App.getCurrentUserStatic();
@@ -117,10 +118,11 @@ class UpdateUserProfile extends Component {
                 <br/><br/><br/><br/>
                 <Container maxWidth={false}>
                 {
-                    currentUser.hasRole("MODERATOR") && currentUser.getUsername() === username &&
+                    currentUser.hasSeeRoleAuthorization(username) &&
                     <React.Fragment>
-                    <TextField id="outlined-basic" label="Roles" variant="filled"
-                            InputProps={{readOnly: true,}} defaultValue={currentUser.getRoles()}/>
+                    <TextField id="outlined-basic" label="Roles" variant="filled" multiline
+                            InputProps={{readOnly: true,}} defaultValue={String(roles).replace(/,/g, '\n')}/>
+                    &nbsp;
                     &nbsp;
                     </React.Fragment>
                     }

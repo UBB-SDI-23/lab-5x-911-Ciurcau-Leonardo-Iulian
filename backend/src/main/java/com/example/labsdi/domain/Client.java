@@ -53,7 +53,7 @@ public class Client extends UserCreated implements ISimpleDTOConvertable, IDTOCo
                 .telephoneNumber(telephoneNumber)
                 .birthDate(birthDate)
                 .name(name)
-                .user((UserDTO) user.toDTO())
+                .user((UserDTO) user.toSimpleDTO())
                 .id(id)
                 .build();
     }

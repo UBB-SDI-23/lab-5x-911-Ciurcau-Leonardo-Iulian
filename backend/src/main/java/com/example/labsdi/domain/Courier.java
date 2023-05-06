@@ -49,7 +49,7 @@ public class Courier extends UserCreated implements IDTOConvertable, ISimpleDTOC
         courierdto.setTelephoneNumber(telephoneNumber);
         courierdto.setDeliveryPrice(deliveryPrice);
         courierdto.setDescription(description);
-        courierdto.setUser((UserDTO) user.toDTO());
+        courierdto.setUser((UserDTO) user.toSimpleDTO());
 
         return courierdto;
     }

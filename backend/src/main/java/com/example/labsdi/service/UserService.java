@@ -5,11 +5,14 @@ import com.example.labsdi.domain.Authority;
 import com.example.labsdi.domain.RegisterRequest;
 import com.example.labsdi.domain.User;
 import com.example.labsdi.domain.UserProfile;
+import com.example.labsdi.repository.IAuthorityRepository;
 import com.example.labsdi.repository.IUserProfileRepository;
 import com.example.labsdi.repository.IUserRepository;
 import com.example.labsdi.service.exception.UserServiceException;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ public class UserService implements IUserService {
     private IUserRepository userRepository;
     @Autowired
     private IUserProfileRepository userProfileRepository;
+    @Autowired
+    private IAuthorityRepository authorityRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -74,12 +79,18 @@ public class UserService implements IUserService {
         }
 
         else {
+            Authority authority = authorityRepository.findFirstByRole("REGULAR").orElseThrow();
             User newUser = new User(null, username, password, email,
                     generateVerificationCode(), System.currentTimeMillis(), false,
-                    List.of(new Authority(null, null, "REGULAR")));
+                    List.of(authority));
 
             return userRepository.save(newUser);
         }
+    }
+
+    @Override
+    public Slice<User> getUsersPage(Integer page) {
+        return userRepository.findAllBy(PageRequest.of(page, 10));
     }
 
     @Override
@@ -122,7 +133,6 @@ public class UserService implements IUserService {
         UserProfile retrievedUserProfile = getUserProfile(username);
         if (Objects.isNull(retrievedUserProfile))
             return null;
-
         if (Objects.nonNull(userProfile.getAddress()) && !"".equals(userProfile.getAddress()))
             retrievedUserProfile.setAddress(userProfile.getAddress());
         if (Objects.nonNull(userProfile.getFirstName()) && !"".equals(userProfile.getFirstName()))
@@ -133,6 +143,18 @@ public class UserService implements IUserService {
             retrievedUserProfile.setTelephoneNumber(userProfile.getTelephoneNumber());
         if (Objects.nonNull(userProfile.getBirthDate()))
             retrievedUserProfile.setBirthDate(userProfile.getBirthDate());
+
         return userProfileRepository.save(retrievedUserProfile);
+    }
+
+    @Override
+    public User updateUserRoles(String username, List<String> roles) {
+        User user = (User) loadUserByUsername(username);
+        user.getRoles().clear();
+        for (String role : roles) {
+            Optional<Authority> authorityOptional = authorityRepository.findFirstByRole(role);
+            authorityOptional.ifPresent(authority -> user.getRoles().add(authority));
+        }
+        return userRepository.save(user);
     }
 }

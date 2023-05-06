@@ -6,12 +6,15 @@ import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.IUserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -48,6 +51,17 @@ public class UserController {
         };
     }
 
+    @GetMapping("/users/roles/page/{page}")
+    private ResponseEntity<?> getUsersWithRolesPage(@PathVariable("page") @NotNull Integer page) {
+        try {
+            return ResponseEntity.ok(userService.getUsersPage(page).map(User::toDTO));
+        }
+        catch (Exception ex) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+
     @PutMapping("/users/profile/{username}")
     private ResponseEntity<?> updateUserProfile(
             @RequestHeader("Authorization") @NotBlank String authorization,
@@ -60,5 +74,16 @@ public class UserController {
         }
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+    }
+
+    @PutMapping("/users/{username}/roles")
+    private ResponseEntity<?> updateUserRoles(
+            @PathVariable("username") @NotBlank String username,
+            @RequestBody List<String> roles) {
+        try {
+            return ResponseEntity.ok(userService.updateUserRoles(username, roles));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 }

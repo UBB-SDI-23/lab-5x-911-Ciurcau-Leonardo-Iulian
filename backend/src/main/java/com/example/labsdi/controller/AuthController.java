@@ -1,6 +1,5 @@
 package com.example.labsdi.controller;
 
-import com.example.labsdi.config.SecurityConfig;
 import com.example.labsdi.domain.AuthRequest;
 import com.example.labsdi.domain.AuthResponse;
 import com.example.labsdi.domain.RegisterRequest;

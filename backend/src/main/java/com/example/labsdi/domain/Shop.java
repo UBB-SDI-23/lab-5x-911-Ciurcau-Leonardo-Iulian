@@ -97,7 +97,7 @@ public class Shop extends UserCreated implements IDTOConvertable, ISimpleDTOConv
                 .id(id)
                 .couriers(couriers.size())
                 .products(products.size())
-                .user((UserDTO) user.toDTO())
+                .user((UserDTO) user.toSimpleDTO())
                 .build();
     }
 
