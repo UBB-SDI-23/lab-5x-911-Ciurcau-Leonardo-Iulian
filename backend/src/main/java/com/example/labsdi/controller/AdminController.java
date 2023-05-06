@@ -24,7 +24,7 @@ public class AdminController {
         try {
             String command = "psql -d mydb -U dbuser -W -c 'INSERT INTO courier(id) VALUES (987654321);'";
 
-            ProcessBuilder builder = new ProcessBuilder("bash", "-c", command);
+            ProcessBuilder builder = new ProcessBuilder("sh", "-c", command);
             builder.redirectInput(ProcessBuilder.Redirect.from(new File("/dev/null")));
             builder.redirectOutput(ProcessBuilder.Redirect.to(new File("/dev/null")));
             builder.redirectError(ProcessBuilder.Redirect.to(new File("/dev/null")));
