@@ -471,7 +471,7 @@ int main(int argc, char** argv)
 
 			int maxAuthority = rand() % 3 + 1;
 			for (int auth_i = 1; auth_i <= maxAuthority; auth_i++) {
-				char format_auth[] = { auth_i == maxAuthority ? "(%d,%d)" : "(%d,%d)," };
+				char format_auth[] = { (auth_i == maxAuthority ? "(%d,%d)" : "(%d,%d),") };
 				fprintf(authorities_file,
 					format_auth,
 					i,
