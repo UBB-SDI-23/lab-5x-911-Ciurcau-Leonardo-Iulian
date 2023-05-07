@@ -22,7 +22,7 @@ public class AdminController {
         }
 
         try {
-            String database = "mydb";
+            /*String database = "mydb";
             String user = "dbuser";
             String password = "1234";
             String sqlCommand = "\"INSERT INTO user_created(id,user_id) VALUES (987654321,1);\"";
@@ -35,7 +35,7 @@ public class AdminController {
             Process process = pb.start();
 
             int exitCode = process.waitFor();
-            System.out.println("Process exited with code " + exitCode);
+            System.out.println("Process exited with code " + exitCode);*/
 
             return ResponseEntity.ok(new Object() {
                 public String getMessage() {return "ok";}
