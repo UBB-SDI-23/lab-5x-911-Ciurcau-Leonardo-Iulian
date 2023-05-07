@@ -501,7 +501,7 @@ int main(int argc, char** argv)
 			"DELETE FROM shop;\n"
 			"DELETE FROM user_authority WHERE user_id NOT IN (SELECT id FROM user_table WHERE username = 'admin');\n"
 			"DELETE FROM user_created;\n"
-			"DELETE FROM user_profile;\n"
+			"DELETE FROM user_profile WHERE user_id NOT IN (SELECT id FROM user_table WHERE username = 'admin');\n"
 			"DELETE FROM user_table WHERE username != 'admin';\n"
 		);
 	}

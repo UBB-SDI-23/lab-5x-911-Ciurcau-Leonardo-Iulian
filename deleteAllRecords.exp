@@ -4,13 +4,9 @@ set timeout -1
 set dbuser "dbuser"
 set dbpass "1234"
 set dbname "mydb"
-set dbprompt "$dbname=#"
+set sqlfile "generate_records_delete.sql"
 
-spawn psql -d $dbname -U $dbuser
+spawn psql -d $dbname -U $dbuser -f $sqlfile
 expect "Password for user $dbuser:"
 send "$dbpass\r"
-expect "$dbprompt"
-send "\\dt\r"
-expect "$dbprompt"
-send "\\q\r"
 interact
