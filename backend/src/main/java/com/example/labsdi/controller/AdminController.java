@@ -45,7 +45,7 @@ public class AdminController {
             if (exitCode == 0) {
                 return ResponseEntity.ok(new Object() {
                     public String getMessage() {
-                        return "All records deleted successfully";
+                        return "Successful command";
                     }
                 });
             }
