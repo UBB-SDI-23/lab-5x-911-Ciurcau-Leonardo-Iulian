@@ -86,7 +86,7 @@ class AdminHome extends Component {
             .then(response => response.json())
             .then(data => this.setState({userCount: data.count}));
 
-        setTimeout(this.getAllCounts, 10000);
+        setTimeout(this.getAllCounts, 5000);
     }
 
     render() {
@@ -135,7 +135,7 @@ class AdminHome extends Component {
                     </Button>
             </Container>
             <br/>
-            <p>Updates every 10 seconds</p>
+            <p>Updates every 5 seconds</p>
             <TextField InputLabelProps={{shrink: true}} id="outlined-basic" label="Total guitars" variant="filled"
                                InputProps={{readOnly: true,}} value={guitarCount}/>
             &nbsp;
