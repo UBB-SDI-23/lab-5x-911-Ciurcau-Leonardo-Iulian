@@ -23,7 +23,7 @@ public class AdminController {
         }
 
         try {
-            String command = "./deleteAllRecords.exp";
+            String command = "~/deleteAllRecords.exp";
             ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", command);
             pb.redirectErrorStream(true);
             Process process = pb.start();
