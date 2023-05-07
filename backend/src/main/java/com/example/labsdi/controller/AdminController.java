@@ -1,12 +1,11 @@
 package com.example.labsdi.controller;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.apache.commons.lang3.SystemUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 
@@ -17,6 +16,13 @@ public class AdminController {
     @DeleteMapping("/admin/delete/all")
     public ResponseEntity<?> deleteAllRecords() {
         return executeLinuxCommand("./deleteAllRecords.exp");
+    }
+
+    @PostMapping("/admin/insert/{countPerEntity}")
+    public ResponseEntity<?> insertRecords(@PathVariable("countPerEntity") @NotNull @Positive Integer countPerEntity) {
+        Integer insertsAndBatches = Double.valueOf(Math.ceil(Math.sqrt(countPerEntity))).intValue();
+        String command = String.format("./deleteGenerateInsert.sh %d %d", insertsAndBatches, insertsAndBatches);
+        return executeLinuxCommand(command);
     }
 
     public ResponseEntity<?> executeLinuxCommand(String command) {
