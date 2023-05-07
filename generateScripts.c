@@ -137,7 +137,7 @@ int main(int argc, char** argv)
 	char generate_shopsCouriers = 0;
 	char generate_transactions = 0;
 	char generate_users = 0;
-	char generate_table_drops = 0;
+	char generate_records_delete = 0;
 
 	for (int i = 2; i <= argc; i++)
 	{
@@ -175,7 +175,7 @@ int main(int argc, char** argv)
 			generate_transactions = 1;
 			generate_users = 1;
 			generate_products = 1;
-			generate_table_drops = 1;
+			generate_records_delete = 1;
 		}
 		else if (strcmp(*argv, "--clients") == 0)
 		{
@@ -206,13 +206,13 @@ int main(int argc, char** argv)
 		{
 			generate_users = 1;
 		}
-		else if (strcmp(*argv, "--drops") == 0) {
-			generate_table_drops = 1;
+		else if (strcmp(*argv, "--records_delete") == 0) {
+			generate_records_delete = 1;
 		}
 		else
 		{
 		cleanup:
-			printf("usage: -i numberOfInserts -b numberOfBatches --all --clients --couriers --shops --guitars --shops_couriers --transactions --users --drops\n");
+			printf("usage: -i numberOfInserts -b numberOfBatches --all --clients --couriers --shops --guitars --shops_couriers --transactions --users --records_delete\n");
 			return -1;
 		}
 	}
@@ -229,7 +229,7 @@ int main(int argc, char** argv)
 	openGenerationFile(transactions);
 	openGenerationFile(products);
 	openGenerationFile(guitars);
-	openGenerationFile(table_drops);
+	openGenerationFile(records_delete);
 
 	FILE* users_file = NULL;
 	FILE* users_profiles_file = NULL;
@@ -492,9 +492,9 @@ int main(int argc, char** argv)
 		}
 	}
 
-	if (generate_table_drops) {
+	if (generate_records_delete) {
 		fprintf(
-			table_drops_file,
+			records_delete_file,
 			"DELETE FROM guitar;\n"
 			"DELETE FROM shop_courier;\n"
 			"DELETE FROM courier;\n"
@@ -521,7 +521,7 @@ int main(int argc, char** argv)
 	safeClose(users_profiles);
 	safeClose(user_created);
 	safeClose(authorities);
-	safeClose(table_drops);
+	safeClose(records_delete);
 
 	return 0;
 }
