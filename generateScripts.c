@@ -423,9 +423,6 @@ int main(int argc, char** argv)
 		char lastNameString[30] = { 0 };
 		char usernameString[65] = { 0 };
 
-		fprintf(authorities_file, "INSERT INTO authority(id,role) VALUES (1,'REGULAR'),"
-		"(2,'MODERATOR'),(3,'ADMIN');\n");
-
 		char insertIntoUsers[] = "INSERT INTO user_table(id,email,password,username,confirmation_code,is_enabled,confirmation_code_set_time) VALUES ";
 		fprintf(users_file, "%s",
 			insertIntoUsers);
