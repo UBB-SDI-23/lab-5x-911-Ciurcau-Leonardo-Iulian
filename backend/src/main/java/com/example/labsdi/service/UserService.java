@@ -157,4 +157,9 @@ public class UserService implements IUserService {
         }
         return userRepository.save(user);
     }
+
+    @Override
+    public Integer getUserCount() {
+        return Long.valueOf(userRepository.count()).intValue();
+    }
 }

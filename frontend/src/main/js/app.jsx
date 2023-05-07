@@ -38,6 +38,7 @@ import OwnGuitars from './guitars/ownGuitars';
 import OwnTransactions from './transactions/ownTransactions';
 import OwnShops from './shops/ownShops';
 import UserRolesList from './user/userRolesList';
+import AdminHome from './admin/adminHome';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -107,6 +108,7 @@ class App extends React.Component {
                     <Route path='/ownTransactions' element={<OwnTransactions parent={this}/>}/>
                     <Route path='/ownShops' element={<OwnShops parent={this}/>}/>
                     <Route path='/usersRoles' element={<UserRolesList parent={this}/>}/>
+                    <Route path='/admin' element={<AdminHome parent={this}/>}/>
                 </Routes>
             </BrowserRouter>
         );

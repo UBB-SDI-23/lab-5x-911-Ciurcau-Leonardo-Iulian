@@ -99,6 +99,11 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
+    public Integer getCount() {
+        return Long.valueOf(repository.count()).intValue();
+    }
+
+    @Override
     public Integer countByUsername(String username) {
         return repository.countAllByUser_Username(username);
     }

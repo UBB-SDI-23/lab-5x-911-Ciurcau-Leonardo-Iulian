@@ -20,4 +20,6 @@ public interface IUserService extends UserDetailsService {
     UserProfile getUserProfile(String username);
     UserProfile updateUserProfile(UserProfile userProfile, String username);
     User updateUserRoles(String username, List<String> roles);
+
+    Integer getUserCount();
 }

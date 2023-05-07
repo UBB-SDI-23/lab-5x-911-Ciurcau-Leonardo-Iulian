@@ -27,4 +27,6 @@ public interface IShopService {
     Shop addCourier(Courier courier, Long id) throws ShopServiceException;
 
     Shop removeCourier(Long shopId, Long courierId) throws ShopServiceException;
+
+    Integer getCount();
 }

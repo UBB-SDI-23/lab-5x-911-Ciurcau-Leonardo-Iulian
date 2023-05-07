@@ -117,6 +117,11 @@ public class GuitarService implements IGuitarService {
     }
 
     @Override
+    public Integer getCount() {
+        return Long.valueOf(repository.count()).intValue();
+    }
+
+    @Override
     public void addGuitarsToShop(List<Guitar> guitars, Long id) throws GuitarServiceException {
         for (Guitar g : guitars) {
             Optional<Guitar> guitarOpt = repository.findById(g.getId());

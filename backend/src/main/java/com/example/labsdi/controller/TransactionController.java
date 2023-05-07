@@ -103,6 +103,11 @@ public class TransactionController {
         return transactionService.getTransaction(id);
     }
 
+    @GetMapping("/transactions/count")
+    public Count getCount() {
+        return new Count(transactionService.getCount());
+    }
+
     @GetMapping("/transactions/count/{username}")
     public Count countByUsername(@PathVariable("username") @NotBlank String username) {
         return new Count(transactionService.countByUsername(username));

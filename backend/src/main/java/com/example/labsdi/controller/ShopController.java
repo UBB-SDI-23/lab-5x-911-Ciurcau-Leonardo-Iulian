@@ -144,6 +144,11 @@ public class ShopController {
         return shopService.getShop(id).toDTO();
     }
 
+    @GetMapping("/shops/count")
+    public Count getCount() {
+        return new Count(shopService.getCount());
+    }
+
     @GetMapping("/shops/count/{username}")
     public Count countByUsername(@PathVariable("username") @NotBlank String username) {
         return new Count(shopService.countByUsername(username));

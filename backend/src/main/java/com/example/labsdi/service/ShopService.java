@@ -1,20 +1,16 @@
 package com.example.labsdi.service;
 
 import com.example.labsdi.domain.Courier;
-import com.example.labsdi.domain.Product;
 import com.example.labsdi.domain.Shop;
 import com.example.labsdi.domain.dto.ShopAveragePriceDTO;
-import com.example.labsdi.domain.dto.ShowAllShopDTO;
 import com.example.labsdi.repository.IShopRepository;
 import com.example.labsdi.service.exception.ShopServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ShopService implements IShopService {
@@ -154,5 +150,10 @@ public class ShopService implements IShopService {
         }
         retrievedShop.getCouriers().removeIf(c -> Objects.equals(c.getId(), courierId));
         return repository.save(retrievedShop);
+    }
+
+    @Override
+    public Integer getCount() {
+        return Long.valueOf(repository.count()).intValue();
     }
 }

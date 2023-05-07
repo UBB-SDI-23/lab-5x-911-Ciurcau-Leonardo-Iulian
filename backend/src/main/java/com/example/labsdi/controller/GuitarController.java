@@ -95,6 +95,11 @@ public class GuitarController {
         return guitarService.getGuitar(id);
     }
 
+    @GetMapping("/guitars/count")
+    public Count getCount() {
+        return new Count(guitarService.getCount());
+    }
+
     @GetMapping("/guitars/count/{username}")
     public Count getCountByUsername(@PathVariable("username") @NotBlank String username) {
         return new Count(guitarService.countGuitarsByUsername(username));

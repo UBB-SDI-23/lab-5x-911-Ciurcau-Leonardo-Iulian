@@ -21,6 +21,17 @@ class Validation {
         return /^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}$/.test(date);
     }
 
+    static validPositive(num) {
+        if (num === null || (typeof(num) === 'string' && num === ''))
+            return false;
+
+        if (Number.isNaN(Number(num)))
+            return false;
+        if (num <= 0)
+            return false;
+        return true;
+    }
+
     static validPositiveOrZero(num) {
         if (!num || (typeof(num) === 'string' && num === ''))
             return true;

@@ -43,6 +43,16 @@ class AppNavbar extends Component {
         <AppBar position="sticky">
             <Toolbar>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
+                {
+                    currentUser.hasRole("ADMIN") &&
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link}
+                     to={"/admin/"}>Database</Button>
+                }
+                {
+                    currentUser.hasRole("ADMIN") &&
+                    <Button color="inherit" sx={{flexGrow: 1}} component={Link}
+                     to={"/usersRoles/"}>Users roles</Button>
+                }
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/guitars">Guitars</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/clients">Clients</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/couriers">Couriers</Button>
@@ -52,11 +62,6 @@ class AppNavbar extends Component {
                     currentUser.isAuthenticated() &&
                     <Button color="inherit" sx={{flexGrow: 1}} component={Link}
                      to={"/updateProfile/"+currentUser.getUsername()}>Profile</Button>
-                }
-                {
-                    currentUser.hasRole("ADMIN") &&
-                    <Button color="inherit" sx={{flexGrow: 1}} component={Link}
-                     to={"/usersRoles/"}>Users roles</Button>
                 }
                 {   !currentUser.isAuthenticated() ?
                     <Button color="inherit" component={Link} to="/login">Login</Button> : 

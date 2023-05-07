@@ -4,7 +4,6 @@ import com.example.labsdi.domain.Courier;
 import com.example.labsdi.repository.ICourierRepository;
 import com.example.labsdi.service.exception.CourierServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -90,6 +89,11 @@ public class CourierService implements ICourierService {
         if (Objects.nonNull(courier.getDeliveryPrice()))
             retrievedCourier.setDeliveryPrice(courier.getDeliveryPrice());
         return repository.save(retrievedCourier);
+    }
+
+    @Override
+    public Integer getCount() {
+        return Long.valueOf(repository.count()).intValue();
     }
 
     @Override

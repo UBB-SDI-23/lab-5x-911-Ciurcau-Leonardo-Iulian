@@ -2,6 +2,7 @@ package com.example.labsdi.controller;
 
 import com.example.labsdi.domain.User;
 import com.example.labsdi.domain.UserProfile;
+import com.example.labsdi.domain.dto.Count;
 import com.example.labsdi.jwt.JwtTokenUtil;
 import com.example.labsdi.service.IUserService;
 import jakarta.validation.Valid;
@@ -85,5 +86,10 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+    }
+
+    @GetMapping("/users/count")
+    public Count getCount() {
+        return new Count(userService.getUserCount());
     }
 }

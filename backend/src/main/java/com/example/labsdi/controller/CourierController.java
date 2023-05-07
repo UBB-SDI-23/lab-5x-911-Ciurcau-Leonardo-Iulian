@@ -60,6 +60,11 @@ public class CourierController {
                 .map(c -> (SimpleCourierDTO) c.toSimpleDTO());
     }
 
+    @GetMapping("/couriers/count")
+    public Count getCount() {
+        return new Count(courierService.getCount());
+    }
+
     @GetMapping("/couriers/count/{username}")
     public Count getCountByUsername(@PathVariable("username") @NotBlank String username) {
         return new Count(courierService.countByUsername(username));
