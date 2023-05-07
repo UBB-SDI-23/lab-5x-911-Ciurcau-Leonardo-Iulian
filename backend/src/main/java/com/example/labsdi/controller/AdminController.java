@@ -23,8 +23,10 @@ public class AdminController {
         }
 
         try {
-            String command = "/home/ubuntu/deleteAllRecords.exp";
+            String command = "./deleteAllRecords.exp";
+            File workingDirectory = new File("/home/ubuntu");
             ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", command);
+            pb.directory(workingDirectory);
             pb.redirectErrorStream(true);
             Process process = pb.start();
 
