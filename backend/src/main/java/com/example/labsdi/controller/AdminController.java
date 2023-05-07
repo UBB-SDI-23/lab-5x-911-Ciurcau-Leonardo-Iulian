@@ -16,14 +16,17 @@ public class AdminController {
 
     @DeleteMapping("/admin/delete/all")
     public ResponseEntity<?> deleteAllRecords() {
+        return executeLinuxCommand("./deleteAllRecords.exp");
+    }
+
+    public ResponseEntity<?> executeLinuxCommand(String command) {
         if (!SystemUtils.IS_OS_LINUX) {
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new Object() {
-            public String getMessage() {return "Server OS is not Linux";}
-        });
+                public String getMessage() {return "Server OS is not Linux";}
+            });
         }
 
         try {
-            String command = "./deleteAllRecords.exp";
             File workingDirectory = new File("/home/ubuntu");
             ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", command);
             pb.directory(workingDirectory);
@@ -33,14 +36,23 @@ public class AdminController {
             int exitCode = process.waitFor();
             System.out.println("Process exited with code " + exitCode);
 
-            return ResponseEntity.ok(new Object() {
-                public String getMessage() {return "All records deleted successfully";}
-            });
+            if (exitCode == 0) {
+                return ResponseEntity.ok(new Object() {
+                    public String getMessage() {
+                        return "All records deleted successfully";
+                    }
+                });
+            }
+            else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Object() {
+                    public String getMessage() {return "OS could not properly execute the command";}
+                });
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new Object() {
-             public String getMessage() {return "OS related error";}
-         });
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new Object() {
+                public String getMessage() {return "OS related error";}
+            });
         }
     }
 }
