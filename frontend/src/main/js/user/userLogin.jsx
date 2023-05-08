@@ -37,7 +37,7 @@ class UserLogin extends Component {
                 if (data.username && data.accessToken) {
                     localStorage.setItem('currentUser', JSON.stringify(data));
                     this.setState({invalidCredentials: false});
-                    document.location.href = '/';
+                    document.getElementById("goHomeButton").click();
                 }
                 else {
                     this.setState({invalidCredentials: true});
@@ -54,6 +54,7 @@ class UserLogin extends Component {
             <Container maxWidth={false}>
                 <AppNavbar parent={this}/>
                 <br/><br/>
+                <Button sx={{style: "display: none;"}} id="goHomeButton" component={Link} to="/"></Button>
                 <Container maxWidth={false} className="userLogin" sx={{width: 300}}>
                     {invalidCredentials ? <p style={{color: 'red'}}>Invalid credentials</p> : <Container><br/><br/></Container>}
                     <TextField id="outlined-basic" label="Username" variant="outlined"
