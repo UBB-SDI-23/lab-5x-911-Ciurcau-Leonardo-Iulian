@@ -20,7 +20,7 @@ class AdminHome extends Component {
             dialogOpen: false,
             wantsDelete: false,
             wantsInsert: false,
-            entriesPerPage: 10,
+            entriesPerPage: null,
             recordsPerPageDialogOpen: false,
             operationIsLoading: false,
             isLoading: true};
