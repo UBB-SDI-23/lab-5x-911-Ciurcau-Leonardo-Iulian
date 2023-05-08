@@ -5,6 +5,7 @@ import com.example.labsdi.domain.Authority;
 import com.example.labsdi.domain.RegisterRequest;
 import com.example.labsdi.domain.User;
 import com.example.labsdi.domain.UserProfile;
+import com.example.labsdi.repository.IAppConfigurationRepository;
 import com.example.labsdi.repository.IAuthorityRepository;
 import com.example.labsdi.repository.IUserProfileRepository;
 import com.example.labsdi.repository.IUserRepository;
@@ -30,6 +31,8 @@ public class UserService implements IUserService {
     private IUserProfileRepository userProfileRepository;
     @Autowired
     private IAuthorityRepository authorityRepository;
+    @Autowired
+    IAppConfigurationRepository appConfigurationRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -90,7 +93,7 @@ public class UserService implements IUserService {
 
     @Override
     public Slice<User> getUsersPage(Integer page) {
-        return userRepository.findAllBy(PageRequest.of(page, 10));
+        return userRepository.findAllBy(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())));
     }
 
     @Override

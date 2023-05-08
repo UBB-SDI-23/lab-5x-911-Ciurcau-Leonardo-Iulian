@@ -1,6 +1,7 @@
 package com.example.labsdi.service;
 
 import com.example.labsdi.domain.Courier;
+import com.example.labsdi.repository.IAppConfigurationRepository;
 import com.example.labsdi.repository.ICourierRepository;
 import com.example.labsdi.service.exception.CourierServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class CourierService implements ICourierService {
     @Autowired
     ICourierRepository repository;
+    @Autowired
+    IAppConfigurationRepository appConfigurationRepository;
     @Override
     public boolean containsCourier(Long id) {
         return repository.existsById(id);
@@ -48,17 +51,17 @@ public class CourierService implements ICourierService {
 
     @Override
     public Slice<Courier> getCourierPage(Integer page) {
-        return repository.findAllBy(PageRequest.of(page, 10));
+        return repository.findAllBy(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())));
     }
 
     @Override
     public Slice<Courier> getCouriersPageByUsername(Integer page, String username) {
-        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+        return repository.findAllByUser_Username(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), username);
     }
 
     @Override
     public Slice<Courier> getCourierContainsNamePage(String name, Integer page) {
-        return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, 10), name);
+        return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), name);
     }
 
     @Override

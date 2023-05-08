@@ -20,6 +20,8 @@ class AdminHome extends Component {
             dialogOpen: false,
             wantsDelete: false,
             wantsInsert: false,
+            entriesPerPage: 10,
+            recordsPerPageDialogOpen: false,
             operationIsLoading: false,
             isLoading: true};
     }
@@ -28,9 +30,28 @@ class AdminHome extends Component {
         this.getAllCounts = this.getAllCounts.bind(this);
         this.deleteAllRecords = this.deleteAllRecords.bind(this);
         this.insertNewRecords = this.insertNewRecords.bind(this);
+        this.updateEntriesPerPage = this.updateEntriesPerPage.bind(this);
+
+        fetch(App.API_URL + '/api/appConfig/entriesPerPage')
+            .then(response => response.json())
+            .then(data => this.setState({entriesPerPage: data.entriesPerPage}));
 
         this.getAllCounts();
         this.setState({isLoading: false});
+    }
+
+    updateEntriesPerPage() {
+        const {entriesPerPage} = this.state;
+        console.log(entriesPerPage);
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 
+            'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() }
+        };
+
+        fetch(App.API_URL + '/api/admin/updateEntriesPerPage/' + entriesPerPage, requestOptions)
+            .then(response => response.json())
+            .then(()=>this.setState({recordsPerPageDialogOpen: true}));
     }
 
     deleteAllRecords() {
@@ -95,9 +116,10 @@ class AdminHome extends Component {
             return <p>Loading...</p>;
 
         const {clientCount, courierCount, guitarCount, transactionCount, shopCount, userCount, dialogOpen,
-        wantsDelete, wantsInsert,recordsPerEntity, operationIsLoading} = this.state;
+        wantsDelete, wantsInsert,recordsPerEntity,entriesPerPage,operationIsLoading,recordsPerPageDialogOpen} = this.state;
 
         const recordsPerEntityValid = Validation.validPositive(recordsPerEntity);
+        const entriesPerPageValid = Validation.validPositive(entriesPerPage);
 
         return (<Container maxWidth={false}>
             <AppNavBar parent={this}/>
@@ -132,7 +154,19 @@ class AdminHome extends Component {
                             </Typography>
                         </React.Fragment>
                     }
-                    </Button>
+                </Button>
+                <br/><br/><br/><br/>
+                <TextField InputLabelProps={{shrink: true}} id="outlined-basic" label="Entries per page" variant="outlined"
+                                    error={!entriesPerPageValid}
+                                    helperText={entriesPerPageValid ? "" : "Only positive numbers are valid"}
+                                value={entriesPerPage}
+                                onChange={(event)=>this.setState({entriesPerPage: event.target.value})}/>
+                <Button color="warning"
+                    disabled={!entriesPerPageValid}
+                    onClick={this.updateEntriesPerPage}
+                >
+                    Update entries per page
+                </Button>
             </Container>
             <br/>
             <p>Updates every 3 seconds</p>
@@ -175,6 +209,27 @@ class AdminHome extends Component {
                         onClick={()=>{wantsDelete ? this.deleteAllRecords() : this.insertNewRecords();
                             this.setState({operationIsLoading: true, dialogOpen: false});}} autoFocus>
                             Yes
+                        </Button>
+                    </DialogActions>
+            </Dialog>
+            <Dialog
+                    open={recordsPerPageDialogOpen}
+                    onClose={() => this.setState({recordsPerPageDialogOpen: false})}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Status"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Update successful!
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color="warning" 
+                        onClick={()=>this.setState({recordsPerPageDialogOpen: false})} autoFocus>
+                            Ok
                         </Button>
                     </DialogActions>
             </Dialog> 

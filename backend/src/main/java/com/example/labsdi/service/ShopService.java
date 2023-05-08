@@ -3,6 +3,7 @@ package com.example.labsdi.service;
 import com.example.labsdi.domain.Courier;
 import com.example.labsdi.domain.Shop;
 import com.example.labsdi.domain.dto.ShopAveragePriceDTO;
+import com.example.labsdi.repository.IAppConfigurationRepository;
 import com.example.labsdi.repository.IShopRepository;
 import com.example.labsdi.service.exception.ShopServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import java.util.*;
 public class ShopService implements IShopService {
     @Autowired
     IShopRepository repository;
+    @Autowired
+    IAppConfigurationRepository appConfigurationRepository;
     @Override
     public boolean containsShop(Long id) {
         return repository.existsById(id);
@@ -82,17 +85,17 @@ public class ShopService implements IShopService {
 
     @Override
     public Slice<Shop> getShopsPage(Integer page) {
-        return repository.findAllBy(PageRequest.of(page, 10));
+        return repository.findAllBy(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())));
     }
 
     @Override
     public Slice<Shop> getShopsPageByUsername(Integer page, String username) {
-        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+        return repository.findAllByUser_Username(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), username);
     }
 
     @Override
     public Slice<Shop> getShopContainsNamePage(Integer page, String name) {
-        return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, 10), name);
+        return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), name);
     }
 
     @Override
@@ -115,7 +118,7 @@ public class ShopService implements IShopService {
 
     @Override
     public Slice<ShopAveragePriceDTO> getShopsByAveragePricePage(Integer page) {
-        return repository.findByOrderByAverageProductPriceFieldDesc(PageRequest.of(page, 10))
+        return repository.findByOrderByAverageProductPriceFieldDesc(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())))
                 .map(Shop::toShopAveragePriceDTO);
     }
 

@@ -2,6 +2,7 @@ package com.example.labsdi.service;
 
 import com.example.labsdi.domain.*;
 import com.example.labsdi.domain.dto.SortedShopDTO;
+import com.example.labsdi.repository.IAppConfigurationRepository;
 import com.example.labsdi.repository.ITransactionRepository;
 import com.example.labsdi.service.exception.TransactionServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.*;
 public class TransactionService implements ITransactionService {
     @Autowired
     ITransactionRepository repository;
+    @Autowired
+    IAppConfigurationRepository appConfigurationRepository;
     @Override
     public boolean containsTransaction(Long id) {
         return repository.existsById(id);
@@ -83,12 +86,12 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public Slice<Transaction> getTransactionsPage(Integer page) {
-        return repository.findAllBy(PageRequest.of(page, 10));
+        return repository.findAllBy(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())));
     }
 
     @Override
     public Slice<Transaction> getTransactionsPageByUsername(Integer page, String username) {
-        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+        return repository.findAllByUser_Username(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), username);
     }
 
     @Override

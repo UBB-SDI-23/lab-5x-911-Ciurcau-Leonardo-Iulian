@@ -2,6 +2,7 @@ package com.example.labsdi.service;
 
 import com.example.labsdi.domain.Guitar;
 import com.example.labsdi.domain.Shop;
+import com.example.labsdi.repository.IAppConfigurationRepository;
 import com.example.labsdi.repository.IGuitarRepository;
 import com.example.labsdi.service.exception.GuitarServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.*;
 public class GuitarService implements IGuitarService {
     @Autowired
     private IGuitarRepository repository;
+    @Autowired
+    IAppConfigurationRepository appConfigurationRepository;
 
     @Override
     public boolean containsGuitar(Long id) {
@@ -80,17 +83,17 @@ public class GuitarService implements IGuitarService {
 
     @Override
     public Slice<Guitar> getGuitarsPage(Integer page) {
-        return repository.findAllBy(PageRequest.of(page, 10));
+        return repository.findAllBy(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())));
     }
 
     @Override
     public Slice<Guitar> getGuitarsPageByUsername(Integer page, String username) {
-        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+        return repository.findAllByUser_Username(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), username);
     }
 
     @Override
     public Slice<Guitar> getGuitarContainsNamePage(String name, Integer page) {
-        return repository.findAllByModelContainsIgnoreCase(PageRequest.of(page, 10), name);
+        return repository.findAllByModelContainsIgnoreCase(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), name);
     }
 
     @Override
@@ -108,7 +111,7 @@ public class GuitarService implements IGuitarService {
 
     @Override
     public Slice<Guitar> findByPriceGreaterThanPage(Integer price, Integer page) {
-        return repository.findAllByPriceGreaterThan(PageRequest.of(page, 10), price);
+        return repository.findAllByPriceGreaterThan(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), price);
     }
 
     @Override

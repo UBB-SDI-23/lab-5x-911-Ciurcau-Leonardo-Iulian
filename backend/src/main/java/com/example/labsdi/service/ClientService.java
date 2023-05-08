@@ -3,6 +3,7 @@ package com.example.labsdi.service;
 import com.example.labsdi.domain.Client;
 import com.example.labsdi.domain.Guitar;
 import com.example.labsdi.domain.dto.ClientDTO;
+import com.example.labsdi.repository.IAppConfigurationRepository;
 import com.example.labsdi.repository.IClientRepository;
 import com.example.labsdi.service.exception.ClientServiceException;
 import com.example.labsdi.service.exception.GuitarServiceException;
@@ -19,6 +20,8 @@ import java.util.Optional;
 public class ClientService implements IClientService {
     @Autowired
     IClientRepository repository;
+    @Autowired
+    IAppConfigurationRepository appConfigurationRepository;
     @Override
     public boolean containsClient(Long id) {
         return repository.existsById(id);
@@ -59,17 +62,17 @@ public class ClientService implements IClientService {
 
     @Override
     public Slice<Client> getClientsPage(Integer page) {
-        return repository.findAllBy(PageRequest.of(page, 10));
+        return repository.findAllBy(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())));
     }
 
     @Override
     public Slice<Client> getClientsPageByUsername(Integer page, String username) {
-        return repository.findAllByUser_Username(PageRequest.of(page, 10), username);
+        return repository.findAllByUser_Username(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), username);
     }
 
     @Override
     public Slice<Client> getClientContainsNamePage(String name, Integer page) {
-        return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, 10), name);
+        return repository.findAllByNameContainingIgnoreCase(PageRequest.of(page, Math.toIntExact(appConfigurationRepository.findAll().get(0).getEntriesPerPage())), name);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.example.labsdi.controller;
 
+import com.example.labsdi.service.IAppConfigurationService;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.apache.commons.lang3.SystemUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,8 @@ import java.io.*;
 @RestController
 @RequestMapping("/api")
 public class AdminController {
+    @Autowired
+    IAppConfigurationService appConfigurationService;
 
     @DeleteMapping("/admin/delete/all")
     public ResponseEntity<?> deleteAllRecords() {
@@ -23,6 +28,29 @@ public class AdminController {
         Integer insertsAndBatches = Double.valueOf(Math.ceil(Math.sqrt(countPerEntity))).intValue();
         String command = String.format("./deleteGenerateInsert.sh %d %d", insertsAndBatches, insertsAndBatches);
         return executeLinuxCommand(command);
+    }
+
+    @PutMapping("/admin/updateEntriesPerPage/{entriesPerPage}")
+    public ResponseEntity<?> updateEntriesPerPage(@PathVariable @NotNull @PositiveOrZero Long entriesPerPage) {
+        try {
+            return ResponseEntity.ok(appConfigurationService.updateEntriesPerPage(entriesPerPage));
+        }catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/appConfig/entriesPerPage")
+    public ResponseEntity<?> getEntriesPerPage() {
+        try {
+            return ResponseEntity.ok(new Object() {
+                public Long getEntriesPerPage() {
+                    return appConfigurationService.getFirst().getEntriesPerPage();
+                }});
+        }catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     public ResponseEntity<?> executeLinuxCommand(String command) {
