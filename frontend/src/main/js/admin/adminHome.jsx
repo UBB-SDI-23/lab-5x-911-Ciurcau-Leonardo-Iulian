@@ -115,7 +115,7 @@ class AdminHome extends Component {
                         </React.Fragment>
                     }</Button>
                 <br/><br/><br/><br/>
-                <TextField InputLabelProps={{shrink: true}} id="outlined-basic" label="Records per entity" variant="outlined"
+                <TextField InputLabelProps={{shrink: true}} id="outlined-basic" label="Aproximate records per entity" variant="outlined"
                                     error={!recordsPerEntityValid}
                                     helperText={recordsPerEntityValid ? "" : "Only positive numbers are valid"}
                                 value={recordsPerEntity}
@@ -165,8 +165,8 @@ class AdminHome extends Component {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText sx={{color: '#000000'}} id="alert-dialog-description">
-                            Are you sure you want to {wantsDelete ? "delete all records" : 
-                            `insert ${recordsPerEntity} records per entity` }?
+                            Are you sure you want to {wantsDelete ? "delete all records?" : 
+                            `insert aproximate ${recordsPerEntity} records per entity? This will replace existing records` }
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
