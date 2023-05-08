@@ -29,7 +29,7 @@ class AppNavbar extends Component {
 
     handleLogout() {
         localStorage.removeItem('currentUser');
-        document.getElementById("loginButton").click();
+        document.getElementById("goHomeButton").click();
     }
 
     render() {
@@ -42,7 +42,7 @@ class AppNavbar extends Component {
         return <Box>
         <AppBar position="sticky">
             <Toolbar>
-                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
+                <Button id="goHomeButton" color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
                 {
                     currentUser.hasRole("ADMIN") &&
                     <Button color="inherit" sx={{flexGrow: 1}} component={Link}
