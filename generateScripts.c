@@ -508,7 +508,7 @@ int main(int argc, char** argv)
 			"WHERE UP.user_id NOT IN"
 			" (SELECT UT.id FROM user_table UT INNER JOIN user_authority UA ON UT.id=UA.user_id"
 			" INNER JOIN authority A ON A.id=UA.authority_id AND A.role='ADMIN');\n"
-			"DELETE FROM user_table UT"
+			"DELETE FROM user_table UT "
 			"WHERE UT.id NOT IN"
 			" (SELECT UT2.id FROM user_table UT2 INNER JOIN user_authority UA ON UT2.id=UA.user_id"
 			" INNER JOIN authority A ON A.id=UA.authority_id AND A.role='ADMIN');\n"
