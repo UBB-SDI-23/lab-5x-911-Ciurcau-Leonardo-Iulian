@@ -499,10 +499,19 @@ int main(int argc, char** argv)
 			"DELETE FROM client;\n"
 			"DELETE FROM product;\n"
 			"DELETE FROM shop;\n"
-			"DELETE FROM user_authority WHERE user_id NOT IN (SELECT id FROM user_table WHERE username = 'admin');\n"
+			"DELETE FROM user_authority"
+			" WHERE user_id NOT IN"
+			" (SELECT id FROM user_table INNER JOIN user_authority ON id=user_id"
+			" INNER JOIN authority ON id=authority_id AND role='ADMIN');\n"
 			"DELETE FROM user_created;\n"
-			"DELETE FROM user_profile WHERE user_id NOT IN (SELECT id FROM user_table WHERE username = 'admin');\n"
-			"DELETE FROM user_table WHERE username != 'admin';\n"
+			"DELETE FROM user_profile "
+			"WHERE user_id NOT IN"
+			" (SELECT id FROM user_table INNER JOIN user_authority ON id=user_id"
+			" INNER JOIN authority ON id=authority_id AND role='ADMIN');\n"
+			"DELETE FROM user_table"
+			"WHERE id NOT IN"
+			" (SELECT id FROM user_table INNER JOIN user_authority ON id=user_id"
+			" INNER JOIN authority ON id=authority_id AND role='ADMIN');\n"
 		);
 	}
 
