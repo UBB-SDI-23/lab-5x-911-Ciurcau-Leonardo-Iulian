@@ -29,7 +29,7 @@ class AppNavbar extends Component {
 
     handleLogout() {
         localStorage.removeItem('currentUser');
-        document.location.href = "/";
+        document.getElementById("loginButton").click();
     }
 
     render() {
@@ -64,7 +64,7 @@ class AppNavbar extends Component {
                      to={"/updateProfile/"+currentUser.getUsername()}>Profile</Button>
                 }
                 {   !currentUser.isAuthenticated() ?
-                    <Button color="inherit" component={Link} to="/login">Login</Button> : 
+                    <Button id="loginButton" color="inherit" component={Link} to="/login">Login</Button> : 
                     <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
                 }
             </Toolbar>
