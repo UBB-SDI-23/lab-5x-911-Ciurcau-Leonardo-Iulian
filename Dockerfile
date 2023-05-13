@@ -9,6 +9,4 @@ RUN mvn package
 FROM openjdk:19
 WORKDIR /app
 COPY --from=build /app/target/LabSDI-0.0.1-SNAPSHOT.jar .
-COPY --from=build /app/backend/dataGeneration ./backend/dataGeneration
-ADD ../generateScripts.out ./backend/dataGeneration
 CMD ["java", "-jar", "LabSDI-0.0.1-SNAPSHOT.jar"]
