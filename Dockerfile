@@ -2,7 +2,7 @@ FROM maven:3.8.7-eclipse-temurin-19 AS build
 WORKDIR /app
 COPY backend ./backend
 RUN apt-get update && apt-get install -y postgresql-client gcc
-RUN gcc -o -v ./backend/dataGeneration/generateScripts.out ./backend/dataGeneration/generateScripts.c
+RUN gcc -v -o ./backend/dataGeneration/generateScripts.out ./backend/dataGeneration/generateScripts.c
 COPY pom.xml .
 RUN mvn dependency:go-offline
 RUN mvn package
