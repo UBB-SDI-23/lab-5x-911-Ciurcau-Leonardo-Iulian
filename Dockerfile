@@ -5,7 +5,7 @@ RUN mvn dependency:go-offline
 COPY backend ./backend
 RUN mvn package
 
-RUN apt-get update && apt-get install -y postgresql-client
+RUN apt-get update && apt-get install -y postgresql-client && apt-get install -y gcc
 
 FROM openjdk:19
 
