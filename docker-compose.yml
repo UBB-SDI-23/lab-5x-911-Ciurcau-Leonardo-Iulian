@@ -43,4 +43,4 @@ services:
       - /var/www/certbot:/var/www/certbot
     depends_on:
       - nginx
-    command: certonly --webroot --webroot-path=/var/www/certbot --email leonardo.ciurcau@stud.ubbcluj.ro --agree-tos --no-eff-email -d labsdi-shop.mooo.com
+    command: certonly --noninteractive --webroot --webroot-path=/var/www/certbot --email leonardo.ciurcau@stud.ubbcluj.ro --agree-tos --no-eff-email -d labsdi-shop.mooo.com
