@@ -61,7 +61,7 @@ public class AdminController {
         }
 
         try {
-            File workingDirectory = new File("/app");
+            File workingDirectory = new File("/app/dataGeneration");
             ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", command);
             pb.directory(workingDirectory);
             pb.redirectErrorStream(true);
