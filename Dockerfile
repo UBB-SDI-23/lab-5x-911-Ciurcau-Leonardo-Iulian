@@ -11,5 +11,5 @@ FROM openjdk:19
 WORKDIR /app
 COPY --from=build /app/target/LabSDI-0.0.1-SNAPSHOT.jar .
 COPY --from=build /app/backend/dataGeneration ./backend/dataGeneration
-COPY --from=build /app/backend/dataGeneration/generateScripts.out ./backend/dataGeneration/
+COPY --from=build /app/backend/dataGeneration/generateScripts.out ./backend/dataGeneration/generateScripts.out
 CMD ["java", "-jar", "LabSDI-0.0.1-SNAPSHOT.jar"]
