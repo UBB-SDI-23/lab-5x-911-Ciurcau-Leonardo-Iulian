@@ -23,4 +23,4 @@ services:
       - database
 
 volumes:
-  db-data-prod:
+  db-data:
