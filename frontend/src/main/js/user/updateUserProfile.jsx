@@ -126,7 +126,7 @@ class UpdateUserProfile extends Component {
                     &nbsp;
                     </React.Fragment>
                     }
-                    <TextField id="outlined-basic" label="Username" variant="filled"
+                    <TextField id="usernameProfile" label="Username" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={username}/>
                     &nbsp;
                     <TextField id="outlined-basic" label="Guitars added" variant="filled"

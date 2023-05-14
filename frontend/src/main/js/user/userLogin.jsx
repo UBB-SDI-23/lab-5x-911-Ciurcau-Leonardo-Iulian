@@ -57,7 +57,7 @@ class UserLogin extends Component {
                 <Button sx={{style: "display: none;"}} id="goHomeButton" component={Link} to="/"></Button>
                 <Container maxWidth={false} className="userLogin" sx={{width: 300}}>
                     {invalidCredentials ? <p style={{color: 'red'}}>Invalid credentials</p> : <Container><br/><br/></Container>}
-                    <TextField id="outlined-basic" label="Username" variant="outlined"
+                    <TextField id="username" label="Username" variant="outlined"
                     defaultValue={username}
                     onKeyDown={(event) => {if (event.key == 'Enter') {document.getElementById('password').focus();}}}
                     onChange={(event)=>this.setState({invalidCredentials: false, username: event.target.value})} />
@@ -67,7 +67,7 @@ class UserLogin extends Component {
                     onKeyDown={(event) => {if (event.key == 'Enter') {document.getElementById('loginButton').click();}}}
                     onChange={(event)=>this.setState({invalidCredentials: false, password: event.target.value})} />
                     <br/><br/>
-                    <Button id="loginButton" disabled={username === '' || password === ''} onClick={this.handleUserLogin}>Login</Button>
+                    <Button id="loginFormButton" disabled={username === '' || password === ''} onClick={this.handleUserLogin}>Login</Button>
                     <br/><br/>
                     <p>Don't have an account?</p>
                     <Button component={Link} to='/register'>Register</Button>

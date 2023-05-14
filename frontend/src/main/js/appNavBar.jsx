@@ -60,12 +60,12 @@ class AppNavbar extends Component {
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/shops">Shops</Button>
                 {
                     currentUser.isAuthenticated() &&
-                    <Button color="inherit" sx={{flexGrow: 1}} component={Link}
+                    <Button id="profileButton" color="inherit" sx={{flexGrow: 1}} component={Link}
                      to={"/updateProfile/"+currentUser.getUsername()}>Profile</Button>
                 }
                 {   !currentUser.isAuthenticated() ?
                     <Button id="loginButton" color="inherit" component={Link} to="/login">Login</Button> : 
-                    <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
+                    <Button id="logoutButton" color="inherit" onClick={this.handleLogout}>Logout</Button>
                 }
             </Toolbar>
         </AppBar>
