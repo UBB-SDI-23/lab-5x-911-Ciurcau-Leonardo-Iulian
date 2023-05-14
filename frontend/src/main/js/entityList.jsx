@@ -116,7 +116,7 @@ class EntityList extends Component {
                     </Button>
                 </TableCell>
                 <TableCell>
-                    <Button component={Link} to={this.seeEntityString + entity.id}>
+                    <Button id="seeEntity" component={Link} to={this.seeEntityString + entity.id}>
                         <SvgIcon component={FindInPageIcon} sx={{ color: blue[500] }}></SvgIcon>
                     </Button>
                     { currentUser.hasEditAuthorization(entity.user.username) &&              
@@ -125,7 +125,7 @@ class EntityList extends Component {
                     </Button>
                     }
                     { currentUser.hasEditAuthorization(entity.user.username) &&   
-                    <Button currentid={entity.id} onClick={this.handleDeleteItem}>
+                    <Button id="deleteEntity" currentid={entity.id} onClick={this.handleDeleteItem}>
                         <SvgIcon component={DeleteForeverIcon} sx={{ color: red[500] }}></SvgIcon>
                     </Button>}
                 </TableCell>
@@ -150,7 +150,8 @@ class EntityList extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => {this.setState({dialogOpen: false});}}>Cancel</Button>
-                        <Button onClick={() => {this.deleteItem(); this.setState({dialogOpen: false});}} autoFocus>
+                        <Button id="deleteEntityDialogButton"
+                         onClick={() => {this.deleteItem(); this.setState({dialogOpen: false});}} autoFocus>
                             Yes
                         </Button>
                     </DialogActions>

@@ -41,22 +41,22 @@ class SeeCourier extends Component {
                 <CouriersNavBar parent={this}></CouriersNavBar>
                 <br/><br/>
                 <Container>
-                    <TextField id="outlined-basic" label="Name" variant="filled"
+                    <TextField id="courierName" label="Name" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={name}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Email" variant="filled"
+                    <TextField id="courierEmail" label="Email" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={email}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Phone" variant="filled"
+                    <TextField id="courierPhone" label="Phone" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={telephoneNumber}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Delivery Price" variant="filled"
+                    <TextField id="courierDeliveryPrice" label="Delivery Price" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={deliveryPrice}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Address" variant="filled"
+                    <TextField id="courierAddress" label="Address" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={address}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Description" variant="filled"
+                    <TextField id="courierDescription" label="Description" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={description}/>
                 </Container>
             </Container>

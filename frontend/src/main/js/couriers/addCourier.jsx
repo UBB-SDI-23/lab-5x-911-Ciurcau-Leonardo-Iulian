@@ -53,31 +53,31 @@ class AddCourier extends Component {
                 <CouriersNavBar parent={this}></CouriersNavBar>
                 <br/><br/>
                 <Container>
-                    <TextField id="outlined-number" label="Name" variant="outlined"
+                    <TextField id="courierName" label="Name" variant="outlined"
                                onChange={(event)=>this.setState({name: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-number" label="Email" variant="outlined"
+                    <TextField id="courierEmail" label="Email" variant="outlined"
                                 error={!emailValid}
                                 helperText={!emailValid ? "Email is not valid" : ''}
                                onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Phone" variant="outlined"
+                    <TextField id="courierPhone" label="Phone" variant="outlined"
                             error={!phoneValid}
                             helperText={!phoneValid ? "Phone number is not valid" : ''}
                                onChange={(event)=>this.setState({telephoneNumber: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Delivery price" variant="outlined"
+                    <TextField id="courierDeliveryPrice" label="Delivery price" variant="outlined"
                             error={!priceValid}
                             helperText={!priceValid ? "Delivery price is not valid" : ''}
                                onChange={(event)=> this.setState({deliveryPrice: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Address" variant="outlined"
+                    <TextField id="courierAddress" label="Address" variant="outlined"
                                onChange={(event)=>this.setState({address: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Description" variant="outlined"
+                    <TextField id="courierDescription" label="Description" variant="outlined"
                                onChange={(event)=>this.setState({description: event.target.value})}/>
                     <br/><br/>
-                    <Button disabled={!emailValid || !phoneValid || !priceValid}
+                    <Button id="addCourierFormButton" disabled={!emailValid || !phoneValid || !priceValid}
                      onClick={this.handleCourierAdd}>Add courier</Button>
                 </Container>
                 <Dialog
@@ -95,7 +95,7 @@ class AddCourier extends Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => {this.setState({dialogOpen: false});}}>OK</Button>
+                        <Button id="courierDialogOkButton" onClick={() => {this.setState({dialogOpen: false});}}>OK</Button>
                     </DialogActions>
                 </Dialog>
             </Container>
