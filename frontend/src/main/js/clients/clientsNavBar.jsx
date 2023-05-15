@@ -18,11 +18,11 @@ class ClientsNavBar extends Component {
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/clients">Clients</Button>
                 {   currentUser.hasAddAuthorization() &&
-                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/addClient">Add client</Button>
+                <Button id="addClientButton" color="inherit" sx={{flexGrow: 1}} component={Link} to="/addClient">Add client</Button>
                 }
                 {
                     currentUser.isAuthenticated() &&
-                    <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/ownClients">Own clients</Button>
+                    <Button id="ownClientsButton" color="inherit" sx={{flexGrow: 1}} component={Link} to="/ownClients">Own clients</Button>
                 }
             </Toolbar>
         </AppBar>

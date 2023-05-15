@@ -40,6 +40,8 @@ import OwnShops from './shops/ownShops';
 import UserRolesList from './user/userRolesList';
 import AdminHome from './admin/adminHome';
 
+import { Grid,useMediaQuery, Container  } from '@mui/material';
+
 const React = require('react');
 const ReactDOM = require('react-dom');
 
@@ -48,11 +50,46 @@ class App extends React.Component {
     static API_URL = 'https://labsdi-shop.mooo.com';
     constructor(props) {
         super(props);
+        this.state = {columnWidth: this.calculateColumnWidth(),rowHeight: this.calculateRowHeight()};
     }
 
      componentDidMount() {
+        this.calculateColumnWidth = this.calculateColumnWidth.bind(this);
+        this.calculateRowHeight = this.calculateRowHeight.bind(this);
+        this.handleResize = this.handleResize.bind(this);
+        window.addEventListener('resize', this.handleResize);
         this.forceUpdate();
     }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
+      }
+
+      handleResize = () => {
+        this.setState({
+            columnWidth: this.calculateColumnWidth(),
+            rowHeight: this.calculateRowHeight()
+        });
+      };
+
+      calculateColumnWidth() {
+        const screenWidth = window.innerWidth;
+        let columnWidth;
+
+        if (screenWidth < 600) {
+
+        columnWidth = screenWidth * 0.9;
+        } else {
+        columnWidth = screenWidth / 2;
+        }
+
+        return columnWidth;
+      }
+
+      calculateRowHeight() {
+        const screenHeight = window.innerHeight;
+        return screenHeight;
+      }
 
     static getCurrentUserStatic() {
         let userStorage = JSON.parse(localStorage.getItem('currentUser'));
@@ -72,7 +109,13 @@ class App extends React.Component {
     }
 
     render() {
+        const { columnWidth, rowHeight } = this.state;
         return (
+            <Grid container spacing={2}>
+            <Grid item xs={12} sm={columnWidth} md={columnWidth} style={{ height: rowHeight }}>
+            <Container style={{ width: '100%', height: '100%' }}>
+              {
+            
             <BrowserRouter>
                 <Routes>
                     <Route path='/' exact={true} element={<Home parent={this}/>}/>
@@ -110,7 +153,10 @@ class App extends React.Component {
                     <Route path='/usersRoles' element={<UserRolesList parent={this}/>}/>
                     <Route path='/admin' element={<AdminHome parent={this}/>}/>
                 </Routes>
-            </BrowserRouter>
+            </BrowserRouter>}
+            </Container>
+            </Grid>
+            </Grid>
         );
     }
 }

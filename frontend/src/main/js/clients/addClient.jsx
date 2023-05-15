@@ -63,29 +63,29 @@ class AddClient extends Component {
                 <ClientsNavBar parent={this}></ClientsNavBar>
                 <br/><br/>
                 <Container>
-                    <TextField id="outlined-number" label="Name" variant="outlined"
+                    <TextField id="clientName" label="Name" variant="outlined"
                                onChange={(event)=>this.setState({name: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-number" label="Email" variant="outlined" 
+                    <TextField id="clientEmail" label="Email" variant="outlined" 
                                 error={!emailValid}
                                  helperText={!emailValid ? "Email is not valid" : ''}
                                 onChange={(event)=>this.setState({email: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Phone" variant="outlined"
+                    <TextField id="clientPhone" label="Phone" variant="outlined"
                                 error={!phoneValid}
                                 helperText={!phoneValid ? "Phone number is not valid" : ''}
                                onChange={(event)=>this.setState({phone: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Birth Date" variant="outlined"
+                    <TextField id="clientBirthDate" label="Birth Date" variant="outlined"
                             error={!birthDateValid}
                             helperText={!birthDateValid ? 
                                 "Date must be of format dd-MM-yyyy and valid" : ''}
                                onChange={(event)=>this.setState({birthDate: event.target.value})}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Address" variant="outlined"
+                    <TextField id="clientAddress" label="Address" variant="outlined"
                                onChange={(event)=>this.setState({address: event.target.value})}/>
                     <br/><br/>
-                    <Button disabled={!emailValid || !phoneValid || !birthDateValid} 
+                    <Button id="addClientFormButton" disabled={!emailValid || !phoneValid || !birthDateValid} 
                     onClick={this.handleClientAdd}>Add client</Button>
                 </Container>
                 <Dialog
@@ -103,7 +103,7 @@ class AddClient extends Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => {this.setState({dialogOpen: false});}}>OK</Button>
+                        <Button id="clientDialogOkButton" onClick={() => {this.setState({dialogOpen: false});}}>OK</Button>
                     </DialogActions>
                 </Dialog>
             </Container>

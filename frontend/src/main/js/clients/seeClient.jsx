@@ -44,19 +44,19 @@ class SeeClient extends Component {
                 <ClientsNavBar parent={this}></ClientsNavBar>
                 <br/><br/>
                 <Container>
-                    <TextField id="outlined-basic" label="Name" variant="filled"
+                    <TextField id="clientName" label="Name" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={name}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Email" variant="filled"
+                    <TextField id="clientEmail" label="Email" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={email}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Phone" variant="filled"
+                    <TextField id="clientPhone" label="Phone" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={phone}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Birth Date" variant="filled"
+                    <TextField id="clientBirthDate" label="Birth Date" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={birthDate}/>
                     <br/><br/>
-                    <TextField id="outlined-basic" label="Address" variant="filled"
+                    <TextField id="clientAddress" label="Address" variant="filled"
                                InputProps={{readOnly: true,}} defaultValue={address}/>
                 </Container>
             </Container>

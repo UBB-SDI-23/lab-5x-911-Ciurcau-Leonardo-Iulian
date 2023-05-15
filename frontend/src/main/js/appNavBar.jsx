@@ -54,7 +54,7 @@ class AppNavbar extends Component {
                      to={"/usersRoles/"}>Users roles</Button>
                 }
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/guitars">Guitars</Button>
-                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/clients">Clients</Button>
+                <Button id="clientsButton" color="inherit" sx={{flexGrow: 1}} component={Link} to="/clients">Clients</Button>
                 <Button id="couriersButton" color="inherit" sx={{flexGrow: 1}} component={Link} to="/couriers">Couriers</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/transactions">Transactions</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/shops">Shops</Button>
