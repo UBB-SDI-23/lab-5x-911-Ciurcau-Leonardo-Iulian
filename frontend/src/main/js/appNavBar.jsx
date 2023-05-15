@@ -41,7 +41,7 @@ class AppNavbar extends Component {
 
         return <Box>
         <AppBar position="sticky">
-            <Toolbar>
+            <Toolbar sx={ {flexDirection: { xs: 'column', sm: 'row' }}} >
                 <Button id="goHomeButton" color="inherit" sx={{flexGrow: 1}} component={Link} to="/">Home</Button>
                 {
                     currentUser.hasRole("ADMIN") &&
