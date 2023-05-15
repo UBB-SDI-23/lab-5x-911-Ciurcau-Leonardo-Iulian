@@ -87,7 +87,7 @@ class App extends React.Component {
       }
 
       calculateRowHeight() {
-        const screenHeight = window.innerHeight;
+        const screenHeight = window.innerHeight*2;
         return screenHeight;
       }
 
