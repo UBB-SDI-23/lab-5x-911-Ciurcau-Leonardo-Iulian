@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.cors();
+        //http.cors();
         return http.build();
     }
 
