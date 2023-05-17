@@ -11,6 +11,7 @@ import {
 import SockJS from "sockjs-client";
 import { over } from "stompjs";
 import AppNavBar from "../appNavBar";
+import App from "../app";
 
 let stompClient = null;
 
@@ -29,7 +30,7 @@ export const Chat = () => {
   }, []);
 
   const connectToChat = () => {
-    const socket = new SockJS("http://localhost:8080/api/ws/chat");
+    const socket = new SockJS(App.API_URL + "/api/ws/chat");
     stompClient = over(socket);
     stompClient.connect({}, onConnected, onError);
   };
