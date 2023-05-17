@@ -13,7 +13,7 @@ import java.util.Date;
 public class ChatController {
 
     @MessageMapping("/chat")
-    @SendTo("/api/topic/messages")
+    @SendTo("/topic/messages")
     public OutputMessage send(Message message) throws Exception {
         String time = new SimpleDateFormat("HH:mm").format(new Date());
         return new OutputMessage(message.getFrom(), message.getText(), time);

@@ -58,6 +58,7 @@ class AppNavbar extends Component {
                 <Button id="couriersButton" color="inherit" sx={{flexGrow: 1}} component={Link} to="/couriers">Couriers</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/transactions">Transactions</Button>
                 <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/shops">Shops</Button>
+                <Button color="inherit" sx={{flexGrow: 1}} component={Link} to="/chat">Chat</Button>
                 {
                     currentUser.isAuthenticated() &&
                     <Button id="profileButton" color="inherit" sx={{flexGrow: 1}} component={Link}
