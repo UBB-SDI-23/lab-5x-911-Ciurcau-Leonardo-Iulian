@@ -92,7 +92,7 @@ export const Chat = () => {
       };
       stompClient.send("/api/ws/app/chat", {}, JSON.stringify(chatMessage));
       setInputText('');
-      setUserData({ ...currentUser, message: "" });
+      setCurrentUser({ ...currentUser, message: "" });
   }
 
   const sendNickname = () => {

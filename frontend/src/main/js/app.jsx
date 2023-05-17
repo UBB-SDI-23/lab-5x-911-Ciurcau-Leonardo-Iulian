@@ -46,7 +46,7 @@ const ReactDOM = require('react-dom');
 
 class App extends React.Component {
 
-    static API_URL = 'https://16.16.104.30';
+    static API_URL = 'https://16.16.179.80';
     constructor(props) {
         super(props);
     }
