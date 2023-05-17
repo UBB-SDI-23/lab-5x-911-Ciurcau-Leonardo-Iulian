@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Button,
   Container,
-  Grid,
   List,
   ListItem,
   ListItemText,
   TextField,
+  Typography,
 } from "@mui/material";
 import SockJS from "sockjs-client";
 import { over } from "stompjs";
@@ -29,14 +29,14 @@ export const Chat = () => {
   }, []);
 
   const connectToChat = () => {
-    const socket = new SockJS("http://localhost:8080/chat");
+    const socket = new SockJS("http://localhost:8080/api/ws/chat");
     stompClient = over(socket);
     stompClient.connect({}, onConnected, onError);
   };
 
   const onConnected = () => {
     setCurrentUser({ ...currentUser, connected: true });
-    stompClient.subscribe("/topic/messages", onMessageReceived);
+    stompClient.subscribe("/api/ws/topic/messages", onMessageReceived);
     console.log("Connected");
   };
 
@@ -60,10 +60,24 @@ export const Chat = () => {
     }, [chatMessages]);
 
 
-    const messageListItems = chatMessages.map((message, index) => <ListItem id={index}>
-      Sent at {message.time} by {message.from}: {message.text}
+    const messageListItems = chatMessages.map((message, index) => <ListItem key={index}>
+        <ListItemText>
+          <Container style={{display: 'flex', paddingLeft: '0px'}}>
+            <Typography>
+              Sent at <span style={{color: 'blue'}}>{message.time}
+              </span> by <span style={{color: 'red'}}>{message.from}</span>: 
+            </Typography>
+            <Typography whiteSpace="pre-line" marginLeft={'5px'}>
+              {message.text}
+            </Typography>
+          </Container>
+        </ListItemText>
     </ListItem>);
-    return (<Container ref={messagesRef}><List>{messageListItems}</List></Container>);
+    return (
+          <List ref={messagesRef} marginLeft={'0px'}>
+            {messageListItems}
+          </List>
+        );
   };
 
   const sendMessage = () => {
@@ -75,7 +89,7 @@ export const Chat = () => {
         from: currentUser.nickname,
         text: currentUser.message,
       };
-      stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+      stompClient.send("/api/ws/app/chat", {}, JSON.stringify(chatMessage));
       setInputText('');
       setUserData({ ...currentUser, message: "" });
   }
@@ -87,24 +101,29 @@ export const Chat = () => {
     }
   }
 
+  useEffect(() => {
+    if (!currentUser.nicknameSet)
+      setCurrentUser({ ...currentUser, nickname: inputText });
+    else
+      setCurrentUser({ ...currentUser, message: inputText });
+  }, [inputText]);
+
   const handleNicknameChange = (event) => {
     setInputText(event.target.value);
-    setCurrentUser({ ...currentUser, nickname: inputText });
   };
-
 
   const handleMessageChange = (event) => {
       setInputText(event.target.value);
-      setCurrentUser({ ...currentUser, message: inputText });
     };
 
     return ( 
-      <Container maxWidth={false}>
+      <Container maxWidth={false} style={{overflowX: 'hidden'}}>
           <AppNavBar parent={this}/>
-          <MessagesList/>
-          <Container maxWidth={false}>
-            <TextField label={!currentUser.nicknameSet ? 'Set your nickname' : 'Enter message as ' + currentUser.nickname} 
-            variant="outlined" value={inputText}
+          <Container style={{position: 'absolute', left: '35%', overflowX: 'hidden', maxWidth: '1080px'}}>
+            <MessagesList/>
+            <TextField multiline={currentUser.nicknameSet}
+             label={!currentUser.nicknameSet ? 'Set your nickname' : 'Enter message as ' + currentUser.nickname} 
+              variant="outlined" value={inputText}
               onChange={!currentUser.nicknameSet ? handleNicknameChange : handleMessageChange}
             />
             <Button onClick={!currentUser.nicknameSet ? sendNickname : sendMessage}>Send</Button>
