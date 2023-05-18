@@ -18,8 +18,8 @@ public class WebsocketsConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/api/ws/chat").setAllowedOrigins("*");
-        registry.addEndpoint("/api/ws/chat").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/api/ws/chat").setAllowedOriginPatterns("https://*.netlify.app");
+        registry.addEndpoint("/api/ws/chat").setAllowedOriginPatterns("https://*.netlify.app").withSockJS();
     }
 }
 
