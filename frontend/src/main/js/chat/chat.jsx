@@ -36,9 +36,9 @@ export const Chat = () => {
   };
 
   const onConnected = () => {
-    setCurrentUser({ ...currentUser, connected: true });
     stompClient.subscribe("/api/ws/topic/messages", onMessageReceived);
     console.log("Connected");
+    setCurrentUser({ ...currentUser, connected: true });
   };
 
   const onMessageReceived = (payload) => {
@@ -96,7 +96,7 @@ export const Chat = () => {
   }
 
   const sendNickname = () => {
-    if (currentUser.nickname !== '') {
+    if (currentUser.nickname !== '' && currentUser.connected) {
       setInputText('');
       setCurrentUser({...currentUser, nicknameSet: true});
     }
@@ -120,6 +120,7 @@ export const Chat = () => {
     return ( 
       <Container maxWidth={false} style={{overflowX: 'hidden'}}>
           <AppNavBar parent={this}/>
+          {currentUser.connected ?
           <Container style={{position: 'absolute', left: '35%', overflowX: 'hidden', maxWidth: '1080px'}}>
             <MessagesList/>
             <TextField multiline={currentUser.nicknameSet}
@@ -128,7 +129,7 @@ export const Chat = () => {
               onChange={!currentUser.nicknameSet ? handleNicknameChange : handleMessageChange}
             />
             <Button onClick={!currentUser.nicknameSet ? sendNickname : sendMessage}>Send</Button>
-          </Container>
+          </Container> : <p>Connecting to chat...</p>}
       </Container>
     );
   }
