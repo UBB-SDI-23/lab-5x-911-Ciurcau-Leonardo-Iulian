@@ -35,8 +35,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults())
-        .csrf().disable()
+        http.csrf().disable()
                 .userDetailsService(userService)
                 .authorizeHttpRequests()
                     .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
@@ -51,18 +50,6 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(List.of("POST", /*"PUT",*/ "GET", "OPTIONS", "DELETE"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        configuration.setMaxAge(3500L);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
     }
 
     @Bean
