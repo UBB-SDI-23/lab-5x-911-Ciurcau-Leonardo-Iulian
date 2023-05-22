@@ -43,6 +43,8 @@ public class User implements UserDetails, IDTOConvertable, ISimpleDTOConvertable
     @NotBlank
     @Email
     private String email;
+    @Column(name="nickname")
+    private String nickname;
     @Column(name="confirmation_code", length = 8)
     private String confirmationCode;
     @Column(name="confirmation_code_set_time")

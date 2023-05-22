@@ -62,6 +62,30 @@ public class UserController {
         }
     }
 
+    @GetMapping("/users/{username}/nickname")
+    private ResponseEntity<?> getUserNickname(@PathVariable("username") String username) {
+        try {
+            String nickname = userService.getNickname(username);
+            return ResponseEntity.ok( new Object() {
+                public String getNickname() {
+                    return nickname;
+                }
+            }
+            );
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/users/{username}/nickname/{nickname}")
+    private ResponseEntity<?> setUserNickname(@PathVariable("username") String username,
+                                              @PathVariable("nickname") String nickname) {
+        try {
+            return ResponseEntity.ok(userService.setNickname(username, nickname));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @PutMapping("/users/profile/{username}")
     private ResponseEntity<?> updateUserProfile(

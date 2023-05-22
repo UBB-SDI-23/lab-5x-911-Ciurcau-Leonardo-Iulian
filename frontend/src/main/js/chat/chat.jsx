@@ -12,6 +12,7 @@ import SockJS from "sockjs-client";
 import { over } from "stompjs";
 import AppNavBar from "../appNavBar";
 import App from "../app";
+import CurrentUser from "../user/currentUser";
 
 let stompClient = null;
 
@@ -38,7 +39,14 @@ export const Chat = () => {
   const onConnected = () => {
     stompClient.subscribe("/api/ws/topic/messages", onMessageReceived);
     console.log("Connected");
-    setCurrentUser({ ...currentUser, connected: true });
+
+    fetch(App.API_URL + '/api/users/' + App.getCurrentUserStatic().getUsername() + '/nickname')
+      .then(response => response.json())
+      .then(response => {if (response.nickname && response.nickname.length > 0) {   
+          setInputText('');  
+         setCurrentUser({...currentUser, nickname: response.nickname, nicknameSet: true, connected: true});
+    }else     setCurrentUser({ ...currentUser, connected: true });});
+
   };
 
   const onMessageReceived = (payload) => {
@@ -99,6 +107,14 @@ export const Chat = () => {
     if (currentUser.nickname !== '' && currentUser.connected) {
       setInputText('');
       setCurrentUser({...currentUser, nicknameSet: true});
+      const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 
+        'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
+    };
+      fetch(App.API_URL + '/api/users/' + App.getCurrentUserStatic().getUsername() + '/nickname/' + currentUser.nickname, requestOptions)
+        .then(response => response.json())
+        .then(()=>{});
     }
   }
 

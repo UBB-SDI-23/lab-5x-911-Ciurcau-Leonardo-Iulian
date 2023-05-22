@@ -83,7 +83,7 @@ public class UserService implements IUserService {
 
         else {
             Authority authority = authorityRepository.findFirstByRole("REGULAR").orElseThrow();
-            User newUser = new User(null, username, password, email,
+            User newUser = new User(null, username, password, email, null,
                     generateVerificationCode(), System.currentTimeMillis(), false,
                     List.of(authority));
 
@@ -164,5 +164,17 @@ public class UserService implements IUserService {
     @Override
     public Integer getUserCount() {
         return Long.valueOf(userRepository.count()).intValue();
+    }
+
+    @Override
+    public User setNickname(String username, String nickname) {
+        User retrievedUser = userRepository.findByUsername(username).orElseThrow();
+        retrievedUser.setNickname(nickname);
+        return userRepository.save(retrievedUser);
+    }
+
+    @Override
+    public String getNickname(String username) {
+        return userRepository.findByUsername(username).orElseThrow().getNickname();
     }
 }

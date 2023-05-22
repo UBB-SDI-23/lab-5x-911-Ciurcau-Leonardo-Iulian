@@ -22,4 +22,6 @@ public interface IUserService extends UserDetailsService {
     User updateUserRoles(String username, List<String> roles);
 
     Integer getUserCount();
+    User setNickname(String username, String nickname);
+    String getNickname(String username);
 }
