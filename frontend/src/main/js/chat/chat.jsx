@@ -18,6 +18,7 @@ let stompClient = null;
 
 export const Chat = () => {
   const [inputText, setInputText] = useState('');
+  const [updatedNickname, setUpdatedNickname] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
   const [currentUser, setCurrentUser] = useState({
     nickname: "",
@@ -118,12 +119,29 @@ export const Chat = () => {
     }
   }
 
+  const updateNickname= () => {
+    if (currentUser.nickname !== '' && currentUser.connected) {
+      const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 
+        'Authorization': 'Bearer ' + App.getCurrentUserStatic().getAccessToken() },
+    };
+      fetch(App.API_URL + '/api/users/' + App.getCurrentUserStatic().getUsername() + '/nickname/' + currentUser.nickname, requestOptions)
+        .then(response => response.json())
+        .then(()=>{});
+    }
+  }
+
   useEffect(() => {
     if (!currentUser.nicknameSet)
-      setCurrentUser({ ...currentUser, nickname: inputText });
+      setCurrentUser({ ...currentUser, nickname: inputText, updatedNickname: inputText });
     else
-      setCurrentUser({ ...currentUser, message: inputText });
+      setCurrentUser({ ...currentUser, message: inputText, nickname: updatedNickname });
   }, [inputText]);
+
+  useEffect(() => {
+      setCurrentUser({ ...currentUser, nickname: updatedNickname });
+  }, [updatedNickname]);
 
   const handleNicknameChange = (event) => {
     setInputText(event.target.value);
@@ -145,6 +163,20 @@ export const Chat = () => {
               onChange={!currentUser.nicknameSet ? handleNicknameChange : handleMessageChange}
             />
             <Button onClick={!currentUser.nicknameSet ? sendNickname : sendMessage}>Send</Button>
+            <br></br>
+            <br></br>
+            {currentUser.nicknameSet && 
+            <React.Fragment>
+              <TextField
+              label="Update nickname" 
+              variant="outlined" value={updatedNickname}
+              onChange={(event) => {
+                setUpdatedNickname(event.target.value);
+              }}
+            />
+            <Button onClick={updateNickname}>Send</Button>
+           </React.Fragment>
+            }
           </Container> : <p>Connecting to chat...</p>}
       </Container>
     );
